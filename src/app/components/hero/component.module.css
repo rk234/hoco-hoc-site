@@ -1,0 +1,9 @@
+.hero_container {
+    height: 75vh;
+}
+
+@media (max-width: 768px) {
+    .hero_container {
+        height: 60vh;
+    }
+}

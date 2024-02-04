@@ -1,0 +1,7 @@
+.nav_link {
+    @apply p-1
+}
+
+.nav_link:hover {
+    @apply text-sky-400 underline
+}
