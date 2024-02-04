@@ -33,7 +33,7 @@ export default function Hero() {
             const context = canvas.getContext("2d");
             context.lineCap = "round";
             const radius = canvas.width < 600 ? 200 : 300;
-            context.translate(canvas.width*0.75, canvas.height/2);
+            context.translate(canvas.width < 600 ? canvas.width : canvas.width*0.75, canvas.height/2);
             context.beginPath()
             context.arc(0,0, radius*0.85, -Math.PI/2, Math.PI*2/3);
             context.lineWidth = 10;
