@@ -17,7 +17,7 @@ export default function RootLayout({ children }) {
       </head>
       <body className={inter.className}>
         <NavBar />
-        <section>
+        <section className="mt-14">
         {children}
         </section>
       </body>

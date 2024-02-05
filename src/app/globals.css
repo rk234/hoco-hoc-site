@@ -4,7 +4,7 @@
 
 
 body {
-  @apply text-slate-100
+  @apply text-slate-100 bg-slate-900
 }
 
 @layer utilities {
@@ -17,11 +17,18 @@ body {
   @apply p-2 rounded text-sm
 }
 
-
 .btn-primary {
-  @apply bg-sky-600 font-bold
+  @apply bg-sky-300 text-slate-950
+}
+
+.btn-primary:hover {
+  @apply bg-sky-200
 }
 
 .btn-secondary {
-  @apply bg-slate-300 text-slate-900
+  @apply bg-slate-200 text-slate-900
+}
+
+.btn-secondary:hover {
+  @apply bg-slate-300
 }

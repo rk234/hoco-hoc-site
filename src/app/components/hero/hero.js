@@ -2,6 +2,7 @@
 import { JetBrains_Mono } from "next/font/google"
 import styles from "./component.module.css"
 import { useEffect, useRef } from "react"
+import Link from "next/link"
 const jbm = JetBrains_Mono({ subsets: ["latin"] })
 
 
@@ -70,20 +71,18 @@ export default function Hero() {
         }
     }
 
-    return <main className={`${styles.hero_container} bg-sky-950 relative border-y-2 border-y-sky-900 overflow-hidden`}>
+    return <main className={`${styles.hero_container} bg-sky-950 relative border-b-2 border-b-sky-900 overflow-hidden`}>
         <canvas onResize={handleResize} ref={canvasRef} className="relative top-0 left-0"> </canvas>
         <div className="flex flex-row items-center z-20 absolute top-0 left-0 w-full h-full p-8 bg-opacity-80 bg-slate-900 md:bg-opacity-100 md:bg-transparent md:bg-gradient-to-l md:via-90% md:via-slate-900 md:from-transparent md:to-slate-900">
             <div className="md:w-2/3 w-full">
-                <h1 className={`font-bold mb-1`}>
-                    <span className="text-2xl md:text-6xl">Howard County</span> <br/>
-                    <span className="text-sky-300 text-7xl md:text-8xl">Hour of Code</span>
-                </h1>
-                <p className="text-sm mt-5 md:text-base">Compete, Learn, and Win Prizes!</p>
-                <p className={`${jbm.className} text-slate-400 text-xs`}> Howard County Hour of Code, is a 5-day event taking place from May 29 to June 4, 2023. </p>
+                <h1 className="text-2xl md:text-6xl">Howard County</h1>
+                <h1 className={`text-sky-300 text-7xl md:text-8xl font-bold mb-2 mt-2`}>Hour of Code</h1>
+                <p className="text-md mt-5 md:text-base">Compete, Learn, and Win Prizes!</p>
+                <p className={`${jbm.className} text-slate-400 text-sm`}> Howard County Hour of Code, is a 5-day event taking place from May 29 to June 4, 2023. </p>
                 <div className={`${jbm.className} flex flex-row mt-4 gap-2`}>
                     <button className="btn-primary"> Login </button>
-                    <button className="btn-secondary"> View Articles </button>
-                    <button className="btn-secondary"> Discord </button>
+                    <Link className="btn-secondary" href={"/articles"}> View Articles </Link>
+                    <Link className="btn-secondary" target="_blank" href="https://discord.com"> Discord </Link>
                 </div>
             </div>
         </div>
