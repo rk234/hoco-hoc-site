@@ -5,7 +5,6 @@ import { useEffect, useRef } from "react"
 import Link from "next/link"
 const jbm = JetBrains_Mono({ subsets: ["latin"] })
 
-
 export default function Hero() {
     const canvasRef = useRef(null)
     useEffect(() => {
