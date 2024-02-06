@@ -13,22 +13,24 @@ body {
   }
 }
 
-.btn-primary, .btn-secondary {
-  @apply p-2 rounded text-sm
-}
-
-.btn-primary {
-  @apply bg-sky-300 text-slate-950
-}
-
-.btn-primary:hover {
-  @apply bg-sky-200
-}
-
-.btn-secondary {
-  @apply bg-slate-200 text-slate-900
-}
-
-.btn-secondary:hover {
-  @apply bg-slate-300
+@layer components {
+  .btn-primary, .btn-secondary {
+    @apply p-2 rounded text-sm
+  }
+  
+  .btn-primary {
+    @apply bg-sky-300 text-slate-950
+  }
+  
+  .btn-primary:hover {
+    @apply bg-sky-200
+  }
+  
+  .btn-secondary {
+    @apply bg-slate-200 text-slate-900
+  }
+  
+  .btn-secondary:hover {
+    @apply bg-slate-300
+  }
 }

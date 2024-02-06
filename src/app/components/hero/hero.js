@@ -78,11 +78,11 @@ export default function Hero() {
                 <h1 className="text-2xl md:text-6xl">Howard County</h1>
                 <h1 className={`text-sky-300 text-7xl md:text-8xl font-bold mb-2 mt-2`}>Hour of Code</h1>
                 <p className="text-md mt-5 md:text-base">Compete, Learn, and Win Prizes!</p>
-                <p className={`${jbm.className} text-slate-400 text-sm`}> Howard County Hour of Code, is a 5-day event taking place from May 29 to June 4, 2023. </p>
+                <p className={`${jbm.className} text-slate-400 text-sm`}> Howard County Hour of Code is a 5-day event taking place from May 29 to June 4, 2023. </p>
                 <div className={`${jbm.className} flex flex-row mt-4 gap-2`}>
                     <button className="btn-primary"> Login </button>
                     <Link className="btn-secondary" href={"/articles"}> View Articles </Link>
-                    <Link className="btn-secondary" target="_blank" href="https://discord.com"> Discord </Link>
+                    <Link className="btn-secondary bg-blurple hover:bg-blurple-accent" target="_blank" href="https://discord.com"> Discord </Link>
                 </div>
             </div>
         </div>
