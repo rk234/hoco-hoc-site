@@ -39,29 +39,4 @@ body {
   .link {
     @apply text-sky-300 underline hover:text-sky-400
   }
-
-  .markdown {
-    @apply my-4
-  }
-
-  .markdown>p {
-    @apply mb-2
-  }
-
-  .markdown>h1 {
-    @apply text-2xl mb-3 font-bold
-  }
-
-  .markdown>h2, h3, h4, h5 {
-    @apply text-xl font-bold my-2
-  }
-
-  .markdown > ul {
-    @apply mb-3
-  }
-
-  .markdown > ul * {
-    @apply list-disc ml-4 list-outside
-  }
-
 }

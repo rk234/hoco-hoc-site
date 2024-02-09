@@ -15,8 +15,17 @@ module.exports = {
       colors: {
         "blurple": "#737efa",
         "blurple-accent": "#616eff"
+      },
+      typography: {
+        DEFAULT: {
+          css: {
+            maxWidth: '100%', // add required value here
+          }
+        }
       }
     }
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/typography')
+  ],
 };

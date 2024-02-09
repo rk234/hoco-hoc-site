@@ -38,10 +38,10 @@ export default function Read() {
     }, [article, loading, params])
 
     
-    return <main className="flex justify-center h-full">
+    return <main className="flex justify-center h-auto">
         <div className="max-w-3xl w-full h-full p-4">
-            <SkeletonTheme className="w-full h-full" baseColor="#1e293b" highlightColor="#64748b">
-                <h1 className={`text-4xl font-bold mt-5`}>{!loading ? article.title : <Skeleton width={"10ch"} />}</h1>
+            <SkeletonTheme className="w-full h-auto" baseColor="#1e293b" highlightColor="#64748b">
+                <h1 className={`text-4xl md:text-5xl font-bold mt-5`}>{!loading ? article.title : <Skeleton width={"10ch"} />}</h1>
                 <p className={`${jbm.className} mt-2 text-slate-300 text-sm`}>{!loading ? article.description : <Skeleton />}</p>    
                 <div className={`${jbm.className} flex gap-2 mt-2`}>
                     {article.tags ? article.tags.map(tag => (
@@ -52,7 +52,7 @@ export default function Read() {
                 </div>
                 <hr className="mt-3 border-b border-slate-400"/>
                 {article.content ? <Markdown
-                    className={"markdown"}
+                    className={"prose my-4 prose-invert prose-pre:bg-transparent prose-pre:p-0 prose-li:my-0"}
                     components={{
                     code(props) {
                         const { children, className, node, ...rest } = props;
