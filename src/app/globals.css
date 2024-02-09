@@ -4,7 +4,7 @@
 
 
 body {
-  @apply text-slate-100 bg-slate-900
+  @apply text-slate-200 bg-slate-950
 }
 
 @layer utilities {
@@ -32,5 +32,9 @@ body {
   
   .btn-secondary:hover {
     @apply bg-slate-300
+  }
+
+  .link {
+    @apply text-sky-300 underline hover:text-sky-400
   }
 }

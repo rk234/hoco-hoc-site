@@ -1,7 +1,7 @@
 .nav_link {
-    @apply p-2 rounded border border-slate-200 items-center justify-center hidden md:flex
+    @apply rounded text-sm items-center justify-center hidden md:flex
 }
 
 .nav_link:hover {
-    @apply border text-sky-300 border-sky-300
+    @apply text-sky-300 underline
 }
