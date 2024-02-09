@@ -4,7 +4,7 @@
 
 
 body {
-  @apply text-slate-200 bg-slate-950
+  @apply text-slate-200 bg-slate-900
 }
 
 @layer utilities {
@@ -14,22 +14,24 @@ body {
 }
 
 @layer components {
-  .btn-primary, .btn-secondary {
+
+  .btn-primary,
+  .btn-secondary {
     @apply p-2 rounded text-sm
   }
-  
+
   .btn-primary {
     @apply bg-sky-300 text-slate-950
   }
-  
+
   .btn-primary:hover {
     @apply bg-sky-200
   }
-  
+
   .btn-secondary {
     @apply bg-slate-200 text-slate-900
   }
-  
+
   .btn-secondary:hover {
     @apply bg-slate-300
   }
@@ -37,4 +39,29 @@ body {
   .link {
     @apply text-sky-300 underline hover:text-sky-400
   }
+
+  .markdown {
+    @apply my-4
+  }
+
+  .markdown>p {
+    @apply mb-2
+  }
+
+  .markdown>h1 {
+    @apply text-2xl mb-3 font-bold
+  }
+
+  .markdown>h2, h3, h4, h5 {
+    @apply text-xl font-bold my-2
+  }
+
+  .markdown > ul {
+    @apply mb-3
+  }
+
+  .markdown > ul * {
+    @apply list-disc ml-2 list-inside
+  }
+
 }

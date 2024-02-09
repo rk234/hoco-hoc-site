@@ -1,6 +1,8 @@
-import {db} from "../firebase/config"
-import {collection, doc, getDoc, getDocs} from "firebase/firestore"
+import {db, storage} from "../firebase/config"
+import {collection, doc, getDoc, getDocs, updateDoc} from "firebase/firestore"
+import {ref, getDownloadURL} from "firebase/storage"
 import { loadFromCache } from "./utils"
+import axios from "axios";
 
 
 let sectionCache = null;
