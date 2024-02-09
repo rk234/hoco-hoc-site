@@ -61,7 +61,7 @@ body {
   }
 
   .markdown > ul * {
-    @apply list-disc ml-2 list-inside
+    @apply list-disc ml-4 list-outside
   }
 
 }
