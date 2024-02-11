@@ -64,7 +64,6 @@ export default function Read() {
                         for (var i = 0; i < langs.length; i++) {
                         renderResult.push(
                             <SyntaxHighlighter
-                            {...rest}
                             PreTag="div"
                             language={langs[i]}
                             style={{...theme}}
