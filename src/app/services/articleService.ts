@@ -1,11 +1,27 @@
 import {db} from "../firebase/config"
-import {collection, doc, getDoc, getDocs, updateDoc} from "firebase/firestore"
+import {DocumentData, DocumentReference, DocumentSnapshot, collection, doc, getDoc, getDocs } from "firebase/firestore"
 import { loadFromCache } from "./utils"
 
 let sectionCache = null;
 let articleCache = []
 
-export async function getSections() {
+export type Article = {
+    id: string
+    title: string,
+    description: string,
+    tags: string[],
+    content: string
+}
+
+export type Section = {
+    id: string,
+    index: number,
+    title: string,
+    description: string,
+    articles: DocumentReference[]
+}
+
+export async function getSections(): Promise<Section[]> {
     if(sectionCache) {
         return sectionCache
     }
@@ -27,14 +43,14 @@ export async function getSections() {
     return result
 }
 
-export async function getSection(sectionId) {
+export async function getSection(sectionId: string): Promise<Section> {
     const sectionDoc = await getDoc(doc(db, "sections/"+sectionId))
     const sectionData = sectionDoc.data()
 
-    return {id: secitonDoc.id, ...sectionData}
+    return {id: sectionDoc.id, ...sectionData} as Section
 }
 
-export async function getAllArticles() {
+export async function getAllArticles(): Promise<Article[]> {
     const articlesRef = collection(db, "articles")
     const articles = await getDocs(articlesRef)
 
@@ -46,7 +62,7 @@ export async function getAllArticles() {
     return result;
 }
 
-export async function getArticleFromID(articleId) {
+export async function getArticleFromID(articleId: string): Promise<Article> {
     let cached = loadFromCache(articleCache, articleId)
 
     if(cached) {
@@ -54,17 +70,17 @@ export async function getArticleFromID(articleId) {
     } else {
         const articleDoc = await getDoc(doc(db, "articles/"+articleId))
         articleCache.push({id: articleDoc.id, ...articleDoc.data()})
-        return articleDoc.data();
+        return {id: articleDoc.id, ...articleDoc.data()} as Article;
     }
 }
 
-export async function getArticleFromRef(articleRef) {
+export async function getArticleFromRef(articleRef: DocumentReference): Promise<Article> {
     let cached = loadFromCache(articleCache, articleRef.id)
     if(cached) {
         return cached
     } else {
-        const articleDoc = await getDoc(articleRef)
-        articleCache.push({id: article.id, ...articleDoc.data()})
-        return articleDoc.data()
+        const articleDoc: DocumentSnapshot<DocumentData, DocumentData> = await getDoc(articleRef)
+        articleCache.push({id: articleDoc.id, ...articleDoc.data()})
+        return {id: articleDoc.id, ...articleDoc.data()} as Article
     }
 }

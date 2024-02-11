@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { getAllArticles, getArticleFromRef, getSections } from "../services/articleService"
+import { getAllArticles, getSections, Article } from "../services/articleService"
 import Link from "next/link"
 
 export default function Articles() {
@@ -26,7 +26,11 @@ export default function Articles() {
         sections.sort((a, b) => a.index-b.index)
         sections.forEach(section => {
             let sectionObj = {
-                ...section
+                id: section.id,
+                index: section.index,
+                title: section.title,
+                description: section.description,
+                articles: [] as Article[]
             }
             sectionObj.articles = section.articles.map(article => articles.find(a => a.id == article.id))
             hydrated.push(sectionObj)

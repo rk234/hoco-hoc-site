@@ -3,7 +3,7 @@
 import { JetBrains_Mono } from "next/font/google"
 import styles from "./component.module.css"
 import Link from "next/link"
-import { logout, signInOrRegister } from "@/app/services/userService"
+import { signInOrRegister } from "@/app/services/userService"
 import { onAuthStateChanged } from "firebase/auth"
 import { useEffect, useState } from "react"
 import { auth } from "@/app/firebase/config"

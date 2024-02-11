@@ -1,8 +1,13 @@
 "use client"
 
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 
-export default function TabContainer(props) {
+type Props = {
+    langs: string[],
+    components: ReactNode[]
+}
+
+export default function TabContainer(props: Props) {
     let [idx, setIdx] = useState(0);
 
     return <div>
