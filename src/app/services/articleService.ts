@@ -69,18 +69,16 @@ export async function getArticleFromID(articleId: string): Promise<Article> {
         return cached;
     } else {
         const articleDoc = await getDoc(doc(db, "articles/"+articleId))
-        articleCache.push({id: articleDoc.id, ...articleDoc.data()})
-        return {id: articleDoc.id, ...articleDoc.data()} as Article;
+        if(articleDoc.data()) {
+            let article: Article = {id: articleDoc.id, ...articleDoc.data()} as Article
+            articleCache.push(article)
+            return article;
+        } else {
+            throw new Error("Article not found!")
+        }
     }
 }
 
 export async function getArticleFromRef(articleRef: DocumentReference): Promise<Article> {
-    let cached = loadFromCache(articleCache, articleRef.id)
-    if(cached) {
-        return cached
-    } else {
-        const articleDoc: DocumentSnapshot<DocumentData, DocumentData> = await getDoc(articleRef)
-        articleCache.push({id: articleDoc.id, ...articleDoc.data()})
-        return {id: articleDoc.id, ...articleDoc.data()} as Article
-    }
+    return getArticleFromID(articleRef.id)
 }
