@@ -6,11 +6,10 @@ import Link from "next/link"
 const jbm = JetBrains_Mono({ subsets: ["latin"] })
 
 export default function Hero() {
-    const canvasRef = useRef(null)
+    const canvasRef = useRef<HTMLCanvasElement>(null)
     useEffect(() => {
         window.addEventListener("resize", () => handleResize());
         handleResize()
-        draw();
     })
 
     function handleResize() {
@@ -30,6 +29,7 @@ export default function Hero() {
         const canvas = canvasRef.current;
         if(canvas) {
             const context = canvas.getContext("2d");
+            context.clearRect(0, 0, canvas.width, canvas.height)
             context.lineCap = "round";
             const radius = canvas.width < 600 ? 200 : 300;
             context.translate(canvas.width < 600 ? canvas.width : canvas.width*0.75, canvas.height/2);

@@ -1,9 +1,9 @@
 import {db} from "../firebase/config"
-import {DocumentData, DocumentReference, DocumentSnapshot, collection, doc, getDoc, getDocs } from "firebase/firestore"
+import { DocumentReference, collection, doc, getDoc, getDocs } from "firebase/firestore"
 import { loadFromCache } from "./utils"
 
 let sectionCache = null;
-let articleCache = []
+let articleCache: Article[] = []
 
 export type Article = {
     id: string

@@ -2,6 +2,16 @@ import { doc, getDoc } from "firebase/firestore";
 import {auth, authProvider, db} from "../firebase/config"
 import { User, signInWithPopup, signOut } from "firebase/auth"
 
+type Profile = {
+    uid: string
+    email: string
+    creationDate: Date
+    displayName: string
+    scores: Map<string, number>
+    preferredLanguage: "python" | "cpp" | "java"
+    admin: boolean
+}
+
 export async function signInOrRegister() {
     console.log("Signing in...")
     let user = await signInWithGoogle()

@@ -50,10 +50,10 @@ export default function Read() {
     return <main className="flex justify-center h-auto">
         {error ? 
         <ModalContainer>
-            <Modal className="gap-2">
-                <h1 className="text-2xl font-bold text-red-400">Something went wrong...</h1>
-                <p>It looks like the article you requested does not exist. Try going back to the articles and sections page to find an existing article. If the problem persists, contact us.</p>
-                <Link href={"/articles"} className={`${jbm.className} btn-secondary mt-5`}> Go back to articles page </Link>
+            <Modal className="flex flex-col">
+                <h1 className={`${jbm.className} text-2xl font-bold text-red-400 mb-2`}>Something went wrong...</h1>
+                <p className="mb-4">It looks like the article you requested does not exist. Try going back to the articles and sections page to find an existing article. If the problem persists, contact us.</p>
+                <Link href={"/articles"} className={`${jbm.className} btn-secondary`}> Go back to articles page </Link>
             </Modal>
         </ModalContainer>
         : ""}

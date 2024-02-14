@@ -3,19 +3,36 @@
 import { useEffect, useState } from "react"
 import { getAllArticles, getSections, Article } from "../services/articleService"
 import Link from "next/link"
+import ModalContainer from "../components/modal/modalContainer"
+import Modal from "../components/modal/modal"
+import { JetBrains_Mono } from "next/font/google"
+import { useRouter } from "next/navigation"
+
+const jbm = JetBrains_Mono({subsets: ["latin"]})
 
 export default function Articles() {
     let [sections, setSections] = useState([])
-    
+    let [error, setError] = useState(false);
+    const router = useRouter()
+     
     useEffect(() => {
+        fetchSections()
+    }, [sections])
+
+    function fetchSections() {
         if(sections.length == 0) {
+            console.log(
+                "fetch"
+            )
             fetchData().then(secs => {
                 setSections(secs)
+                setError(false)
             }).catch(err => {
                 console.log(err)
+                setError(true)
             })
         }
-    }, [sections])
+    }
 
     async function fetchData() {
         let sections = await getSections()
@@ -41,6 +58,13 @@ export default function Articles() {
     }
 
     return <main className="p-4">
+        {error ? <ModalContainer>
+            <Modal className="flex flex-col">
+                <h1 className={`${jbm.className} text-2xl font-bold text-red-400 mb-2`}>Something went wrong...</h1>
+                <p className="mb-4">An error occured while fetching articles and sections. Try again or contact us if the problem persists.</p>
+                <button onClick={() => fetchData()} className={`${jbm.className} btn-secondary text-left`}> Try Again </button>
+            </Modal>
+        </ModalContainer> : ""}
         <h1>Sections:</h1>
         <ul className="list-disc ml-4 mt-5">
         {sections.map(section => {
