@@ -21,9 +21,6 @@ export default function Articles() {
 
     function fetchSections() {
         if(sections.length == 0) {
-            console.log(
-                "fetch"
-            )
             fetchData().then(secs => {
                 setSections(secs)
                 setError(false)
@@ -68,11 +65,12 @@ export default function Articles() {
         <h1>Sections:</h1>
         <ul className="list-disc ml-4 mt-5">
         {sections.map(section => {
+            //TODO: move this stuff out into another componenet and make it look better
             return (<li key={section.id}>
                 <p className="font-bold text-lg">{section.title}</p>
                 <p>{section.description}</p>
                 <ol className="list-decimal ml-6 mt-2">
-                    {section.articles.map(article => {
+                    {section.articles.map((article: Article) => {
                         return <li key={article.id}>[ID: {article.id}]: <Link className="link" href={`/articles/read?article=${article.id}`}>{article.title} - {article.description}</Link></li>
                     })}
                 </ol>

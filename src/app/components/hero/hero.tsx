@@ -51,8 +51,6 @@ export default function Hero() {
             context.strokeStyle = "#0c4a6e";
             context.stroke();
 
-
-            
             context.beginPath()
             context.moveTo(0, 0)
             context.strokeStyle = "#FFFFFF";
