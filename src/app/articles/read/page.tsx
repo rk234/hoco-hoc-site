@@ -3,7 +3,6 @@
 import { getArticleFromID, Article } from "@/app/services/articleService"
 import { useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
-import { JetBrains_Mono } from "next/font/google"
 import Markdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { dracula as theme } from 'react-syntax-highlighter/dist/esm/styles/prism';
@@ -14,10 +13,6 @@ import 'react-loading-skeleton/dist/skeleton.css'
 import Modal from "@/app/components/modal/modal"
 import Link from "next/link"
 import ModalContainer from "@/app/components/modal/modalContainer"
-
-const jbm = JetBrains_Mono(
-    {subsets: ["latin"]}
-)
 
 export default function Read() {
     const params = useSearchParams()
@@ -51,17 +46,17 @@ export default function Read() {
         {error ? 
         <ModalContainer>
             <Modal className="flex flex-col">
-                <h1 className={`${jbm.className} text-2xl font-bold text-red-400 mb-2`}>Something went wrong...</h1>
+                <h1 className={`font-mono text-2xl font-bold text-red-400 mb-2`}>Something went wrong...</h1>
                 <p className="mb-4">It looks like the article you requested does not exist. Try going back to the articles and sections page to find an existing article. If the problem persists, contact us.</p>
-                <Link href={"/articles"} className={`${jbm.className} btn-secondary`}> Go back to articles page </Link>
+                <Link href={"/articles"} className={`font-mono btn-secondary`}> Go back to articles page </Link>
             </Modal>
         </ModalContainer>
         : ""}
         <div className="max-w-3xl w-full h-full p-4">
             <SkeletonTheme baseColor="#1e293b" highlightColor="#64748b">
                 <h1 className={`text-4xl md:text-5xl font-bold mt-5`}>{!loading && article ? article.title : <Skeleton width={"10ch"} />}</h1>
-                <p className={`${jbm.className} mt-2 text-slate-300 text-sm`}>{!loading && article ? article.description : <Skeleton />}</p>    
-                <div className={`${jbm.className} flex gap-2 mt-2`}>
+                <p className={`font-mono mt-2 text-slate-300 text-sm`}>{!loading && article ? article.description : <Skeleton />}</p>    
+                <div className={`font-mono flex gap-2 mt-2`}>
                     {!loading && article ? article.tags.map(tag => (
                         <div key={tag} className="bg-sky-300 text-slate-950 p-1 rounded-sm text-xs font-bold">
                             {tag}
@@ -85,7 +80,7 @@ export default function Read() {
                             PreTag="div"
                             language={langs[i]}
                             style={{...theme}}
-                            codeTagProps={{className: jbm.className}}
+                            codeTagProps={{className: "font-mono"}}
                             showLineNumbers={true}
                             showInlineLineNumbers={true}
                             wrapLongLines={false}

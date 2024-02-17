@@ -1,7 +1,0 @@
-.nav_link {
-    @apply rounded text-sm items-center justify-center hidden md:flex
-}
-
-.nav_link:hover {
-    @apply text-sky-300 underline
-}
