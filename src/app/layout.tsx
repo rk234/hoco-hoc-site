@@ -19,7 +19,7 @@ export default function RootLayout({ children }) {
       <body className={`${inter.className} ${inter.variable} ${jbm.variable} h-full w-full`}>
         <NavBar />
         <section className="mt-14 h-full">
-        {children}
+          {children}
         </section>
       </body>
     </html>

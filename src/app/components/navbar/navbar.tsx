@@ -11,7 +11,7 @@ export default function NavBar() {
     let [user, setUser] = useState(null)
 
     useEffect(() => {
-        onAuthStateChanged(auth, newUser => {
+        return onAuthStateChanged(auth, newUser => {
             setUser(newUser)
         })
     }, [user])

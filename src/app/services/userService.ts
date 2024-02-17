@@ -2,7 +2,7 @@ import { Timestamp, doc, getDoc, setDoc } from "firebase/firestore";
 import {auth, authProvider, db} from "../firebase/config"
 import { User, signInWithPopup, signOut } from "firebase/auth"
 
-type Profile = {
+export type Profile = {
     uid: string
     email: string
     creationDate: Timestamp
@@ -15,23 +15,17 @@ type Profile = {
     admin: boolean
 }
 
-export async function signInOrRegister(): Promise<boolean> {
+export async function signInOrRegister(): Promise<User> {
     console.log("Signing in...")
     let user = await signInWithGoogle()
-    console.log(user)
-    
-    if(await getUserData(user.uid)) {
-        return true //Already registered
-    } else {
-        return false //Not yet registered
-    }
+    return user
 }
 
 export async function logout() {
     await signOut(auth)
 }
 
-export async function registerUserProfile(user: User, school: string, preferredLanguage: "python" | "cpp" | "java") {
+export async function createUserProfile(user: User, school: string, preferredLanguage: "python" | "cpp" | "java") {
     const profile: Profile = {
         uid: user.uid,
         email: user.email,
@@ -47,7 +41,6 @@ export async function registerUserProfile(user: User, school: string, preferredL
 }
 
 export async function getUserData(uid: string): Promise<Profile | undefined> {
-    //TODO
     try {
         let user = await getDoc(doc(db, "users/"+uid))
         if(user.data() != undefined)
