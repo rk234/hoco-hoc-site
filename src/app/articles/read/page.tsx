@@ -26,7 +26,6 @@ export default function Read() {
             let id = params.get("article")
             if(id) {
                 getArticleFromID(id).then(article => {
-                    console.log(article)
                     setArticle(article)
                     setLoading(false)
                 }).catch(err => {
