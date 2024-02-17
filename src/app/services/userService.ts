@@ -8,12 +8,14 @@ type Profile = {
     creationDate: Timestamp
     displayName: string
     school: string
-    scores: any //look into a type for this later that works with firebase
+    scores: {
+        [section: string]: number
+    }
     preferredLanguage: "python" | "cpp" | "java"
     admin: boolean
 }
 
-export async function signInOrRegister() {
+export async function signInOrRegister(): Promise<boolean> {
     console.log("Signing in...")
     let user = await signInWithGoogle()
     console.log(user)
@@ -44,12 +46,12 @@ export async function registerUserProfile(user: User, school: string, preferredL
     await setDoc(doc(db, "users/"+profile.uid), profile)
 }
 
-export async function getUserData(uid: string) {
+export async function getUserData(uid: string): Promise<Profile | undefined> {
     //TODO
     try {
         let user = await getDoc(doc(db, "users/"+uid))
         if(user.data() != undefined)
-            return {id: user.id, ...user.data()}
+            return user.data() as Profile
         else
             return undefined
     } catch(err) {
