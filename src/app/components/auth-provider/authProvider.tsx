@@ -29,6 +29,8 @@ export default function AuthProvider(props: Props) {
                 }).catch(err => {
 
                 })
+            } else {
+                setProfile(null)
             }
         })
 
