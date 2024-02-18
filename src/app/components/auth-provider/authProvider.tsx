@@ -57,7 +57,6 @@ export default function AuthProvider(props: Props) {
     }, [profile, showRegisterModal, firebaseUser])
 
     function registerProfile() {
-        //TODO
         setLoading(true);
         console.log(school)
         console.log(language)

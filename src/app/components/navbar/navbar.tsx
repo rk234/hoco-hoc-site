@@ -18,7 +18,7 @@ export default function NavBar() {
             <div className="flex flex-row text-xs gap-5 md:text-md items-stretch pr-1">
                 <Link className={`font-mono rounded text-sm items-center justify-center hidden md:flex hover:text-sky-300 hover:underline`} href={"/articles"}>Articles</Link>
                 <Link className={`font-mono rounded text-sm items-center justify-center hidden md:flex hover:text-sky-300 hover:underline`} href={"/leaderboard"}>Leaderboard</Link>
-                {//TODO: Move this stuff to another component later!
+                {
                     profile ? <UserPill user={profile} />
                     :
                     <button className={`font-mono btn-primary`} onClick={() => signInOrRegister()}>Login</button>
