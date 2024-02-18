@@ -15,7 +15,7 @@ export default function Articles() {
     useEffect(() => {
         fetchSections()
     }, [sections])
-
+    
     function fetchSections() {
         if(sections.length == 0) {
             fetchData().then(secs => {

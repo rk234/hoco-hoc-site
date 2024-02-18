@@ -42,6 +42,7 @@ export async function createUserProfile(user: User, school: string, preferredLan
 }
 
 export async function getUserData(uid: string): Promise<Profile | undefined> {
+    console.log("Fetch user data!")
     try {
         let user = await getDoc(doc(db, "users/"+uid))
         if(user.data() != undefined)
