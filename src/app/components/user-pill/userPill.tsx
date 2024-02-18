@@ -33,8 +33,8 @@ export default function UserPill(props: Props) {
                 <p className="font-bold text-lg">{props.user.displayName}</p>
                 <p className="mt-1">{getSchoolByID(props.user.school).name}</p>
                 <p className="mt-1">Default Language: <span className="font-bold">{upperCaseFirstLetter(props.user.preferredLanguage)}</span></p>
-                <button className={`font-mono bg-slate-700 hover:bg-slate-600 rounded text-slate-200 p-1 w-full mt-3`} onClick={logout}>Edit Profile</button>
-                <button className={`font-mono bg-slate-700 hover:bg-slate-600 rounded text-slate-200 p-1 w-full mt-1`} onClick={editProfile}>Logout</button>
+                <button className={`font-mono bg-slate-700 hover:bg-slate-600 rounded text-slate-200 p-1 w-full mt-3`} onClick={editProfile}>Edit Profile</button>
+                <button className={`font-mono bg-slate-700 hover:bg-slate-600 rounded text-slate-200 p-1 w-full mt-1`} onClick={logout}>Logout</button>
             </div> : ""
         }
     </main>
