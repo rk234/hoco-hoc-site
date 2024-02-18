@@ -1,8 +1,11 @@
 "use client"
 import { useEffect, useRef } from "react"
 import Link from "next/link"
+import { useProfile } from "../auth-provider/authProvider"
+import { logout, signInOrRegister } from "@/app/services/userService"
 
 export default function Hero() {
+    const profile = useProfile()
     const canvasRef = useRef<HTMLCanvasElement>(null)
     useEffect(() => {
         window.addEventListener("resize", () => handleResize());
@@ -64,6 +67,14 @@ export default function Hero() {
         }
     }
 
+    function handleAuth() {
+        if(profile) {
+            logout()
+        } else {
+            signInOrRegister()
+        }
+    }
+
     return <main className={`h-[60vh] md:h-[75vh] min-h-[30rem] bg-sky-950 relative border-b-2 border-b-sky-900 overflow-hidden`}>
         <canvas onResize={handleResize} ref={canvasRef} className="relative top-0 left-0"> </canvas>
         <div className="flex flex-row items-center z-20 absolute top-0 left-0 w-full h-full p-8 bg-opacity-80 bg-slate-900 md:bg-opacity-100 md:bg-transparent md:bg-gradient-to-l md:via-90% md:via-slate-900 md:from-transparent md:to-slate-900">
@@ -73,7 +84,7 @@ export default function Hero() {
                 <p className="text-md mt-5 md:text-base">Compete, Learn, and Win Prizes!</p>
                 <p className={`font-mono text-slate-400 text-sm`}> Howard County Hour of Code is a 5-day event taking place from May 29 to June 4, 2023. </p>
                 <div className={`font-mono flex flex-row mt-4 gap-2`}>
-                    <button className="btn-primary"> Login </button>
+                    <button className={`btn-primary ${profile && ("bg-red-400 hover:bg-red-300")}`} onClick={handleAuth}> {profile ? "Logout" : "Login"} </button>
                     <Link className="btn-secondary" href={"/articles"}> View Articles </Link>
                     <Link className="btn-secondary bg-blurple hover:bg-blurple-accent" target="_blank" href="https://discord.com"> Discord </Link>
                 </div>

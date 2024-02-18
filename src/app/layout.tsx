@@ -1,6 +1,7 @@
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import NavBar from "./components/navbar/navbar";
+import AuthProvider from "./components/auth-provider/authProvider";
 
 const inter = Inter({ subsets: ["latin"], display: 'swap', variable: '--font-inter' });
 const jbm = JetBrains_Mono({subsets: ["latin"], display: 'swap', variable: '--font-jbm'})
@@ -17,10 +18,12 @@ export default function RootLayout({ children }) {
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
       </head>
       <body className={`${inter.className} ${inter.variable} ${jbm.variable} h-full w-full`}>
-        <NavBar />
-        <section className="mt-14 h-full">
-          {children}
-        </section>
+        <AuthProvider>
+          <NavBar />
+          <section className="mt-14 h-full">
+            {children}
+          </section>
+        </AuthProvider>
       </body>
     </html>
   );

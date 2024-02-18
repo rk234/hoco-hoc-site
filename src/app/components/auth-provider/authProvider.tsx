@@ -1,9 +1,13 @@
+"use client"
+
 import { auth } from "@/app/firebase/config"
-import { Profile, getUserData } from "@/app/services/userService"
-import { onAuthStateChanged } from "firebase/auth"
-import { ReactNode, createContext, useEffect, useState } from "react"
+import { Profile, createUserProfile, getUserData, logout } from "@/app/services/userService"
+import { User, onAuthStateChanged } from "firebase/auth"
+import { ReactNode, createContext, useContext, useEffect, useState } from "react"
 import ModalContainer from "../modal/modalContainer"
 import Modal from "../modal/modal"
+import { getAllSchools, School } from "@/app/services/schoolsService"
+import { ALL_LANGUAGES } from "@/app/services/utils"
 
 type Props = {
     children?: ReactNode
@@ -11,14 +15,28 @@ type Props = {
 
 const AuthContext = createContext<Profile>(null);
 
+export function useProfile(): Profile {
+    const context = useContext(AuthContext)
+    return context
+}
+
 export default function AuthProvider(props: Props) {
+    const schools = getAllSchools()
+
     let [profile, setProfile] = useState<Profile>(null);
+    let [firebaseUser, setFirebaseUser] = useState<User>(undefined);
     let [showRegisterModal, setShowRegisterModal] = useState(false);
+    let [school, setSchool] = useState<School>(schools[0])
+    let [language, setLanguage] = useState<string>(ALL_LANGUAGES[0])
+    let [loading, setLoading] = useState(false)
+
+
 
     useEffect(() => {
         const listener = onAuthStateChanged(auth, user => {
             //TODO: get profile data for user if it exists, if not
             //prompt user to fill out basic info and create a profile
+            setFirebaseUser(user)
             if(user) {
                 getUserData(user.uid).then(profile => {
                     if(profile) {
@@ -31,14 +49,27 @@ export default function AuthProvider(props: Props) {
                 })
             } else {
                 setProfile(null)
+                setShowRegisterModal(false)
             }
         })
 
         return listener;
-    }, [profile, showRegisterModal])
+    }, [profile, showRegisterModal, firebaseUser])
 
     function registerProfile() {
         //TODO
+        setLoading(true);
+        console.log(school)
+        console.log(language)
+
+        createUserProfile(firebaseUser, school.id, language.toLowerCase() as ("python" | "java" | "cpp")).then((newProfile) => {
+            setProfile(newProfile)
+            setLoading(false)
+            setShowRegisterModal(false)
+        }).catch(err => {
+            console.log(err)
+            setLoading(false)
+        })
     }
 
     return (
@@ -46,13 +77,33 @@ export default function AuthProvider(props: Props) {
             {showRegisterModal && <ModalContainer>
                 <Modal className="flex flex-col">
                     <h1 className={`font-mono text-2xl font-bold mb-2`}>Create your profile</h1>
-                    <p className="mb-4">It looks like this is your first time logging in to Howard County Hour of Code, welcome! Please fill out the following information to create your profile and start competing.</p>
+                    <p className="mb-4 text-slate-300 text-sm md:text-base">It looks like this is your first time logging in to Howard County Hour of Code, welcome! Please fill out the following information to create your profile and start learning.</p>
 
                     <div>
-
+                        <div className="mb-2">
+                            <p className="font-bold text-md">Select your highschool</p>
+                            <p className="text-sm text-slate-300">Note: You will not be able to change this later!</p>    
+                        </div>
+                        <select className="font-mono bg-gray-700 p-2 rounded border-2 border-gray-600 hover:bg-gray-600 w-full cursor-pointer" value={school.id} onChange={(e) => setSchool(schools.find(sc => sc.id == e.target.value))}>
+                            {schools.map((s, index) => 
+                               <option key={index} value={s.id}>{s.name}</option> 
+                            )}
+                        </select>
+                        <div className="my-2">
+                            <p className="font-bold text-md">Select your preferred programming language</p>
+                            <p className="text-sm text-slate-300">This is the language you will see code examples in by default (when they are available in that language).</p>    
+                        </div>
+                        <select className="font-mono bg-gray-700 p-2 rounded border-2 border-gray-600 hover:bg-gray-600 w-full cursor-pointer" value={ALL_LANGUAGES.indexOf(language)} onChange={(e) => {setLanguage(ALL_LANGUAGES[e.target.value])}}>
+                            {ALL_LANGUAGES.map((lang, index) => 
+                               <option key={index} value={index}>{lang}</option> 
+                            )}
+                        </select>
                     </div>
 
-                    <button className="btn-primary" onClick={() => registerProfile()}>Create</button>
+                    <div className="mt-2 flex flex-row gap-2">
+                        <button className="btn-primary font-mono flex-1" onClick={() => registerProfile()} disabled={loading}>{loading ? "Creating..." : "Create"}</button>
+                        <button className="btn-secondary font-mono" onClick={() => logout()} disabled={loading}>Cancel</button>
+                    </div>
                 </Modal>
             </ModalContainer>}
             {props.children || ""}

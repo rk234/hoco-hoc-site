@@ -4,11 +4,17 @@ import { ReactNode, useState } from "react";
 
 type Props = {
     langs: string[],
-    components: ReactNode[]
+    components: ReactNode[],
+    selected?: string
 }
 
 export default function TabContainer(props: Props) {
-    let [idx, setIdx] = useState(0);
+    let [idx, setIdx] = useState(props.selected ? findIndex() : 0);
+
+    function findIndex() {
+        const i = props.langs.indexOf(props.selected)
+        return i == -1 ? 0 : i;
+    }
 
     return <div>
         {props.langs.map((lang, i) => (

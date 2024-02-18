@@ -25,7 +25,7 @@ export async function logout() {
     await signOut(auth)
 }
 
-export async function createUserProfile(user: User, school: string, preferredLanguage: "python" | "cpp" | "java") {
+export async function createUserProfile(user: User, school: string, preferredLanguage: "python" | "cpp" | "java"): Promise<Profile> {
     const profile: Profile = {
         uid: user.uid,
         email: user.email,
@@ -38,6 +38,7 @@ export async function createUserProfile(user: User, school: string, preferredLan
     }
 
     await setDoc(doc(db, "users/"+profile.uid), profile)
+    return profile
 }
 
 export async function getUserData(uid: string): Promise<Profile | undefined> {

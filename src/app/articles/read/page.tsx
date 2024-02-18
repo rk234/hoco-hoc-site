@@ -13,12 +13,14 @@ import 'react-loading-skeleton/dist/skeleton.css'
 import Modal from "@/app/components/modal/modal"
 import Link from "next/link"
 import ModalContainer from "@/app/components/modal/modalContainer"
+import { useProfile } from "@/app/components/auth-provider/authProvider";
 
 export default function Read() {
     const params = useSearchParams()
     let [article, setArticle] = useState<Article>()
     let [loading, setLoading] = useState(true)
     let [error, setError] = useState(false)
+    let profile = useProfile()
 
     useEffect(() => {
         if(!article) {
@@ -89,7 +91,7 @@ export default function Read() {
                         );
                         }
                         return (
-                        <TabContainer langs={langs} components={renderResult} />
+                        <TabContainer selected={profile ? profile.preferredLanguage : undefined} langs={langs} components={renderResult} />
                         );
                     }
                     }}
