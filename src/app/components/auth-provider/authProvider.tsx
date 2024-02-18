@@ -34,8 +34,6 @@ export default function AuthProvider(props: Props) {
 
     useEffect(() => {
         const listener = onAuthStateChanged(auth, user => {
-            //TODO: get profile data for user if it exists, if not
-            //prompt user to fill out basic info and create a profile
             setFirebaseUser(user)
             if(user) {
                 if(!profile) {
