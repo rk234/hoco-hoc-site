@@ -38,15 +38,17 @@ export default function AuthProvider(props: Props) {
             //prompt user to fill out basic info and create a profile
             setFirebaseUser(user)
             if(user) {
-                getUserData(user.uid).then(profile => {
-                    if(profile) {
-                        setProfile(profile)
-                    } else {
-                        setShowRegisterModal(true)
-                    }
-                }).catch(err => {
+                if(!profile) {
+                    getUserData(user.uid).then(prof => {
+                        if(prof) {
+                            setProfile(prof)
+                        } else {
+                            setShowRegisterModal(true)
+                        }
+                    }).catch(err => {
 
-                })
+                    })
+                }
             } else {
                 setProfile(null)
                 setShowRegisterModal(false)
