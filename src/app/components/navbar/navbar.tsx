@@ -1,12 +1,9 @@
 "use client"
 
-import Link from "next/link"
 import { signInOrRegister } from "@/app/services/userService"
-import { onAuthStateChanged } from "firebase/auth"
-import { useEffect, useState } from "react"
-import { auth } from "@/app/firebase/config"
-import UserPill from "../user-pill/userPill"
+import Link from "next/link"
 import { useProfile } from "../auth-provider/authProvider"
+import UserPill from "../user-pill/userPill"
 
 export default function NavBar() {
     let profile = useProfile()

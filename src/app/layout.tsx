@@ -8,7 +8,7 @@ const jbm = JetBrains_Mono({subsets: ["latin"], display: 'swap', variable: '--fo
 
 export const metadata = {
   title: "Howard County Hour of Code",
-  description: "Howard County Hour of Code, is a 5-day event to promote learning more about computer science!",
+  description: "Howard County Hour of Code is a 5-day event to promote learning more about computer science!",
 };
 
 export default function RootLayout({ children }) {
