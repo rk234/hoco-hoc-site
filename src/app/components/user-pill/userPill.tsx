@@ -23,8 +23,9 @@ export default function UserPill(props: Props) {
     }
 
     return <main className="relative text-sm">
-        <div className="flex flex-row items-center gap-2 bg-sky-950 border border-sky-900 text-slate-200 rounded p-2 cursor-pointer hover:bg-sky-900" onClick={() => toggleDropdown()}>
-            <p className="select-none">Hello, {props.user.displayName}!</p>
+        <div className="flex select-none flex-row items-center gap-2 bg-sky-950 border border-sky-900 text-slate-200 rounded p-2 cursor-pointer hover:bg-sky-900" onClick={() => toggleDropdown()}>
+            <p>Hello, {props.user.displayName}!</p>
+            {props.user.admin && <span className="font-mono text-xs bg-amber-400 text-slate-900 p-1 rounded-sm">ADMIN</span>}
             <button className={`font-mono p-0`}>{dropVisible ? <ChevronUpIcon className="h-4 w-4"/> : <ChevronDownIcon className="h-4 w-4"/> }</button>
         </div>
         {
