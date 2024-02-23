@@ -1,4 +1,4 @@
-import { Timestamp, doc, getDoc, setDoc } from "firebase/firestore";
+import { Timestamp, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import {auth, authProvider, db} from "../firebase/config"
 import { User, signInWithPopup, signOut } from "firebase/auth"
 

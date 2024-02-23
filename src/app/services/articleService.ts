@@ -1,5 +1,5 @@
 import {db} from "../firebase/config"
-import { DocumentReference, collection, doc, getDoc, getDocs } from "firebase/firestore"
+import { DocumentReference, FieldValue, arrayUnion, collection, doc, getDoc, getDocs, setDoc, updateDoc } from "firebase/firestore"
 import { loadFromCache } from "./utils"
 
 let sectionCache = null;
@@ -10,7 +10,11 @@ export type Article = {
     title: string,
     description: string,
     tags: string[],
-    content: string
+    content: string,
+    sponsor?: {
+        name: string,
+        imageUrl: string 
+    }
 }
 
 export type Section = {
@@ -21,6 +25,21 @@ export type Section = {
     articles: DocumentReference[]
 }
 
+//for admin
+export async function createSection(section: Section) {
+    let ref = doc(db, "sections/"+section.id)
+    await setDoc(ref, section, {merge: true})
+}
+
+export async function createArticle(article: Article, section_id: string) {
+    let ref = doc(db, "articles/"+article.id)
+    
+    await setDoc(ref, article, {merge: true})
+    await updateDoc(doc(db, "sections/"+section_id), {
+        articles: arrayUnion(ref)
+    })
+}
+
 export async function getSections(): Promise<Section[]> {
     if(sectionCache) {
         return sectionCache
@@ -29,11 +48,11 @@ export async function getSections(): Promise<Section[]> {
     const sectionsRef = collection(db, "sections")
     
     const sections = await getDocs(sectionsRef)
-    let result = []
+    let result: Section[] = []
 
     sections.forEach(section => {
         const data = section.data()
-        result.push({id: section.id, ...data})
+        result.push({id: section.id, ...data} as Section)
     })
 
     if(!sectionCache) {
