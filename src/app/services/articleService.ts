@@ -9,8 +9,8 @@ export type Article = {
     id: string
     title: string,
     description: string,
-    tags: string[],
     content: string,
+    tags: string[],
     sponsor?: {
         name: string,
         imageUrl: string 

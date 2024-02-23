@@ -29,8 +29,7 @@ export default function Articles() {
     }
 
     async function fetchData() {
-        let sections = await getSections()
-        let articles = await getAllArticles()
+        let [sections, articles] = await Promise.all([getSections(), getAllArticles()])
 
         let hydrated = []
 
