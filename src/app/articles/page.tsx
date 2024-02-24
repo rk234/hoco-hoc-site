@@ -7,8 +7,16 @@ import ModalContainer from "../components/modal/modalContainer"
 import Modal from "../components/modal/modal"
 import { useRouter } from "next/navigation"
 
+type PopulatedSection = {
+    id: string,
+    index: number,
+    title: string,
+    description: string,
+    articles: Article[]
+}
+
 export default function Articles() {
-    let [sections, setSections] = useState([])
+    let [sections, setSections] = useState<PopulatedSection[]>([])
     let [error, setError] = useState(false);
     const router = useRouter()
      

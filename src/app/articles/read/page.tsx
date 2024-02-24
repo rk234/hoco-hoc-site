@@ -66,7 +66,7 @@ export default function Read() {
                 </div>
                 <hr className="mt-3 border-b border-slate-400"/>
                 {!loading && article ? <Markdown
-                    className={"prose leading-relaxed my-4 prose-invert prose-headings:mt-5 prose-headings:mb-2 prose-ul:mt-0 prose-pre:bg-transparent prose-pre:p-0 prose-li:my-2"}
+                    className={"prose prose-slate leading-snug my-4 prose-invert prose-headings:mt-5 prose-headings:mb-2 prose-ul:mt-0 prose-pre:bg-transparent prose-pre:p-0 prose-li:my-1"}
                     components={{
                     code(props) {
                         const { children, className, node, ...rest } = props;
