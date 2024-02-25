@@ -3,7 +3,7 @@ export function upperCaseFirstLetter(str: string): string {
 }
 
 export const ALL_LANGUAGES = [
-    "Python",
-    "Java",
-    "CPP"
+    "python",
+    "java",
+    "cpp"
 ]

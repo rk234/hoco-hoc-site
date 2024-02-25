@@ -41,6 +41,12 @@ export async function createUserProfile(user: User, school: string, preferredLan
     return profile
 }
 
+export async function updateUserProfile(uid: string, preferredLanguage: "python" | "cpp" | "java") {
+    await updateDoc(doc(db, "/users/" + uid), {
+        preferredLanguage: preferredLanguage
+    })
+}
+
 export async function getUserData(uid: string): Promise<Profile | undefined> {
     console.log("Fetch user data!")
     try {
