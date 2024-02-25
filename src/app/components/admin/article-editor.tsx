@@ -3,6 +3,10 @@
 import { Article } from "@/app/services/articleService"
 import MDEditor from "@uiw/react-md-editor"
 import { useEffect, useState } from "react"
+import SyntaxHighlighter from "react-syntax-highlighter"
+import { dracula as theme } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import TabContainer from "../tab-container/tabContainer"
+import ArticleRenderer from "../article-renderer/articleRenderer"
 
 type Props = {
     article: Article
@@ -57,7 +61,16 @@ export default function ArticleEditor(props: Props) {
         <input type="text" value={article.tags.join(",")} onChange={(e) => setArticle({...article, tags: (e.target.value.split(","))})}></input>
         
         <p>Content in Markdown Format</p>
-        <MDEditor className="min-h-96"value={article.content} preview={"edit"} onChange={(value) => setArticle({...article, content: value})}/>
+        <MDEditor className="min-h-96" 
+                value={article.content} 
+                preview={"edit"} 
+                onChange={(value) => setArticle({...article, content: value})}
+                components={{
+                    preview: (source, state, dispath) => {
+                        return <ArticleRenderer markdown={source}/>
+                    }
+                }}
+        />
         
         <div>
         <label className="mr-2">Sponsored?</label><input type="checkbox" checked={sponsored} onChange={e => handleSponsor(e.target.checked)} />

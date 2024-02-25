@@ -18,7 +18,6 @@ type PopulatedSection = {
 export default function Articles() {
     let [sections, setSections] = useState<PopulatedSection[]>([])
     let [error, setError] = useState(false);
-    const router = useRouter()
      
     useEffect(() => {
         fetchSections()
