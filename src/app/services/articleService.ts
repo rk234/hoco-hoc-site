@@ -10,7 +10,8 @@ export type Article = {
     tags: string[],
     sponsor?: {
         name: string,
-        imageUrl: string 
+        imageUrl: string,
+        siteUrl: string
     }
 }
 
