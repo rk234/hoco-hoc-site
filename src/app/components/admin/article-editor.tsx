@@ -63,7 +63,7 @@ export default function ArticleEditor(props: Props) {
         <p>Content in Markdown Format</p>
         <MDEditor className="min-h-96" 
                 value={article.content} 
-                preview={"edit"} 
+                preview={"live"} 
                 onChange={(value) => setArticle({...article, content: value})}
                 components={{
                     preview: (source, state, dispath) => {
