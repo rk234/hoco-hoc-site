@@ -39,7 +39,7 @@ export default function AdminArticleEditPage() {
             //New
             setEditing(false)
         }
-    }, [article])
+    }, [article, params])
 
     function handleSave(article: Article, sectionID: string) {
         console.log(article)
@@ -63,6 +63,6 @@ export default function AdminArticleEditPage() {
             <div className="max-w-3xl w-full h-full p-4 flex flex-col gap-2">
                 <ArticleEditor sectionID={params.get("section")} article={article} editing={editing} onSave={handleSave} onCancel={handleCancel}></ArticleEditor>
             </div>
-        </div> : <p className="p-2">You don't have admin permissions. If you think this is a mistake, contact us.</p>}    
+        </div> : <p className="p-2">You don&apos;t have admin permissions. If you think this is a mistake, contact us.</p>}    
     </main>
 }

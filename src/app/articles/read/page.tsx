@@ -14,12 +14,16 @@ import Modal from "@/app/components/modal/modal"
 import Link from "next/link"
 import ModalContainer from "@/app/components/modal/modalContainer"
 import { useProfile } from "@/app/components/auth-provider/authProvider";
+import Image from "next/image";
+
+import {EyeSlashIcon} from "@heroicons/react/24/solid"
 
 export default function Read() {
     const params = useSearchParams()
     let [article, setArticle] = useState<Article>()
     let [loading, setLoading] = useState(true)
     let [error, setError] = useState(false)
+    let [showSponsor, setShowSponsor] = useState(true)
     let profile = useProfile()
 
     useEffect(() => {
@@ -55,6 +59,17 @@ export default function Read() {
         : ""}
         <div className="max-w-3xl w-full h-full p-4">
             <SkeletonTheme baseColor="#1e293b" highlightColor="#64748b">
+                
+                {(!loading && article && article.sponsor && showSponsor) ? 
+                <div className="bg-slate-300 text-slate-950 p-4 rounded">
+                    <div className="flex flex-row items-center">
+                        <h1 className="text-xl flex-1">Sponsored by {article.sponsor.name}</h1>
+                        <button className="p-1 rounded" onClick={() => setShowSponsor(false)}><EyeSlashIcon className="h-5 w-5"/></button>
+                    </div>
+                    <a href={article.sponsor.siteUrl} target="_blank"> <Image width={100} height={100} className="max-h-40 w-auto mt-2" alt={"Sponsor Logo"} src={article.sponsor.imageUrl} /></a>
+                </div> : ""
+                }
+
                 <h1 className={`text-4xl md:text-5xl font-bold mt-5`}>{!loading && article ? article.title : <Skeleton width={"10ch"} />}</h1>
                 <p className={`font-mono mt-2 text-slate-300 text-sm`}>{!loading && article ? article.description : <Skeleton />}</p>    
                 <div className={`font-mono flex gap-2 mt-2`}>
