@@ -68,6 +68,7 @@ export default function Hero() {
     }
 
     function handleAuth() {
+        console.log(profile)
         if(profile) {
             logout()
         } else {
