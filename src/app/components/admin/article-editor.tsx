@@ -3,9 +3,6 @@
 import { Article } from "@/app/services/articleService"
 import MDEditor from "@uiw/react-md-editor"
 import { useEffect, useState } from "react"
-import SyntaxHighlighter from "react-syntax-highlighter"
-import { dracula as theme } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import TabContainer from "../tab-container/tabContainer"
 import ArticleRenderer from "../article-renderer/articleRenderer"
 
 type Props = {
