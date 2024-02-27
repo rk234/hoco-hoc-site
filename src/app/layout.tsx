@@ -17,10 +17,10 @@ export default function RootLayout({ children }) {
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
       </head>
-      <body className={`${inter.className} ${inter.variable} ${jbm.variable} h-full w-full`}>
+      <body className={`${inter.className} ${inter.variable} ${jbm.variable} h-full w-full overflow-hidden`}>
         <AuthProvider>
           <NavBar />
-          <section className="mt-14 h-full">
+          <section className="relative h-[calc(100%-3.5rem)] overflow-y-scroll">
             {children}
           </section>
         </AuthProvider>
