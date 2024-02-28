@@ -38,7 +38,7 @@ export default function AdminSectionEditPage() {
             //New
             setEditing(false)
         }
-    }, [section])
+    }, [section, params])
 
     function handleSave(section: Section) {
         createSection(section).then(() => {
@@ -60,6 +60,6 @@ export default function AdminSectionEditPage() {
             <div className="max-w-3xl w-full h-full p-4 flex flex-col gap-2">
                 <SectionEditor section={section} editing={editing} onSave={handleSave} onCancel={handleCancel}></SectionEditor>
             </div>
-        </div> : <p className="p-2">You don't have admin permissions. If you think this is a mistake, contact us.</p>}    
+        </div> : <p className="p-2">You don&apos;t have admin permissions. If you think this is a mistake, contact us.</p>}    
     </main>
 }

@@ -1,11 +1,10 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { getAllArticles, getSections, Article } from "../services/articleService"
 import Link from "next/link"
 import ModalContainer from "../components/modal/modalContainer"
 import Modal from "../components/modal/modal"
-import { useRouter } from "next/navigation"
 
 type PopulatedSection = {
     id: string,
@@ -18,10 +17,11 @@ type PopulatedSection = {
 export default function Articles() {
     let [sections, setSections] = useState<PopulatedSection[]>([])
     let [error, setError] = useState(false);
+    const loadSections = useCallback(fetchSections, [sections])
      
     useEffect(() => {
-        fetchSections()
-    }, [sections])
+        loadSections()
+    }, [loadSections])
     
     function fetchSections() {
         if(sections.length == 0) {

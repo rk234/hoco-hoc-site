@@ -69,7 +69,7 @@ export default function AdminContentPage() {
                 )}
             </div>
         </div> : 
-        <p className="p-2">You don't have admin permissions. If you think this is a mistake, contact us.</p>
+        <p className="p-2">You don&apos;t have admin permissions. If you think this is a mistake, contact us.</p>
         }
     </main>
 }

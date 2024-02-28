@@ -13,6 +13,7 @@ export type Profile = {
     }
     preferredLanguage: "python" | "cpp" | "java"
     admin: boolean
+    //TODO: add completed quizzes array field
 }
 
 export async function signInOrRegister(): Promise<User> {
