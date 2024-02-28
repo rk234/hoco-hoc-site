@@ -1,5 +1,5 @@
 import {db} from "../firebase/config"
-import { DocumentReference, FieldValue, arrayUnion, collection, doc, getDoc, getDocs, setDoc, updateDoc } from "firebase/firestore"
+import { DocumentReference, FieldValue, Timestamp, arrayUnion, collection, doc, getDoc, getDocs, increment, setDoc, updateDoc } from "firebase/firestore"
 
 
 export type Article = {
@@ -27,6 +27,22 @@ export type Section = {
 export async function createSection(section: Section) {
     let ref = doc(db, "sections/"+section.id)
     await setDoc(ref, section, {merge: true})
+}
+
+export async function incrementViewCount() {
+    let ref = doc(db, "aggregate/stats");
+    await updateDoc(ref, {
+        totalViews: increment(1)
+    })
+}
+
+export async function incrementHoursServed(enter: Date, exit: Date) {
+    const hours = Math.abs(exit.getMilliseconds() - enter.getMilliseconds()) / 36e5;
+
+    let ref = doc(db, "aggregate/stats");
+    await updateDoc(ref, {
+        totalHours: increment(hours)
+    })
 }
 
 export async function createArticle(article: Article, section_id: string) {
