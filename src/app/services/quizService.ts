@@ -1,3 +1,5 @@
+import { doc } from "firebase/firestore"
+
 export type Quiz = {
     id: string
     questions: Question[]
@@ -10,7 +12,7 @@ export type Question = {
 }
 
 export async function getQuiz(id: string) {
-    //todo
+    //let ref = doc(db, "quizzes/"+id)
 }
 
 //answers is an array of indexes representing the correct answers for each of the question object's options

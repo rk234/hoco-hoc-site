@@ -1,6 +1,6 @@
 "use client"
 
-import { getArticleFromID, Article } from "@/app/services/articleService"
+import { getArticleFromID, Article, incrementViewCount } from "@/app/services/articleService"
 import { useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
 import Skeleton from 'react-loading-skeleton'
@@ -9,11 +9,12 @@ import 'react-loading-skeleton/dist/skeleton.css'
 import Modal from "@/app/components/modal/modal"
 import Link from "next/link"
 import ModalContainer from "@/app/components/modal/modalContainer"
-import { useProfile } from "@/app/components/auth-provider/authProvider";
+import { useProfile, useProfileUpdate } from "@/app/components/auth-provider/authProvider";
 import Image from "next/image";
 
-import {EyeSlashIcon} from "@heroicons/react/24/solid"
+import {EyeSlashIcon, CheckCircleIcon} from "@heroicons/react/24/solid"
 import ArticleRenderer from "@/app/components/article-renderer/articleRenderer";
+import { updateStartedArticles } from "@/app/services/userService"
 
 export default function Read() {
     const params = useSearchParams()
@@ -21,7 +22,10 @@ export default function Read() {
     let [loading, setLoading] = useState(true)
     let [error, setError] = useState(false)
     let [showSponsor, setShowSponsor] = useState(true)
+    let [visited, setVisited] = useState(false)
+    let [progress, setProgress] = useState<"started" | "complete">("started")
     let profile = useProfile()
+    let setProfile = useProfileUpdate()
 
     useEffect(() => {
         if(!article) {
@@ -42,6 +46,50 @@ export default function Read() {
             }
         }
     }, [article, loading, params])
+
+
+    useEffect(() => {
+        const handleUnload = (event) => {
+            console.log("Unload!")
+            alert("Hello")
+        }
+
+        window.addEventListener("pagehide", handleUnload)
+
+        if(!visited) {
+            incrementViewCount()
+                .then(() => console.log("View count incremented"))
+                .catch(err => {
+                    console.log("Couldn't increment view count, failing gracefully!")
+                    console.log(err)
+                })
+            setVisited(false)
+        }
+
+        return () => {
+            window.removeEventListener("pagehide", handleUnload)
+        }
+    }, [visited])
+
+    useEffect(() => {
+        const addArticleStarted = (a: Article) => {
+            profile.articlesStartedID.push(a.id)
+            setProfile(profile)
+        }
+
+
+        if(article && profile && !profile.articlesStartedID.includes(article.id)) {
+            updateStartedArticles(profile.uid, article.id).then(() => {
+                addArticleStarted(article)
+                console.log(profile)
+            }).catch((err) => {
+                console.log("Failed to update started articles, failing gracefully.")
+                console.log(err)
+            })
+        } else {
+            setProgress("started");
+        }
+    }, [profile, article, setProfile])
 
     
     return <main className="flex justify-center h-auto">
@@ -67,7 +115,10 @@ export default function Read() {
                 </div> : ""
                 }
 
-                <h1 className={`text-4xl md:text-5xl font-bold mt-5`}>{!loading && article ? article.title : <Skeleton width={"10ch"} />}</h1>
+                <div className="flex flex-row mt-5 items-center">
+                    <h1 className={`text-4xl md:text-5xl font-bold flex-1`}>{!loading && article ? article.title : <Skeleton width={"10ch"} />}</h1>
+                    <span className={`${progress == "complete" ? "bg-emerald-400" : "bg-sky-300"} text-slate-950 rounded p-2 text-sm font-mono flex gap-2 items-center`}> {progress} {progress == "complete" && <CheckCircleIcon height={10} width={15} className="h-5 w-5 text-slate-950" />}</span>
+                </div>
                 <p className={`font-mono mt-2 text-slate-300 text-sm`}>{!loading && article ? article.description : <Skeleton />}</p>    
                 <div className={`font-mono flex gap-2 mt-2`}>
                     {!loading && article ? article.tags.map(tag => (
