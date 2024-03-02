@@ -1,26 +1,31 @@
 "use client"
 
-import { getArticleFromID, Article } from "@/app/services/articleService"
+import { getArticleFromID, Article, incrementViewCount } from "@/app/services/articleService"
 import { useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
-import Markdown from 'react-markdown';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { dracula as theme } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import TabContainer from "../../components/tab-container/tabContainer"
 import Skeleton from 'react-loading-skeleton'
 import {SkeletonTheme} from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import Modal from "@/app/components/modal/modal"
 import Link from "next/link"
 import ModalContainer from "@/app/components/modal/modalContainer"
-import { useProfile } from "@/app/components/auth-provider/authProvider";
+import { useProfile, useProfileUpdate } from "@/app/components/auth-provider/authProvider";
+import Image from "next/image";
+
+import {EyeSlashIcon, CheckCircleIcon} from "@heroicons/react/24/solid"
+import ArticleRenderer from "@/app/components/article-renderer/articleRenderer";
+import { updateStartedArticles } from "@/app/services/userService"
 
 export default function Read() {
     const params = useSearchParams()
     let [article, setArticle] = useState<Article>()
     let [loading, setLoading] = useState(true)
     let [error, setError] = useState(false)
+    let [showSponsor, setShowSponsor] = useState(true)
+    let [visited, setVisited] = useState(false)
+    let [progress, setProgress] = useState<"started" | "complete">("started")
     let profile = useProfile()
+    let setProfile = useProfileUpdate()
 
     useEffect(() => {
         if(!article) {
@@ -42,6 +47,50 @@ export default function Read() {
         }
     }, [article, loading, params])
 
+
+    useEffect(() => {
+        const handleUnload = (event) => {
+            console.log("Unload!")
+            alert("Hello")
+        }
+
+        window.addEventListener("pagehide", handleUnload)
+
+        if(!visited) {
+            incrementViewCount()
+                .then(() => console.log("View count incremented"))
+                .catch(err => {
+                    console.log("Couldn't increment view count, failing gracefully!")
+                    console.log(err)
+                })
+            setVisited(false)
+        }
+
+        return () => {
+            window.removeEventListener("pagehide", handleUnload)
+        }
+    }, [visited])
+
+    useEffect(() => {
+        const addArticleStarted = (a: Article) => {
+            profile.articlesStartedID.push(a.id)
+            setProfile(profile)
+        }
+
+
+        if(article && profile && !profile.articlesStartedID.includes(article.id)) {
+            updateStartedArticles(profile.uid, article.id).then(() => {
+                addArticleStarted(article)
+                console.log(profile)
+            }).catch((err) => {
+                console.log("Failed to update started articles, failing gracefully.")
+                console.log(err)
+            })
+        } else {
+            setProgress("started");
+        }
+    }, [profile, article, setProfile])
+
     
     return <main className="flex justify-center h-auto">
         {error ? 
@@ -55,7 +104,21 @@ export default function Read() {
         : ""}
         <div className="max-w-3xl w-full h-full p-4">
             <SkeletonTheme baseColor="#1e293b" highlightColor="#64748b">
-                <h1 className={`text-4xl md:text-5xl font-bold mt-5`}>{!loading && article ? article.title : <Skeleton width={"10ch"} />}</h1>
+                
+                {(!loading && article && article.sponsor && showSponsor) ? 
+                <div className="bg-slate-300 text-slate-950 p-4 rounded">
+                    <div className="flex flex-row items-center">
+                        <h1 className="text-xl flex-1">Sponsored by {article.sponsor.name}</h1>
+                        <button className="p-1 rounded" onClick={() => setShowSponsor(false)}><EyeSlashIcon className="h-5 w-5"/></button>
+                    </div>
+                    <a href={article.sponsor.siteUrl} target="_blank"> <Image width={100} height={100} className="max-h-40 w-auto mt-2" alt={"Sponsor Logo"} src={article.sponsor.imageUrl} /></a>
+                </div> : ""
+                }
+
+                <div className="flex flex-row mt-5 items-center">
+                    <h1 className={`text-4xl md:text-5xl font-bold flex-1`}>{!loading && article ? article.title : <Skeleton width={"10ch"} />}</h1>
+                    <span className={`${progress == "complete" ? "bg-emerald-400" : "bg-sky-300"} text-slate-950 rounded p-2 text-sm font-mono flex gap-2 items-center`}> {progress} {progress == "complete" && <CheckCircleIcon height={10} width={15} className="h-5 w-5 text-slate-950" />}</span>
+                </div>
                 <p className={`font-mono mt-2 text-slate-300 text-sm`}>{!loading && article ? article.description : <Skeleton />}</p>    
                 <div className={`font-mono flex gap-2 mt-2`}>
                     {!loading && article ? article.tags.map(tag => (
@@ -65,39 +128,7 @@ export default function Read() {
                     )) : <Skeleton containerClassName="flex-1"/>}
                 </div>
                 <hr className="mt-3 border-b border-slate-400"/>
-                {!loading && article ? <Markdown
-                    className={"prose leading-relaxed my-4 prose-invert prose-headings:mt-5 prose-headings:mb-2 prose-ul:mt-0 prose-pre:bg-transparent prose-pre:p-0 prose-li:my-2"}
-                    components={{
-                    code(props) {
-                        const { children, className, node, ...rest } = props;
-                        //console.log(node)
-                        let langs = className.split('-')[1].split(',');
-                        let examples = (children as string).split('\n%%\n');
-
-                        let renderResult = [];
-                        for (var i = 0; i < langs.length; i++) {
-                        renderResult.push(
-                            <SyntaxHighlighter
-                            PreTag="div"
-                            language={langs[i]}
-                            style={{...theme}}
-                            codeTagProps={{className: "font-mono"}}
-                            showLineNumbers={true}
-                            showInlineLineNumbers={true}
-                            wrapLongLines={false}
-                            >
-                                {examples[i].trim()}
-                            </SyntaxHighlighter>
-                        );
-                        }
-                        return (
-                        <TabContainer selected={profile ? profile.preferredLanguage : undefined} langs={langs} components={renderResult} />
-                        );
-                    }
-                    }}
-                >
-                    {article.content}
-                </Markdown> : 
+                {!loading && article ? <ArticleRenderer markdown={article.content} profile={profile}/> : 
                 <div>
                     <p className="mt-5"><Skeleton className="mt-2" count={5}/></p>
                     <Skeleton className="my-4" height={200}/>

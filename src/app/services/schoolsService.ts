@@ -1,5 +1,3 @@
-//TODO
-
 export type School = {
     id: string
     name: string
@@ -68,3 +66,5 @@ export function getAllSchools(): School[] {
 export function getSchoolByID(id: string): School {
     return schools.find(school => school.id == id)
 }
+
+//TODO add relevant stuff when point/quiz system is finalized

@@ -13,48 +13,73 @@ type Props = {
     children?: ReactNode
 }
 
-const AuthContext = createContext<Profile>(null);
+type ProfileContext = {
+    profile: Profile
+    setProfile: (newProfile: Profile) => void
+}
+
+const AuthContext = createContext<ProfileContext>({
+    profile: null,
+    setProfile: (newProfile) => {}
+});
 
 export function useProfile(): Profile {
     const context = useContext(AuthContext)
-    return context
+    return context.profile
+}
+
+export function useProfileUpdate() {
+    const context = useContext(AuthContext)
+    return context.setProfile
 }
 
 export default function AuthProvider(props: Props) {
     const schools = getAllSchools()
 
-    let [profile, setProfile] = useState<Profile>(null);
+    let [profileContext, setProfileContext] = useState<ProfileContext>(
+        {
+            profile: null,
+            setProfile: (n) => {setProfileContext({...profileContext, profile: n})}
+        }
+    );
     let [firebaseUser, setFirebaseUser] = useState<User>(undefined);
     let [showRegisterModal, setShowRegisterModal] = useState(false);
     let [school, setSchool] = useState<School>(schools[0])
     let [language, setLanguage] = useState<string>(ALL_LANGUAGES[0])
     let [loading, setLoading] = useState(false)
 
-
-
     useEffect(() => {
+        //console.log("Update")
         const listener = onAuthStateChanged(auth, user => {
             setFirebaseUser(user)
             if(user) {
-                if(!profile) {
+                if(!profileContext.profile) {
                     getUserData(user.uid).then(prof => {
                         if(prof) {
-                            setProfile(prof)
+                            setProfileContext(
+                                {...profileContext, profile: prof}
+                            )
                         } else {
                             setShowRegisterModal(true)
                         }
                     }).catch(err => {
-
+                        console.log(err)
+                        alert("Fatal error: failed to fetch user data. See console for details.")
                     })
                 }
             } else {
-                setProfile(null)
+                //console.log("Here")
+                if(profileContext.profile != null) {
+                    setProfileContext(
+                        {...profileContext, profile: null}
+                    )
+                }
                 setShowRegisterModal(false)
             }
         })
 
         return listener;
-    }, [profile, showRegisterModal, firebaseUser])
+    }, [profileContext, showRegisterModal, firebaseUser])
 
     function registerProfile() {
         setLoading(true);
@@ -62,7 +87,7 @@ export default function AuthProvider(props: Props) {
         console.log(language)
 
         createUserProfile(firebaseUser, school.id, language.toLowerCase() as ("python" | "java" | "cpp")).then((newProfile) => {
-            setProfile(newProfile)
+            profileContext.setProfile(newProfile)
             setLoading(false)
             setShowRegisterModal(false)
         }).catch(err => {
@@ -72,7 +97,7 @@ export default function AuthProvider(props: Props) {
     }
 
     return (
-        <AuthContext.Provider value={profile}>
+        <AuthContext.Provider value={profileContext}>
             {showRegisterModal && <ModalContainer>
                 <Modal className="flex flex-col">
                     <h1 className={`font-mono text-2xl font-bold mb-2`}>Create your profile</h1>

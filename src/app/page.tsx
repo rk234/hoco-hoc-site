@@ -5,7 +5,7 @@ import Link from "next/link"
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col bg-sky-950">
+    <main className="flex flex-col bg-sky-950">
       <Hero />
       <div className="mb-20" id="about" >
         <AboutSection></AboutSection>

@@ -1,16 +1,18 @@
 import {db} from "../firebase/config"
-import { DocumentReference, collection, doc, getDoc, getDocs } from "firebase/firestore"
-import { loadFromCache } from "./utils"
+import { DocumentReference, arrayUnion, collection, doc, getDoc, getDocs, increment, setDoc, updateDoc } from "firebase/firestore"
 
-let sectionCache = null;
-let articleCache: Article[] = []
 
 export type Article = {
     id: string
     title: string,
     description: string,
+    content: string,
     tags: string[],
-    content: string
+    sponsor?: {
+        name: string,
+        imageUrl: string,
+        siteUrl: string
+    }
 }
 
 export type Section = {
@@ -21,24 +23,47 @@ export type Section = {
     articles: DocumentReference[]
 }
 
-export async function getSections(): Promise<Section[]> {
-    if(sectionCache) {
-        return sectionCache
-    }
+//for admin
+export async function createSection(section: Section) {
+    let ref = doc(db, "sections/"+section.id)
+    await setDoc(ref, section, {merge: true})
+}
 
+export async function incrementViewCount() {
+    let ref = doc(db, "aggregate/stats");
+    await updateDoc(ref, {
+        totalViews: increment(1)
+    })
+}
+
+export async function incrementHoursServed(enter: Date, exit: Date) {
+    const hours = Math.abs(exit.getMilliseconds() - enter.getMilliseconds()) / 36e5;
+
+    let ref = doc(db, "aggregate/stats");
+    await updateDoc(ref, {
+        totalHours: increment(hours)
+    })
+}
+
+export async function createArticle(article: Article, section_id: string) {
+    let ref = doc(db, "articles/"+article.id)
+    
+    await setDoc(ref, article, {merge: true})
+    await updateDoc(doc(db, "sections/"+section_id), {
+        articles: arrayUnion(ref)
+    })
+}
+
+export async function getSections(): Promise<Section[]> {
     const sectionsRef = collection(db, "sections")
     
     const sections = await getDocs(sectionsRef)
-    let result = []
+    let result: Section[] = []
 
     sections.forEach(section => {
         const data = section.data()
-        result.push({id: section.id, ...data})
+        result.push({id: section.id, ...data} as Section)
     })
-
-    if(!sectionCache) {
-        sectionCache = result
-    }
 
     return result
 }
@@ -57,25 +82,18 @@ export async function getAllArticles(): Promise<Article[]> {
     let result = [];
     
     articles.forEach(article => result.push({id: article.id, ...article.data()}))
-    articleCache = result;
 
     return result;
 }
 
 export async function getArticleFromID(articleId: string): Promise<Article> {
-    let cached = loadFromCache(articleCache, articleId)
 
-    if(cached) {
-        return cached;
+    const articleDoc = await getDoc(doc(db, "articles/"+articleId))
+    if(articleDoc.data()) {
+        let article: Article = {id: articleDoc.id, ...articleDoc.data()} as Article
+        return article;
     } else {
-        const articleDoc = await getDoc(doc(db, "articles/"+articleId))
-        if(articleDoc.data()) {
-            let article: Article = {id: articleDoc.id, ...articleDoc.data()} as Article
-            articleCache.push(article)
-            return article;
-        } else {
-            throw new Error("Article not found!")
-        }
+        throw new Error("Article not found!")
     }
 }
 
