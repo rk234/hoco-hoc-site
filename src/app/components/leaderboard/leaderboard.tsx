@@ -1,4 +1,5 @@
 import { School } from "@/app/services/schoolsService"
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 type Props = {
     schools: School[]
@@ -6,6 +7,8 @@ type Props = {
 }
 
 export default function Leaderboard(props: Props) {
+    const [animationParent] = useAutoAnimate()
+
     function topStyles(rank: number): string {
         if(rank == 0) {
             return "bg-gradient-to-b from-yellow-600/90 to-yellow-700/90 font-bold"
@@ -27,7 +30,7 @@ export default function Leaderboard(props: Props) {
                     <th className="p-2 text-center">Points</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody ref={animationParent}>
                 {props.schools.map((school, index) => {
                     return <tr key={school.id} className={`border-b border-slate-700 ${topStyles(index)}`}>
                         <td className="p-5 font-bold text-xl md:text-2xl text-center font-mono border-r border-r-gray-700">{index+1}</td>
