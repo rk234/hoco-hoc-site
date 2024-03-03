@@ -1,13 +1,21 @@
+import { doc, onSnapshot } from "firebase/firestore"
+import { db } from "../firebase/config"
+import { Unsubscribe } from "firebase/auth"
+
 export type School = {
     id: string
     name: string
-    //score: number <-- for later
+    score?: number
+}
+
+type Scores = {
+    [id: string]: number
 }
 
 const schools: School[] = [
     {
         id: "centennial",
-        name: "Centennial High School"
+        name: "Centennial High School",
     },
     {
         id: "river-hill",
@@ -65,6 +73,13 @@ export function getAllSchools(): School[] {
 
 export function getSchoolByID(id: string): School {
     return schools.find(school => school.id == id)
+}
+
+export function onScoresChange(callback: (scores: Scores) => void): Unsubscribe {
+    let ref = doc(db, "aggregate/school-scores")
+    return onSnapshot(ref, (scores) => {
+        callback(scores.data() as Scores)
+    })
 }
 
 //TODO add relevant stuff when point/quiz system is finalized

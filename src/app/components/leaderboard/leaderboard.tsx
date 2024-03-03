@@ -32,7 +32,7 @@ export default function Leaderboard(props: Props) {
                     return <tr key={school.id} className={`border-b border-slate-700 ${topStyles(index)}`}>
                         <td className="p-5 font-bold text-xl md:text-2xl text-center font-mono border-r border-r-gray-700">{index+1}</td>
                         <td className="p-5 md:text-lg border-r border-r-gray-700">{school.name}</td>
-                        <td className="p-5 font-bold text-xl md:text-2xl text-center">{300-(index*10)}</td>
+                        <td className="p-5 font-bold text-xl md:text-2xl text-center">{school.score}</td>
                     </tr>;
                 })}
             </tbody>
