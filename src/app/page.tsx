@@ -10,6 +10,9 @@ export default function Home() {
       <div className="mb-20" id="about" >
         <AboutSection></AboutSection>
       </div>
+      {/* <div className="bg-sky-300 mb-20" id="faq" >
+        FAQ
+      </div> */}
     </main>
   );
 }
