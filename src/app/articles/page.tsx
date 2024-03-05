@@ -70,34 +70,34 @@ export default function Articles() {
             Complete articles to get points, which are transformed into raffle tickets and earns your school points! 
         </p>
         <div className="">
-            <div id="buttons" className="flex justify-center gap-2 bg-sky-900 w-1/3 m-3 p-3 mx-auto rounded-lg">
+            <div id="buttons" className="flex justify-center gap-2 bg-sky-900 sm:w-1/2 lg:w-1/3 m-3 p-3 mx-auto rounded-lg">
 
                 <div className="flex flex-col items-center mr-2">
-                    <div className="rounded-full bg-slate-300 w-16 h-16 flex items-center justify-center text-center">
+                    <div className="rounded-full bg-slate-300 w-16 h-16 flex items-center justify-center text-center hover:cursor-pointer hover:-translate-y-1.5 ease-in-out duration-300">
                         <span className="text-black">##</span>
                     </div>
-                    <span>Section 1</span>
+                    <span className="text-center hover:cursor-pointer">Section 1</span>
                 </div>
 
                 <div className="flex flex-col items-center mr-2">
-                    <div className="rounded-full bg-slate-300 w-16 h-16 flex items-center justify-center text-center">
+                    <div className="rounded-full bg-slate-300 w-16 h-16 flex items-center justify-center text-center hover:cursor-pointer hover:-translate-y-1.5 ease-in-out duration-300">
                         <span className="text-black">##</span>
                     </div>
-                    <span>Section 2</span>
+                    <span className="text-center hover:cursor-pointer">Section 2</span>
                 </div>
 
                 <div className="flex flex-col items-center mr-2">
-                    <div className="rounded-full bg-slate-300 w-16 h-16 flex items-center justify-center text-center">
+                    <div className="rounded-full bg-slate-300 w-16 h-16 flex items-center justify-center text-center hover:cursor-pointer hover:-translate-y-1.5 ease-in-out duration-300">
                         <span className="text-black">##</span>
                     </div>
-                    <span>Section 3</span>
+                    <span className="text-center hover:cursor-pointer">Section 3</span>
                 </div>
 
                 <div className="flex flex-col items-center mr-2">
-                    <div className="rounded-full bg-slate-300 w-16 h-16 flex items-center justify-center text-center">
+                    <div className="rounded-full bg-slate-300 w-16 h-16 flex items-center justify-center text-center hover:cursor-pointer hover:-translate-y-1.5 ease-in-out duration-300">
                         <span className="text-black">##</span>
                     </div>
-                    <span>Section 4</span>
+                    <span className="text-center hover:cursor-pointer">Section 4</span>
                 </div>
 
                 
@@ -105,12 +105,12 @@ export default function Articles() {
             </div>
             <div>
                 <div className="flex justify-center mt-4"> 
-                    <div className="bg-teal-500 rounded-full w-1/2 h-3"> 
-                        <div style={{ width: "70%" }} className="h-full bg-teal-700 rounded-full"></div>
+                    <div className="bg-sky-700 rounded-full md:w-1/2 w-full h-3"> 
+                        <div style={{ width: "70%" }} className="h-full bg-sky-600 rounded-full"></div>
                     </div>
                 </div>
                 <div className="mx-auto w-1/2 mt-1">
-                    <p className="text-right"> 0 / 273 tasks completed</p>
+                    <p className="sm:text-right text-center"> 0 / 273 tasks completed</p>
                 </div>
             </div>
 
@@ -127,7 +127,7 @@ export default function Articles() {
     <div> {/* comment this div out if causing problems*/}
       <div key={index} className="md:flex gap-4 justify-center ">
         {/* Left Box */}
-        <div className="hover:-translate-y-2 cursor-pointer p-4 rounded-lg border mb-4 md:w-1/2 ease-in-out duration-300 hover:shadow-xl hover:shadow-indigo-500/50">
+        <div className="hover:-translate-y-2 bg-blue-950 cursor-pointer p-4 rounded-lg border mb-4 md:w-1/2 ease-in-out duration-300 hover:shadow-xl hover:shadow-indigo-500/50">
           <p className="font-bold font-['Menlo']">{section.title}</p>
           <p className="pt-4 font-mono">{section.description}</p>
           <div className="flex">
@@ -149,7 +149,7 @@ export default function Articles() {
 
         {/* Right Box (if available) */}
         {sections[index + 1] && (
-          <div className="hover:-translate-y-2 cursor-pointer p-4 rounded-lg border mb-4 md:w-1/2 ease-in-out duration-300 hover:shadow-xl hover:shadow-indigo-500/50">
+          <div className="hover:-translate-y-2 bg-blue-950 cursor-pointer p-4 rounded-lg border mb-4 md:w-1/2 ease-in-out duration-300 hover:shadow-xl hover:shadow-indigo-500/50">
             <p className="font-bold font-['Menlo']">{sections[index + 1].title}</p>
             <p className="pt-4 font-mono">{sections[index + 1].description}</p>
             <div className="flex">
