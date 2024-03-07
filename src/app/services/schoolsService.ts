@@ -23,7 +23,7 @@ const schools: School[] = [
     },
     {
         id: "marriots",
-        name: "Marriots Ridge High School"
+        name: "Marriotts Ridge High School"
     },
     {
         id: "atholton",
