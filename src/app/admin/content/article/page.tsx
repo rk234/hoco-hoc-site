@@ -1,6 +1,6 @@
 "use client"
-import ArticleEditor from "@/app/components/admin/article-editor"
-import SectionEditor from "@/app/components/admin/section-editor"
+import ArticleEditor from "@/app/components/admin/articleEditor"
+import SectionEditor from "@/app/components/admin/sectionEditor"
 import { useProfile } from "@/app/components/auth-provider/authProvider"
 import { Article, Section, createArticle, createSection, getArticleFromID, getSection } from "@/app/services/articleService"
 import { useRouter, useSearchParams } from "next/navigation"
