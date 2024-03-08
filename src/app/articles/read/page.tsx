@@ -21,28 +21,6 @@ import { Quiz } from "@/app/services/quizService"
 export default function Read() {
     const params = useSearchParams()
     let [article, setArticle] = useState<Article>()
-    // let [quiz, setQuiz] = useState<Quiz>({
-    //     id: 'test',
-    //     points: 10,
-    //     questions: [
-    //         {
-    //             question: "Question 1\n\nHello World",
-    //             options: ["a", "b", "c", "d"]
-    //         },
-    //         {
-    //             question: "Question 2",
-    //             options: ["a", "b", "c", "d"]
-    //         },
-    //         {
-    //             question: "Question 3",
-    //             options: ["a", "b", "c", "d"]
-    //         },
-    //         {
-    //             question: "Question 4",
-    //             options: ["a", "b", "c", "d"]
-    //         }
-    //     ]
-    // })
     let [loading, setLoading] = useState(true)
     let [error, setError] = useState(false)
     let [showSponsor, setShowSponsor] = useState(true)
@@ -160,12 +138,6 @@ export default function Read() {
                     <Skeleton className="my-4" height={200}/>
                 </div>}
             </SkeletonTheme>
-            {/* {
-                (!loading) ?
-                    quiz && <QuizRenderer quiz={quiz} />
-                :
-                !quiz && <button className="btn-primary font-mono">Mark Complete</button>
-            } */}
         </div>
     </main>
 }
