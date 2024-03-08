@@ -15,10 +15,34 @@ import Image from "next/image";
 import {EyeSlashIcon, CheckCircleIcon} from "@heroicons/react/24/solid"
 import ArticleRenderer from "@/app/components/article-renderer/articleRenderer";
 import { updateStartedArticles } from "@/app/services/userService"
+import QuizRenderer from "@/app/components/quiz-renderer/QuizRenderer"
+import { Quiz } from "@/app/services/quizService"
 
 export default function Read() {
     const params = useSearchParams()
     let [article, setArticle] = useState<Article>()
+    let [quiz, setQuiz] = useState<Quiz>({
+        id: 'test',
+        points: 10,
+        questions: [
+            {
+                question: "Question 1\n\nHello World",
+                options: ["a", "b", "c", "d"]
+            },
+            {
+                question: "Question 2",
+                options: ["a", "b", "c", "d"]
+            },
+            {
+                question: "Question 3",
+                options: ["a", "b", "c", "d"]
+            },
+            {
+                question: "Question 4",
+                options: ["a", "b", "c", "d"]
+            }
+        ]
+    })
     let [loading, setLoading] = useState(true)
     let [error, setError] = useState(false)
     let [showSponsor, setShowSponsor] = useState(true)
@@ -117,7 +141,7 @@ export default function Read() {
 
                 <div className="flex flex-row mt-5 items-center">
                     <h1 className={`text-4xl md:text-5xl font-bold flex-1`}>{!loading && article ? article.title : <Skeleton width={"10ch"} />}</h1>
-                    <span className={`${progress == "complete" ? "bg-emerald-400" : "bg-sky-300"} text-slate-950 rounded p-2 text-sm font-mono flex gap-2 items-center`}> {progress} {progress == "complete" && <CheckCircleIcon height={10} width={15} className="h-5 w-5 text-slate-950" />}</span>
+                    {(!loading && profile) && <span className={`${progress == "complete" ? "bg-emerald-400" : "bg-sky-300"} text-slate-950 rounded p-2 text-sm font-mono flex gap-2 items-center`}> {progress} {progress == "complete" && <CheckCircleIcon height={10} width={15} className="h-5 w-5 text-slate-950" />}</span>}
                 </div>
                 <p className={`font-mono mt-2 text-slate-300 text-sm`}>{!loading && article ? article.description : <Skeleton />}</p>    
                 <div className={`font-mono flex gap-2 mt-2`}>
@@ -136,6 +160,12 @@ export default function Read() {
                     <Skeleton className="my-4" height={200}/>
                 </div>}
             </SkeletonTheme>
+            {
+                (!loading) ?
+                    quiz && <QuizRenderer quiz={quiz} />
+                :
+                !quiz && <button className="btn-primary font-mono">Mark Complete</button>
+            }
         </div>
     </main>
 }
