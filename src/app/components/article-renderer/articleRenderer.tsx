@@ -18,7 +18,7 @@ export default function ArticleRenderer(props: Props) {
         } else if(type == "note") {
             return "border-sky-300 bg-sky-300/30"
         } else {
-            return ""
+            return "border-slate-700 bg-slate-800"
         }
     }
 
@@ -48,10 +48,10 @@ export default function ArticleRenderer(props: Props) {
                 const Icon = () => {
                     if(type == "note") return <InformationCircleIcon className='w-7 h-7' />
                     else if(type == "warn") return <ExclamationTriangleIcon className='w-7 h-7' />
-                    else return ""
+                    else return "700"
                 }
 
-                return <div className={`my-2 flex flex-row items-center gap-2 bg-slate-800 border rounded border-slate-700 border-l-8 p-2 ${blockStyles(type)}`}>
+                return <div className={`my-2 flex flex-row items-center gap-2 border rounded border-l-8 p-2 ${blockStyles(type)}`}>
                     <div className='self-start'>{Icon()}</div>
                     <p className='m-0'>{content}</p>
                 </div>
