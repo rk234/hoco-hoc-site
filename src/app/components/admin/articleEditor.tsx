@@ -4,6 +4,10 @@ import { Article } from "@/app/services/articleService"
 import MDEditor from "@uiw/react-md-editor"
 import { useEffect, useState } from "react"
 import ArticleRenderer from "../article-renderer/articleRenderer"
+import ModalContainer from "../modal/modalContainer"
+import QuizEditor from "./quizEditor"
+import Modal from "../modal/modal"
+import { Quiz, getQuiz } from "@/app/services/quizService"
 
 type Props = {
     article: Article
@@ -14,9 +18,22 @@ type Props = {
 }
 
 export default function ArticleEditor(props: Props) {
+    const DEFAULT_QUIZ: Quiz = {
+        id: props.article.id + "-quiz",
+        points: 1,
+        questions: [
+            {
+                question: "Sample Question",
+                options: ["a", "b", "c", "d"]
+            }
+        ]
+    }
+    
     let [article, setArticle] = useState<Article>(props.article)
     let [sectionID, setSectionID] = useState<string>(props.sectionID)
     let [sponsored, setSponsored] = useState(props.article.sponsor ? true : false)
+    let [quizModal, setQuizModal] = useState<boolean>(false)
+    let [quiz, setQuiz] = useState<Quiz>(undefined)
 
     useEffect(() => {
         console.log("effect!")
@@ -24,6 +41,18 @@ export default function ArticleEditor(props: Props) {
         setSectionID(props.sectionID)
         setSponsored(props.article.sponsor ? true : false)
     }, [props.article, props.sectionID])
+
+    useEffect(() => {
+        if(!quiz) {
+            getQuiz(props.article.id+"-quiz").then(q => {
+                console.log(q)
+                setQuiz(q)
+            }).catch(err => {
+                console.log("no quiz")
+                setQuiz(DEFAULT_QUIZ)
+            })
+        }
+    }) 
 
     function handleSponsor(sponsored: boolean) {
         setSponsored(sponsored)
@@ -36,6 +65,13 @@ export default function ArticleEditor(props: Props) {
     }
 
     return <div className="flex flex-row w-full h-full">
+        {
+            quizModal ? <ModalContainer>
+                <Modal>
+                    <QuizEditor quiz={quiz} editing={false} onCancel={()=>setQuizModal(false)}onSave={(quiz) => console.log(quiz)}/>
+                </Modal>
+            </ModalContainer> : ""
+        }
         <div className="flex flex-col gap-2 p-2 bg-gray-900 border-r-2 border-r-slate-700 h-auto overflow-y-scroll">
             <h1 className="text-xl font-bold">{props.editing ? "Edit Article" : "Create Article"}</h1>
             
@@ -75,6 +111,7 @@ export default function ArticleEditor(props: Props) {
             }
             <div className="flex flex-row gap-1">
                 <button className="btn-primary font-mono flex-1" onClick={() => props.onSave(article, sectionID)}> {props.editing ? "Save" : "Create"} </button>
+                <button className="btn-secondary font-mono" onClick={() => setQuizModal(true)}> Create/Edit Quiz </button>
                 <button className="btn-secondary font-mono" onClick={props.onCancel}> Cancel </button>
             </div>
         </div>

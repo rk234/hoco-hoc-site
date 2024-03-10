@@ -27,6 +27,7 @@ export default function AdminArticleEditPage() {
             setEditing(true)
             console.log(article)
             if(article.id == placeHolderID) {
+                console.log("fetching new")
                 getArticleFromID(params.get("id")).then(article => {
                     setArticle(article)
                     //console.log(section)
