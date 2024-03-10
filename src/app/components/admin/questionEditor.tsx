@@ -7,11 +7,12 @@ type Props = {
     onChange: (index: number, question: Question, correct: number) => void
     onDelete: (index: number) => void
     number: number
+    answer?: number
 }
 
 export default function QuestionEditor(props: Props) {
     let [question, setQuestion] = useState<Question>(props.question)
-    let [correctIndex, setCorrectIndex] = useState<number>(-1)
+    let [correctIndex, setCorrectIndex] = useState<number>(props.answer ?? -1)
     let [newOpt, setNewOpt] = useState<string>("")
 
     useEffect(() => {

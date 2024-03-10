@@ -94,7 +94,7 @@ export default function QuizEditor(props: Props) {
         <div className="flex flex-col gap-5">
         {
             props.quiz.questions.map((question, i) => {
-                return <QuestionEditor key={i} number={i} question={question} onChange={handleQuestionSave} onDelete={handleQuestionDelete}/>
+                return <QuestionEditor key={i} number={i} answer={correctOpts[i]} question={question} onChange={handleQuestionSave} onDelete={handleQuestionDelete}/>
             })
         }
         </div>

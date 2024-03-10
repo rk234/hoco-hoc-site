@@ -57,6 +57,7 @@ export default function ArticleEditor(props: Props) {
             })
 
             getQuizAnswers(props.article.id+"-quiz").then(ans => {
+                console.log(ans)
                 setQuizAnswers(ans)
             }).catch(err => {
                 console.log("err while fetching questions")
