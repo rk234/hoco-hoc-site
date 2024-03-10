@@ -19,6 +19,10 @@ export default function QuestionEditor(props: Props) {
        setQuestion(props.question) 
     }, [props.question])
 
+    useEffect(() => {
+        setCorrectIndex(props.answer ?? -1)
+    }, [props.answer])
+
     function removeOption(index: number) {
         setCorrectIndex(-1)
         let newQuestion = {...question}
