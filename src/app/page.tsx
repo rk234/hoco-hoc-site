@@ -15,6 +15,7 @@ export default function Home() {
     })
     return unsub
   }, [])
+  
   return (
     <main className="flex flex-col bg-sky-950">
       <Hero />

@@ -137,6 +137,7 @@ export default function Read() {
                     <p><Skeleton className="mt-2" count={7}/></p>
                     <Skeleton className="my-4" height={200}/>
                 </div>}
+
             </SkeletonTheme>
         </div>
     </main>

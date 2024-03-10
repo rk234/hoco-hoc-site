@@ -14,10 +14,20 @@ type Props = {
 
 export default function QuizEditor(props: Props) {
     let [quiz, setQuiz] = useState<Quiz>(props.quiz)
-    let [correctOpts, setCorrectOpts] = useState<number[]>(props.quiz.questions.map(_ => -1))
+    let [correctOpts, setCorrectOpts] = useState<number[]>([])
+
     useEffect(() => {
        setQuiz(props.quiz) 
     }, [props.quiz])
+
+    useEffect(() => {
+        if(props.answers) {
+            setCorrectOpts(props.answers)
+        } else {
+            if(props.quiz)
+                setCorrectOpts(props.quiz.questions.map(_ => -1))
+        }
+    }, [props.answers, props.quiz])
 
     function handleQuestionSave(index: number, question: Question, correctIndex: number) {
         let newQuiz = {...quiz} as Quiz
@@ -27,7 +37,7 @@ export default function QuizEditor(props: Props) {
             correctOpts.push(correctIndex)
             setCorrectOpts(correctOpts)
         } else {
-            newQuiz[index] = question
+            newQuiz.questions[index] = question
             correctOpts[index] = correctIndex
         }
         setQuiz(newQuiz)
@@ -68,7 +78,11 @@ export default function QuizEditor(props: Props) {
     function handleSave() {
         //TODO: Finish validation, pull in answers, figure out logic for saving answers and stuff
         if(validate()) {
+            console.log("inputs valid!")
+            console.log(quiz)
+            console.log(correctOpts)
 
+            props.onSave(quiz, correctOpts)
         } else {
             alert("Data seems to be invalid, double check your inputs!")
         }        
@@ -86,7 +100,7 @@ export default function QuizEditor(props: Props) {
         </div>
         <button className="btn-secondary font-mono" onClick={handleQuestionAdd}>Add Question</button>
         <div className="flex flex-row gap-2">
-            <button className="btn-primary flex-1 font-mono">Save</button>
+            <button className="btn-primary flex-1 font-mono" onClick={handleSave}>Save</button>
             <button className="btn-secondary font-mono" onClick={props.onCancel}>Cancel</button>
         </div>
     </main>

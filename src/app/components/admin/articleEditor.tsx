@@ -7,7 +7,7 @@ import ArticleRenderer from "../article-renderer/articleRenderer"
 import ModalContainer from "../modal/modalContainer"
 import QuizEditor from "./quizEditor"
 import Modal from "../modal/modal"
-import { Quiz, getQuiz } from "@/app/services/quizService"
+import { Quiz, createQuiz, getQuiz, getQuizAnswers } from "@/app/services/quizService"
 
 type Props = {
     article: Article
@@ -34,6 +34,7 @@ export default function ArticleEditor(props: Props) {
     let [sponsored, setSponsored] = useState(props.article.sponsor ? true : false)
     let [quizModal, setQuizModal] = useState<boolean>(false)
     let [quiz, setQuiz] = useState<Quiz>(undefined)
+    let [quizAnswers, setQuizAnswers] = useState<number[]>(undefined)
 
     useEffect(() => {
         console.log("effect!")
@@ -45,11 +46,21 @@ export default function ArticleEditor(props: Props) {
     useEffect(() => {
         if(!quiz) {
             getQuiz(props.article.id+"-quiz").then(q => {
-                console.log(q)
-                setQuiz(q)
+                console.log("Found quiz for article!")
+                if(q)
+                    setQuiz(q)
+                else
+                    setQuiz(DEFAULT_QUIZ)
             }).catch(err => {
                 console.log("no quiz")
                 setQuiz(DEFAULT_QUIZ)
+            })
+
+            getQuizAnswers(props.article.id+"-quiz").then(ans => {
+                setQuizAnswers(ans)
+            }).catch(err => {
+                console.log("err while fetching questions")
+                console.log(err)
             })
         }
     }) 
@@ -64,11 +75,21 @@ export default function ArticleEditor(props: Props) {
         }
     }
 
+    function handleSave(quiz: Quiz, answers: number[]) {
+        createQuiz(quiz, answers).then(() => {
+            alert("Quiz successfully created")
+            setQuizModal(false)
+        }).catch(err => {
+            alert("An error occured while creating the quiz, see console")
+            console.log(err)
+        })
+    }
+
     return <div className="flex flex-row w-full h-full">
         {
             quizModal ? <ModalContainer>
                 <Modal>
-                    <QuizEditor quiz={quiz} editing={false} onCancel={()=>setQuizModal(false)}onSave={(quiz) => console.log(quiz)}/>
+                    <QuizEditor quiz={quiz} editing={false} onCancel={()=>setQuizModal(false)} answers={quizAnswers} onSave={handleSave}/>
                 </Modal>
             </ModalContainer> : ""
         }
