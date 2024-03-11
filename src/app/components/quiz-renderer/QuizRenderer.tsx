@@ -13,7 +13,7 @@ export default function QuizRenderer(props: Props) {
             <p className="font-mono text-slate-400 text-sm">{props.quiz.points} pts</p>
         </div>
         <div className="p-2 flex flex-col gap-9">
-            {props.quiz.questions.map((question, index) => <QuizQuestion key={index} question={question} number={index+1} />)}
+            {props.quiz.questions.map((question, index) => <QuizQuestion key={index} question={question} number={index + 1} />)}
         </div>
         <div className="p-2 pt-0">
             <button className="btn-primary font-mono">Sumbit</button>
