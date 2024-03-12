@@ -15,8 +15,6 @@ import Image from "next/image";
 import { EyeSlashIcon, CheckCircleIcon } from "@heroicons/react/24/solid"
 import ArticleRenderer from "@/app/components/article-renderer/articleRenderer";
 import { updateStartedArticles } from "@/app/services/userService"
-import QuizRenderer from "@/app/components/quiz-renderer/QuizRenderer"
-import { Quiz } from "@/app/services/quizService"
 
 export default function Read() {
     const params = useSearchParams()
