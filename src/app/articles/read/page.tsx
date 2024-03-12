@@ -58,13 +58,6 @@ export default function Read() {
     }, [article])
 
     useEffect(() => {
-        const handleUnload = (event) => {
-            console.log("Unload!")
-            alert("Hello")
-        }
-
-        window.addEventListener("pagehide", handleUnload)
-
         if (!visited) {
             incrementViewCount()
                 .then(() => console.log("View count incremented"))
@@ -76,7 +69,8 @@ export default function Read() {
         }
 
         return () => {
-            window.removeEventListener("pagehide", handleUnload)
+            //TODO: compute time spent on page and update firebase 
+            console.log("Leaving page")
         }
     }, [visited])
 
@@ -137,13 +131,17 @@ export default function Read() {
                     )) : <Skeleton containerClassName="flex-1" />}
                 </div>
                 <hr className="mt-3 border-b border-slate-400" />
-                {!loading && article ? <ArticleRenderer markdown={article.content} profile={profile} /> :
-                    <div>
-                        <p className="mt-5"><Skeleton className="mt-2" count={5} /></p>
-                        <Skeleton className="my-4" height={200} />
-                        <p><Skeleton className="mt-2" count={7} /></p>
-                        <Skeleton className="my-4" height={200} />
-                    </div>}
+
+                {
+                    !loading && article ?
+                        <ArticleRenderer markdown={article.content} profile={profile} /> :
+                        <div>
+                            <p className="mt-5"><Skeleton className="mt-2" count={5} /></p>
+                            <Skeleton className="my-4" height={200} />
+                            <p><Skeleton className="mt-2" count={7} /></p>
+                            <Skeleton className="my-4" height={200} />
+                        </div>
+                }
 
             </SkeletonTheme>
         </div>

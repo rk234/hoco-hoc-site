@@ -144,7 +144,7 @@ export default function ArticleEditor(props: Props) {
             }
             <div className="flex flex-row gap-1">
                 <button className="btn-secondary font-mono flex-1" onClick={() => setQuizModal(true)}> Create/Edit Quiz </button>
-                <button className="btn-secondary font-mono bg-red-500 hover:bg-red-400" onClick={() => deleteQuiz()}>Delete Quiz </button>
+                <button className="btn-danger font-mono" onClick={() => deleteQuiz()}>Delete Quiz </button>
             </div>
             <div className="flex flex-row gap-1">
                 <button className="btn-primary font-mono flex-1" onClick={() => props.onSave(article, sectionID)}> {props.editing ? "Save" : "Create"} </button>
