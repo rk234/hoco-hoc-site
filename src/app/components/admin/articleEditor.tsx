@@ -1,6 +1,6 @@
 "use client"
 
-import { Article } from "@/app/services/articleService"
+import { Article, setArticleQuiz } from "@/app/services/articleService"
 import MDEditor from "@uiw/react-md-editor"
 import { useEffect, useState } from "react"
 import ArticleRenderer from "../article-renderer/articleRenderer"
@@ -78,13 +78,23 @@ export default function ArticleEditor(props: Props) {
     }
 
     function handleSave(quiz: Quiz, answers: number[]) {
-        createQuiz(quiz, answers).then(() => {
-            alert("Quiz successfully created")
-            setQuizModal(false)
-        }).catch(err => {
-            alert("An error occured while creating the quiz, see console")
-            console.log(err)
-        })
+        if (quiz) {
+            createQuiz(quiz, answers).then(() => {
+                setArticleQuiz(props.article.id, true, quiz.points).then(() => {
+                    alert("Quiz successfully created")
+                    setQuizModal(false)
+                }).catch(err => console.log(err))
+            }).catch(err => {
+                alert("An error occured while creating the quiz, see console")
+                console.log(err)
+            })
+        } else {
+            setArticleQuiz(props.article.id, false, 0)
+        }
+    }
+
+    function deleteQuiz() {
+        setArticleQuiz(props.article.id, false, 0)
     }
 
     return <div className="flex flex-row w-full h-full">
@@ -133,8 +143,11 @@ export default function ArticleEditor(props: Props) {
                 </div>
             }
             <div className="flex flex-row gap-1">
+                <button className="btn-secondary font-mono flex-1" onClick={() => setQuizModal(true)} onClick={() => deleteQuiz()}> Create/Edit Quiz </button>
+                <button className="btn-secondary font-mono bg-red-500 hover:bg-red-400"> Delete Quiz </button>
+            </div>
+            <div className="flex flex-row gap-1">
                 <button className="btn-primary font-mono flex-1" onClick={() => props.onSave(article, sectionID)}> {props.editing ? "Save" : "Create"} </button>
-                <button className="btn-secondary font-mono" onClick={() => setQuizModal(true)}> Create/Edit Quiz </button>
                 <button className="btn-secondary font-mono" onClick={props.onCancel}> Cancel </button>
             </div>
         </div>
