@@ -15,6 +15,7 @@ import Image from "next/image";
 import { EyeSlashIcon, CheckCircleIcon } from "@heroicons/react/24/solid"
 import ArticleRenderer from "@/app/components/article-renderer/articleRenderer";
 import { updateStartedArticles } from "@/app/services/userService"
+import { getQuiz, Quiz } from "@/app/services/quizService"
 
 export default function Read() {
     const params = useSearchParams()
@@ -24,8 +25,10 @@ export default function Read() {
     let [showSponsor, setShowSponsor] = useState(true)
     let [visited, setVisited] = useState(false)
     let [progress, setProgress] = useState<"started" | "complete">("started")
+    let [quiz, setQuiz] = useState<Quiz>(undefined)
     let profile = useProfile()
     let setProfile = useProfileUpdate()
+
 
     useEffect(() => {
         if (!article) {
@@ -50,8 +53,17 @@ export default function Read() {
     useEffect(() => {
         if (article && article.quiz) {
             console.log("Article has quiz!")
+            getQuiz(article.id + "-quiz").then(quiz => {
+                console.log(quiz)
+                setQuiz(quiz)
+            }).catch(err => {
+                console.log("Error while fetching the quiz for this article")
+                console.log(err)
+                setError(true)
+            })
         } else {
-            console.log("Article does not have quiz")
+            console.log("No quiz for this article")
+            setQuiz(undefined)
         }
     }, [article])
 
