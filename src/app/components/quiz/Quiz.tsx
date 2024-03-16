@@ -6,10 +6,10 @@ type Props = {
     quiz: Quiz
 }
 
-export default function Quiz(props: Props) {
+export default function QuizPrompt(props: Props) {
     return <main className="flex flex-col bg-slate-800 rounded-md overflow-hidden border border-gray-600 gap-2">
         <div className="p-2 text-slate-200 border-b border-gray-600 flex flex-row items-center">
-            <h1 className="text-2xl font-bold flex-1">Quiz</h1>
+            <h1 className="text-2xl font-bold flex-1 font-mono">Quiz</h1>
             <p className="font-mono text-slate-400 text-sm">{props.quiz.points} pts</p>
         </div>
         <div className="p-2 flex flex-col gap-9">

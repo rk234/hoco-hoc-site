@@ -21,8 +21,8 @@ export default function QuizQuestion(props: Props) {
         </div>
         <form>
             <fieldset className="flex flex-col gap-1">
-                {props.question.options.map((opt, i) => <div key={i} className="flex flex-row gap-2 items-center rounded border bg-slate-900/30 border-slate-700 p-2 py-4 cursor-pointer hover:bg-slate-700">
-                    <div className="w-5 h-5 rounded-full bg-slate-700 overflow-hidden hover:bg-sky-600 ring-offset-1 ring-offset-slate-700 hover:ring hover:ring-sky-600"></div>
+                {props.question.options.map((opt, i) => <div key={i} className="flex flex-row gap-2 items-center rounded border bg-slate-900/30 border-slate-700 p-2 py-4 cursor-pointer hover:bg-sky-700/30">
+                    <div className="w-4 h-4 rounded-full bg-slate-600 overflow-hidden hover:bg-sky-600 ring-offset-1 ring-offset-slate-700 hover:ring hover:ring-sky-600"></div>
                     <label htmlFor={props.number + "-opt-" + i}>{opt}</label>
                 </div>
                 )}

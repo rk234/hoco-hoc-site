@@ -16,6 +16,7 @@ import { EyeSlashIcon, CheckCircleIcon } from "@heroicons/react/24/solid"
 import ArticleRenderer from "@/app/components/article-renderer/articleRenderer";
 import { updateStartedArticles } from "@/app/services/userService"
 import { getQuiz, Quiz } from "@/app/services/quizService"
+import QuizPrompt from "@/app/components/quiz/Quiz"
 
 export default function Read() {
     const params = useSearchParams()
@@ -105,7 +106,7 @@ export default function Read() {
     }, [profile, article, setProfile])
 
 
-    return <main className="flex justify-center h-auto">
+    return <main className="flex flex-col items-center h-auto">
         {error ?
             <ModalContainer>
                 <Modal className="flex flex-col">
@@ -154,6 +155,12 @@ export default function Read() {
                 }
 
             </SkeletonTheme>
+        </div>
+        <div className="max-w-3xl w-full h-full p-4">
+            {
+                quiz ? <QuizPrompt quiz={quiz} /> :
+                    <button className="btn-primary font-mono">Mark Article Completed</button>
+            }
         </div>
     </main>
 }
