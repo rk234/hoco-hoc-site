@@ -21,35 +21,36 @@ import QuizPrompt from "@/app/components/quiz/Quiz"
 export default function Read() {
     const params = useSearchParams()
     let [article, setArticle] = useState<Article>()
-    let [loading, setLoading] = useState(true)
+    let [loadingArticle, setLoadingArticle] = useState(true)
     let [error, setError] = useState(false)
     let [showSponsor, setShowSponsor] = useState(true)
     let [visited, setVisited] = useState(false)
     let [progress, setProgress] = useState<"started" | "complete">("started")
     let [quiz, setQuiz] = useState<Quiz>(undefined)
+    let [loadingQuiz, setLoadingQuiz] = useState<boolean>(true)
     let profile = useProfile()
     let setProfile = useProfileUpdate()
 
 
     useEffect(() => {
         if (!article) {
-            setLoading(true)
+            setLoadingArticle(true)
             let id = params.get("article")
             if (id) {
                 getArticleFromID(id).then(article => {
                     setArticle(article)
-                    setLoading(false)
+                    setLoadingArticle(false)
                 }).catch(err => {
                     setError(true)
-                    setLoading(false)
+                    setLoadingArticle(false)
                     console.log(err)
                 })
             } else {
                 setError(true)
-                setLoading(false)
+                setLoadingArticle(false)
             }
         }
-    }, [article, loading, params])
+    }, [article, loadingArticle, params])
 
     useEffect(() => {
         if (article && article.quiz) {
@@ -57,14 +58,17 @@ export default function Read() {
             getQuiz(article.id + "-quiz").then(quiz => {
                 console.log(quiz)
                 setQuiz(quiz)
+                setLoadingQuiz(false)
             }).catch(err => {
                 console.log("Error while fetching the quiz for this article")
                 console.log(err)
+                setLoadingQuiz(false)
                 setError(true)
             })
         } else {
             console.log("No quiz for this article")
             setQuiz(undefined)
+            setLoadingQuiz(false)
         }
     }, [article])
 
@@ -106,6 +110,11 @@ export default function Read() {
     }, [profile, article, setProfile])
 
 
+    function handleQuizSubmit(answers: number[]) {
+        const quizID = article.id + "-quiz";
+        //TODO: call cloud fn to check answers
+    }
+
     return <main className="flex flex-col items-center h-auto">
         {error ?
             <ModalContainer>
@@ -119,7 +128,7 @@ export default function Read() {
         <div className="max-w-3xl w-full h-full p-4">
             <SkeletonTheme baseColor="#1e293b" highlightColor="#64748b">
 
-                {(!loading && article && article.sponsor && showSponsor) ?
+                {(!loadingArticle && article && article.sponsor && showSponsor) ?
                     <div className="bg-slate-300 text-slate-950 p-4 rounded">
                         <div className="flex flex-row items-center">
                             <h1 className="text-xl flex-1">Sponsored by {article.sponsor.name}</h1>
@@ -130,12 +139,12 @@ export default function Read() {
                 }
 
                 <div className="flex flex-row mt-5 items-center">
-                    <h1 className={`text-4xl md:text-5xl font-bold flex-1`}>{!loading && article ? article.title : <Skeleton width={"10ch"} />}</h1>
-                    {(!loading && profile) && <span className={`${progress == "complete" ? "bg-emerald-400" : "bg-sky-300"} text-slate-950 rounded p-2 text-sm font-mono flex gap-2 items-center`}> {progress} {progress == "complete" && <CheckCircleIcon height={10} width={15} className="h-5 w-5 text-slate-950" />}</span>}
+                    <h1 className={`text-4xl md:text-5xl font-bold flex-1`}>{!loadingArticle && article ? article.title : <Skeleton width={"10ch"} />}</h1>
+                    {(!loadingArticle && profile) && <span className={`${progress == "complete" ? "bg-emerald-400" : "bg-sky-300"} text-slate-950 rounded p-2 text-sm font-mono flex gap-2 items-center`}> {progress} {progress == "complete" && <CheckCircleIcon height={10} width={15} className="h-5 w-5 text-slate-950" />}</span>}
                 </div>
-                <p className={`font-mono mt-2 text-slate-300 text-sm`}>{!loading && article ? article.description : <Skeleton />}</p>
+                <p className={`font-mono mt-2 text-slate-300 text-sm`}>{!loadingArticle && article ? article.description : <Skeleton />}</p>
                 <div className={`font-mono flex gap-2 mt-2`}>
-                    {!loading && article ? article.tags.map(tag => (
+                    {!loadingArticle && article ? article.tags.map(tag => (
                         <div key={tag} className="bg-sky-300 text-slate-950 p-1 rounded-sm text-xs font-bold">
                             {tag}
                         </div>
@@ -144,7 +153,7 @@ export default function Read() {
                 <hr className="mt-3 border-b border-slate-400" />
 
                 {
-                    !loading && article ?
+                    !loadingArticle && article ?
                         <ArticleRenderer markdown={article.content} profile={profile} /> :
                         <div>
                             <p className="mt-5"><Skeleton className="mt-2" count={5} /></p>
@@ -158,8 +167,8 @@ export default function Read() {
         </div>
         <div className="max-w-3xl w-full h-full p-4">
             {
-                quiz ? <QuizPrompt quiz={quiz} /> :
-                    <button className="btn-primary font-mono">Mark Article Completed</button>
+                (!loadingQuiz && quiz) ? <QuizPrompt quiz={quiz} onSumbit={handleQuizSubmit} /> :
+                    !loadingQuiz ? <button className="btn-primary font-mono">Mark Article Completed</button> : ""
             }
         </div>
     </main>
