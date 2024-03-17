@@ -12,7 +12,8 @@ export default function AdminArticleEditPage() {
         title: "Untitled article",
         description: "Description...",
         content: "Some content...",
-        tags: [],
+        sectionID: "placeholder_section_id",
+        tags: []
     }
 
     let profile = useProfile()
@@ -44,6 +45,7 @@ export default function AdminArticleEditPage() {
     function handleSave(article: Article, sectionID: string) {
         //console.log(article)
         //console.log(sectionID)
+        article.sectionID = sectionID
         createArticle(article, sectionID).then(() => {
             alert("Section successfully updated/created!")
             router.back()

@@ -35,6 +35,7 @@ export default function ArticleEditor(props: Props) {
     let [quizModal, setQuizModal] = useState<boolean>(false)
     let [quiz, setQuiz] = useState<Quiz>(undefined)
     let [quizAnswers, setQuizAnswers] = useState<number[]>(undefined)
+    let [hasQuiz, setHasQuiz] = useState<boolean>(false)
 
     useEffect(() => {
         console.log("effect!")
@@ -50,11 +51,15 @@ export default function ArticleEditor(props: Props) {
                 if (q) {
                     setQuiz(q)
                     console.log(q)
-                } else
+                    setHasQuiz(true)
+                } else {
                     setQuiz(DEFAULT_QUIZ)
+                    setHasQuiz(false)
+                }
             }).catch(err => {
                 console.log("no quiz")
                 setQuiz(DEFAULT_QUIZ)
+                setHasQuiz(false)
             })
 
             getQuizAnswers(props.article.id + "-quiz").then(ans => {
@@ -115,7 +120,9 @@ export default function ArticleEditor(props: Props) {
 
             <div>
                 <label>Article Section ID: </label>
-                <input type="text" placeholder="Section ID" value={props.sectionID} onChange={(e) => setSectionID(e.target.value)}></input>
+                <input type="text" placeholder="Section ID" value={props.sectionID} onChange={(e) => {
+                    setSectionID(e.target.value)
+                }}></input>
             </div>
 
             <p>Article Title</p>
@@ -143,8 +150,8 @@ export default function ArticleEditor(props: Props) {
                 </div>
             }
             <div className="flex flex-row gap-1">
-                <button className="btn-secondary font-mono flex-1" onClick={() => setQuizModal(true)}> Create/Edit Quiz </button>
-                <button className="btn-danger font-mono" onClick={() => deleteQuiz()}>Delete Quiz </button>
+                <button className="btn-secondary font-mono flex-1" onClick={() => setQuizModal(true)}> {hasQuiz ? "Edit Quiz" : "Create Quiz"} </button>
+                {hasQuiz && <button className="btn-danger font-mono" onClick={() => deleteQuiz()}>Delete Quiz </button>}
             </div>
             <div className="flex flex-row gap-1">
                 <button className="btn-primary font-mono flex-1" onClick={() => props.onSave(article, sectionID)}> {props.editing ? "Save" : "Create"} </button>
