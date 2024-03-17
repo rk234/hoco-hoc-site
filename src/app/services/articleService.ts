@@ -8,6 +8,7 @@ export type Article = {
     description: string,
     content: string,
     tags: string[],
+    sectionID: string,
     sponsor?: {
         name: string,
         imageUrl: string,
