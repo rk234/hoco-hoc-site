@@ -11,7 +11,7 @@ export default function StatsCounter(props: Props) {
             <div className="w-full gap-12 flex flex-col max-w-3xl">
                 <div className="flex-1">
                     <h1 className="font-mono leading-tight text-5xl md:text-6xl pb-4 bg-gradient-to-r from-sky-300 to-indigo-400 text-transparent bg-clip-text font-bold"> Join a Growing Community </h1>
-                    <p className="text-xl"> Compete with hundreds of students to learn, win prizes, and bring your school to the top of the leaderboard! </p>
+                    <p className="text-xl"> Compete with students from across the county to learn, win prizes, and bring your school to the top of the leaderboard! </p>
                 </div>
                 <div className="rounded flex flex-col md:flex-row gap-2 justify-center items-center">
                     <div className="p-4 bg-gray-800/50 rounded flex flex-col items-center w-full gap-2">
