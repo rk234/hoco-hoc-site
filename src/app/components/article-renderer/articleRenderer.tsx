@@ -48,7 +48,7 @@ export default function ArticleRenderer(props: Props) {
                 const Icon = () => {
                     if (type == "note") return <InformationCircleIcon className='w-7 h-7' />
                     else if (type == "warn") return <ExclamationTriangleIcon className='w-7 h-7' />
-                    else return "700"
+                    else return ""
                 }
 
                 return <div className={`my-2 flex flex-row items-center gap-2 border rounded border-l-8 p-2 ${blockStyles(type)}`}>
