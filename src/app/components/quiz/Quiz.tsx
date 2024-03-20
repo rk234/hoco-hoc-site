@@ -5,6 +5,8 @@ import { useState } from "react"
 type Props = {
     className?: string
     quiz: Quiz
+    working: boolean
+    completed: boolean
     onSumbit: (answers: number[]) => void
 }
 
@@ -21,12 +23,13 @@ export default function QuizPrompt(props: Props) {
         <div className="p-2 text-slate-200 border-b border-gray-600 flex flex-row items-center">
             <h1 className="text-2xl font-bold flex-1 font-mono">Quiz</h1>
             <p className="font-mono text-slate-400 text-sm">{props.quiz.points} pts</p>
+            {props.completed && <span className="bg-emerald-400 rounded text-slate-900">Completed</span>}
         </div>
-        <div className="p-2 flex flex-col gap-9">
+        {!props.completed && <div className="p-2 flex flex-col gap-9">
             {props.quiz.questions.map((question, index) => <QuizQuestion onChange={(ans) => handleQuestionAnswered(index, ans)} key={index} question={question} number={index + 1} />)}
-        </div>
-        <div className="p-2 pt-0">
-            <button className="btn-primary font-mono w-full" onClick={() => props.onSumbit(answers)}>Sumbit</button>
-        </div>
+        </div>}
+        {!props.completed && <div className="p-2 pt-0">
+            <button className={`btn-primary font-mono w-full ${props.working && "bg-opacity-50"}`} disabled={props.working} onClick={() => props.onSumbit(answers)}>Sumbit</button>
+        </div>}
     </main>
 }
