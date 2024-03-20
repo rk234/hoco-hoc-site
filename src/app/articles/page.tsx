@@ -170,6 +170,7 @@ export default function Articles() {
           </div>
         
         )}
+        
 
         {/*<li key={section.id}>    
                 <p className="font-bold text-lg">{section.title}</p>
@@ -180,14 +181,53 @@ export default function Articles() {
                     })}
                 </ol>
                 </li>*/}
+        </div>
+
+
+        
       </div>
-      </div>
+      
     );
   }
-
   // Return null for even indices (the right box of the pair is handled above)
   return null;
+
+  
 })}
+
+
+<div className="flex flex-row ">
+    <div className="w-1/2 text-right mr-10"> 
+        <p className="text-xl text-right font-mono"> Section 1: Fundamentals</p>
+        <p className = "text-right">
+            A gentle introduction to core computer science concepts,<br />  intended for students with less than a year <br /> of programming experience
+        </p>
+    </div>
+    <div className="w-1/2">
+        <ul>
+            <li>
+                <div className="flex flex-row ml-3">
+                    <div className="text-xl font-mono">Hello World!</div>
+                    <div className="ml-3 pl-2 pr-2 h-1/6 bg-cyan-500 rounded-lg">
+                        To-Do
+                    </div>
+                </div>
+                <div className="flex flex-row mt-2 ">
+                    <div className="ml-3 pl-2 pr-2 bg-cyan-500 rounded-lg"> 4pts </div>
+                    <div className="ml-3 pl-2 pr-2 bg-slate-500 rounded-lg"> Python </div>
+                    <div className="ml-3 pl-2 pr-2 bg-slate-500 rounded-lg"> Java </div>
+                    <div className="ml-3 pl-2 pr-2 bg-slate-500 rounded-lg"> C++ </div>
+                    <div className="ml-3 pl-2 pr-2 bg-slate-500 rounded-lg"> Syntax </div>
+                </div>
+                <div className="ml-3 mt-2"> 
+                    <p className="text-lg text-slate-400"> The start of a journey</p>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+</div>
+
 
         </ul>
     </main>
