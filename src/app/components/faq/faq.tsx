@@ -1,10 +1,11 @@
 
+import React from 'react';
 import FaqQuestion from './FaqQuestion/faqQuestion'
 
 export default function Faq() {
 
     return (
-        <div className="px-8 flex-col items-center text-center ">
+        <div className="p-4 md:p-8 flex-col items-center text-center ">
             <h3 className="font-mono mt-8 ml-25 mr-25 text-sky-300 text-5xl md:text-6xl mb-8">FAQ</h3>
             <div className="mb-10 font-sans w:32 text-sm md:text-lg md: max-w-7xl mx-auto flex flex-col :text-4xl md:flex-row gap-0 md:gap-10 justify-center items-start">
                 <div className="w-full md:w-1/2 flex flex-col">

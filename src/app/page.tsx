@@ -21,10 +21,10 @@ export default function Home() {
     <main className="flex flex-col bg-sky-950">
       <Hero />
       <StatsCounter liveStats={stats} className="w-full"/>
-      {/* <div className="mb-20" id="about" >
+       <div className="mb-20" id="about" >
         <AboutSection></AboutSection>
-      </div> */}
-       <div className="mb-20 bg-gray-900" id="faq" >
+      </div> 
+      <div className="mb-20 bg-gray-900" id="faq" >
         <Faq></Faq>
       </div>
     </main>
