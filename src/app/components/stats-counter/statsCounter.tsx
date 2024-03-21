@@ -6,7 +6,7 @@ type Props = {
 }
 
 export default function StatsCounter(props: Props) {
-    return <main className={`flex flex-col items-center ${props.className} bg-gray-900 p-4 md:p-8 md:pt-20 pt-20`}>
+    return <main className={`flex flex-col items-center ${props.className} bg-gray-900 p-4 md:p-8 md:py-20 pt-20`}>
         <div className="flex flex-col max-w-7xl items-start w-full">
             <div className="w-full gap-12 flex flex-col max-w-3xl">
                 <div className="flex-1">
