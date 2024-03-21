@@ -6,6 +6,7 @@ import Link from "next/link"
 import ModalContainer from "../components/modal/modalContainer"
 import Modal from "../components/modal/modal"
 import { useRouter } from "next/navigation"
+import "./page.css"
 
 type PopulatedSection = {
     id: string,
@@ -18,6 +19,7 @@ type PopulatedSection = {
 export default function Articles() {
     let [sections, setSections] = useState<PopulatedSection[]>([])
     let [error, setError] = useState(false);
+    const [showContent, setShowContent] = useState(false);
      
     useEffect(() => {
         fetchSections()
@@ -118,15 +120,10 @@ export default function Articles() {
 
         <ul className="list-disc ml-4 mt-5">
         {sections.map((section, index) => {
-  // Toggle between left and right positions
-  const isLeft = index % 2 === 0;
-
-  // Wrap every two boxes in a container div
-  if (isLeft) {
     return (
-    <div> {/* comment this div out if causing problems*/}
-      <div key={index} className="md:flex gap-4 justify-center ">
-        {/* Left Box */}
+    <div>
+      <div key={index} className="md:flex gap-4 justify-center "
+      onClick={() => setShowContent(!showContent)}>
         <div className="hover:-translate-y-2 bg-blue-950 cursor-pointer p-4 rounded-lg border mb-4 md:w-1/2 ease-in-out duration-300 hover:shadow-xl hover:shadow-indigo-500/50">
           <p className="font-bold font-['Menlo']">{section.title}</p>
           <p className="pt-4 font-mono">{section.description}</p>
@@ -146,67 +143,13 @@ export default function Articles() {
             </Link>
           </div>
         </div>
-
-        {/* Right Box (if available) */}
-        {sections[index + 1] && (
-          <div className="hover:-translate-y-2 bg-blue-950 cursor-pointer p-4 rounded-lg border mb-4 md:w-1/2 ease-in-out duration-300 hover:shadow-xl hover:shadow-indigo-500/50">
-            <p className="font-bold font-['Menlo']">{sections[index + 1].title}</p>
-            <p className="pt-4 font-mono">{sections[index + 1].description}</p>
-            <div className="flex">
-              <Link className="link no-underline pt-3" href={''}>
-                Learn More
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-6 h-6 inline-block"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
-                </svg>
-              </Link>
-            </div>
-          </div>
-        
-        )}
-        
-
-        {/*<li key={section.id}>    
-                <p className="font-bold text-lg">{section.title}</p>
-                <p>{section.description}</p>
-                <ol className="list-decimal ml-6 mt-2">
-                    {section.articles.map((article: Article) => {
-                        return <li key={article.id}>[ID: {article.id}]: <Link className="link" href={`/articles/read?article=${article.id}`}>{article.title} - {article.description}</Link></li>
-                    })}
-                </ol>
-                </li>*/}
         </div>
-
-
-        
-      </div>
-      
-    );
-  }
-  // Return null for even indices (the right box of the pair is handled above)
-  return null;
-
-  
-})}
-
-
-<div className="flex flex-row ">
-    <div className="w-1/2 text-right mr-10"> 
-        <p className="text-xl text-right font-mono"> Section 1: Fundamentals</p>
-        <p className = "text-right">
-            A gentle introduction to core computer science concepts,<br />  intended for students with less than a year <br /> of programming experience
-        </p>
-    </div>
-    <div className="w-1/2">
-        <ul>
+        {showContent && (
+        <div className={`md:flex gap-4 justify-center ${showContent ? 'animate-slideout show' : 'hidden'}`}>
+    <div className="flex justify-left hover:-translate-y-2 bg-indigo-900 cursor-pointer p-4 rounded-lg border md:w-1/2 mb-4 ease-in-out duration-300 hover:shadow-xl hover:shadow-indigo-500/50">
+        <ul className="justify-left">
             <li>
-                <div className="flex flex-row ml-3">
+                <div className="flex flex-row ml-3 justify-left">
                     <div className="text-xl font-mono">Hello World!</div>
                     <div className="ml-3 pl-2 pr-2 h-1/6 bg-cyan-500 rounded-lg">
                         To-Do
@@ -225,8 +168,17 @@ export default function Articles() {
             </li>
         </ul>
     </div>
-
 </div>
+        )}
+
+
+        
+      </div>
+      
+    );
+  }
+)}
+
 
 
         </ul>

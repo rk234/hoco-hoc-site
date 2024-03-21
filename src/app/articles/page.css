@@ -1,0 +1,28 @@
+@keyframes slideout {
+    0% {
+      transform: translateY(-100%);
+      z-index:0;
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0%);
+      z-index:0;
+      opacity: 1;
+    }
+  }
+  
+  .animate-slideout {
+    z-index:0;
+    animation: slideout 0.5s ease forwards;
+  }
+
+  .hidden {
+    opacity: 0;
+    z-index:0;
+  }
+
+  .show {
+    z-index:0;
+    opacity: 1; /* Make the Hello World tile visible */
+    transform: translateY(0%); /* Slide in the Hello World tile */
+}
