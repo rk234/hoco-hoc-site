@@ -167,7 +167,7 @@ export default function Read() {
         </div>
         <div className="max-w-3xl w-full h-full p-4">
             {
-                (!loadingQuiz && quiz) ? <QuizPrompt quiz={quiz} onSumbit={handleQuizSubmit} /> :
+                (!loadingQuiz && quiz) ? <QuizPrompt quiz={quiz} onSumbit={handleQuizSubmit} working={false} completed={true} /> :
                     !loadingQuiz ? <button className="btn-primary font-mono">Mark Article Completed</button> : ""
             }
         </div>
