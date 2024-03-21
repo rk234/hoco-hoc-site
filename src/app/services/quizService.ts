@@ -1,5 +1,21 @@
 import { doc, getDoc, setDoc } from "firebase/firestore"
 import { db } from "../firebase/config"
+import axios from "axios"
+
+//Post data for checking quiz responses
+type UserQuizAnswers = {
+    quiz_id: string
+    article_id: string
+    section_id: string
+    user_id: string
+    answers: number[]
+}
+
+//Response type from quiz checker
+type CheckerResponse = {
+    verdict: "correct" | "incorrect" | "not-authenticated" | "already-completed" | "contest-not-live"
+    wrongAnswers?: number[]
+}
 
 export type Quiz = {
     id: string
@@ -13,29 +29,34 @@ export type Question = {
 }
 
 export async function getQuiz(id: string): Promise<Quiz> {
-    let ref = doc(db, "quizzes/"+id)
+    let ref = doc(db, "quizzes/" + id)
     let quiz = (await getDoc(ref)).data() as Quiz
     return quiz
 }
 
+export async function getQuizAnswers(quiz_id: string) {
+    let ref = doc(db, "quiz-ans/" + quiz_id)
+    let answers = (await getDoc(ref)).data().answers as number[]
+    return answers
+}
+
 //answers is an array of indexes representing the correct answers for each of the question object's options
 //returns a boolean representing whether correct/incorrect based on response from cloud fn
-export async function checkAnswers(quiz_id: string, answers: number[]) : Promise<boolean> {
+export async function checkAnswers(quiz_id: string, answers: number[]): Promise<CheckerResponse> {
     //todo call cloud fn
+    const url = "https://" //TODO
+    const response = await axios.get(url)
+
+    return response.data as CheckerResponse;
 }
 
 //admin
 export async function createQuiz(quiz: Quiz, answers: number[]) {
     let quizRef = doc(db, "quizzes/" + quiz.id);
     let ansRef = doc(db, "quiz-ans/" + quiz.id);
-    await Promise.all([
-        async () => {
-            await setDoc(quizRef, quiz, {merge: true});
-        },
-        async () => {
-            await setDoc(ansRef, {
-                answers: answers
-            }, {merge: true})
-        }
-    ])
+    await setDoc(quizRef, quiz, { merge: true })
+    await setDoc(ansRef, {
+        points: quiz.points,
+        answers: answers
+    }, { merge: true })
 }

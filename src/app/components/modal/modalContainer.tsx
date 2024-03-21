@@ -6,7 +6,7 @@ type Props = {
 }
 
 export default function ModalContainer(props: Props) {
-    return <main className={`w-full h-full fixed top-0 left-0 flex flex-col justify-center items-center backdrop-blur-md z-50 p-2 overflow-hidden ${props.className || ""}`}>
+    return <main className={`w-full h-full fixed top-0 left-0 flex flex-col justify-center items-center bg-gray-950/50 z-50 p-2 overflow-hidden ${props.className || ""}`}>
         {props.children}
     </main>
 }

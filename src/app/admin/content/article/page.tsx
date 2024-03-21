@@ -1,8 +1,7 @@
 "use client"
 import ArticleEditor from "@/app/components/admin/articleEditor"
-import SectionEditor from "@/app/components/admin/sectionEditor"
 import { useProfile } from "@/app/components/auth-provider/authProvider"
-import { Article, Section, createArticle, createSection, getArticleFromID, getSection } from "@/app/services/articleService"
+import { Article, createArticle, getArticleFromID, } from "@/app/services/articleService"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useState, useEffect } from "react"
 
@@ -13,7 +12,8 @@ export default function AdminArticleEditPage() {
         title: "Untitled article",
         description: "Description...",
         content: "Some content...",
-        tags: [],
+        sectionID: "placeholder_section_id",
+        tags: []
     }
 
     let profile = useProfile()
@@ -23,10 +23,11 @@ export default function AdminArticleEditPage() {
     let [editing, setEditing] = useState(false);
 
     useEffect(() => {
-        if(params.get("id") && params.get("section")) {
+        if (params.get("id") && params.get("section")) {
             setEditing(true)
-            console.log(article)
-            if(article.id == placeHolderID) {
+            //console.log(article)
+            if (article.id == placeHolderID) {
+                console.log("fetching new")
                 getArticleFromID(params.get("id")).then(article => {
                     setArticle(article)
                     //console.log(section)
@@ -42,8 +43,9 @@ export default function AdminArticleEditPage() {
     }, [article, params])
 
     function handleSave(article: Article, sectionID: string) {
-        console.log(article)
-        console.log(sectionID)
+        //console.log(article)
+        //console.log(sectionID)
+        article.sectionID = sectionID
         createArticle(article, sectionID).then(() => {
             alert("Section successfully updated/created!")
             router.back()
@@ -58,11 +60,11 @@ export default function AdminArticleEditPage() {
     }
 
     return <main className="h-full">
-        {(profile && profile.admin) ? 
-        <div className="w-full h-full flex justify-center">
-            <div className="w-full h-full flex flex-col gap-2">
-                <ArticleEditor sectionID={params.get("section")} article={article} editing={editing} onSave={handleSave} onCancel={handleCancel}></ArticleEditor>
-            </div>
-        </div> : <p className="p-2">You don&apos;t have admin permissions. If you think this is a mistake, contact us.</p>}    
+        {(profile && profile.admin) ?
+            <div className="w-full h-full flex justify-center">
+                <div className="w-full h-full flex flex-col gap-2">
+                    <ArticleEditor sectionID={params.get("section")} article={article} editing={editing} onSave={handleSave} onCancel={handleCancel}></ArticleEditor>
+                </div>
+            </div> : <p className="p-2">You don&apos;t have admin permissions. If you think this is a mistake, contact us.</p>}
     </main>
 }

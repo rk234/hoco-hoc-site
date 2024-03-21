@@ -8,7 +8,7 @@ import AboutSection from './components/about/about';
 import Faq from './components/faq/faq';
 
 export default function Home() {
-  let [stats, setStats] = useState<LiveStats>({totalHours: 0, totalUsers: 0, totalViews: 0})
+  let [stats, setStats] = useState<LiveStats>({ totalHours: 0, totalUsers: 0, totalViews: 0 })
 
   useEffect(() => {
     console.log("Hello")
@@ -17,14 +17,15 @@ export default function Home() {
     })
     return unsub
   }, [])
+
   return (
     <main className="flex flex-col bg-sky-950">
       <Hero />
-      <StatsCounter liveStats={stats} className="w-full"/>
-       <div className="mb-20" id="about" >
+      <StatsCounter liveStats={stats} className="w-full" />
+      {/*<div className="mb-20" id="about" >
         <AboutSection></AboutSection>
-      </div> 
-      <div className="mb-20 bg-gray-900" id="faq" >
+      </div>*/}
+      <div className="bg-gray-900" id="faq" >
         <Faq></Faq>
       </div>
     </main>

@@ -2,8 +2,8 @@
 
 import Markdown from 'react-markdown';
 import { Profile } from '@/app/services/userService';
-import {ExclamationTriangleIcon, InformationCircleIcon} from "@heroicons/react/24/solid"
-import MultiCodeView from '../multi-code-view/MultiCodeView';
+import { ExclamationTriangleIcon, InformationCircleIcon } from "@heroicons/react/24/solid"
+import { mdCodeBlockParser } from '@/app/services/utils';
 
 type Props = {
     markdown: string
@@ -13,9 +13,9 @@ type Props = {
 
 export default function ArticleRenderer(props: Props) {
     function blockStyles(type: string): string {
-        if(type == "warn") {
+        if (type == "warn") {
             return "border-amber-500 bg-amber-600/30"
-        } else if(type == "note") {
+        } else if (type == "note") {
             return "border-sky-300 bg-sky-300/30"
         } else {
             return "border-slate-700 bg-slate-800"
@@ -31,13 +31,13 @@ export default function ArticleRenderer(props: Props) {
                 const { children, className, node, ...rest } = quote_props;
                 let type: string;
 
-                let content =children[1] ?  children[1].props.children as string : ""
+                let content = children[1] ? children[1].props.children as string : ""
 
-                if(content) {
-                    if(content.trim().toLowerCase().startsWith(":note:")) {
+                if (content) {
+                    if (content.trim().toLowerCase().startsWith(":note:")) {
                         type = "note"
                         content = content.replace(":note:", "")
-                    } else if(content.trim().toLowerCase().startsWith(":warn:")) {
+                    } else if (content.trim().toLowerCase().startsWith(":warn:")) {
                         type = "warn"
                         content = content.replace(":warn:", "")
                     } else {
@@ -46,9 +46,9 @@ export default function ArticleRenderer(props: Props) {
                 }
 
                 const Icon = () => {
-                    if(type == "note") return <InformationCircleIcon className='w-7 h-7' />
-                    else if(type == "warn") return <ExclamationTriangleIcon className='w-7 h-7' />
-                    else return "700"
+                    if (type == "note") return <InformationCircleIcon className='w-7 h-7' />
+                    else if (type == "warn") return <ExclamationTriangleIcon className='w-7 h-7' />
+                    else return ""
                 }
 
                 return <div className={`my-2 flex flex-row items-center gap-2 border rounded border-l-8 p-2 ${blockStyles(type)}`}>
@@ -57,18 +57,7 @@ export default function ArticleRenderer(props: Props) {
                 </div>
             },
             code(code_props) {
-                const { children, className, node, ...rest } = code_props;
-                let langs = className ? className.split('-')[1].split(',') : [];
-                let examples = children ? (children as string).split('\n%%\n') : [];
-                let out: string
-                if(langs[langs.length-1] == "out" && examples.length==langs.length) {
-                    langs.pop()
-                    out = examples.pop()
-                }
-
-                return (
-                    <MultiCodeView selected={props.profile ? props.profile.preferredLanguage : undefined} langs={langs} codeSamples={examples} output={out} />
-                );
+                return mdCodeBlockParser(code_props, props.profile)
             }
         }}
     >
