@@ -15,14 +15,19 @@ import Image from "next/image";
 import { EyeSlashIcon, CheckCircleIcon } from "@heroicons/react/24/solid"
 import ArticleRenderer from "@/app/components/article-renderer/articleRenderer";
 import { updateStartedArticles } from "@/app/services/userService"
-import { getQuiz, Quiz } from "@/app/services/quizService"
+import { checkAnswers, getQuiz, Quiz } from "@/app/services/quizService"
 import QuizPrompt from "@/app/components/quiz/Quiz"
 
 export default function Read() {
     const params = useSearchParams()
     let [article, setArticle] = useState<Article>()
     let [loadingArticle, setLoadingArticle] = useState(true)
-    let [error, setError] = useState(false)
+
+    let [quizError, setQuizError] = useState<"not-authenticated" |
+        "contest-not-live" | "already-completed"
+        | undefined>(undefined)
+    let [articleLoadError, setArticleLoadError] = useState(false)
+
     let [showSponsor, setShowSponsor] = useState(true)
     let [visited, setVisited] = useState(false)
     let [progress, setProgress] = useState<"started" | "complete">("started")
@@ -41,12 +46,12 @@ export default function Read() {
                     setArticle(article)
                     setLoadingArticle(false)
                 }).catch(err => {
-                    setError(true)
+                    setArticleLoadError(true)
                     setLoadingArticle(false)
                     console.log(err)
                 })
             } else {
-                setError(true)
+                setArticleLoadError(true)
                 setLoadingArticle(false)
             }
         }
@@ -63,7 +68,7 @@ export default function Read() {
                 console.log("Error while fetching the quiz for this article")
                 console.log(err)
                 setLoadingQuiz(false)
-                setError(true)
+                setArticleLoadError(true)
             })
         } else {
             console.log("No quiz for this article")
@@ -110,13 +115,33 @@ export default function Read() {
     }, [profile, article, setProfile])
 
 
-    function handleQuizSubmit(answers: number[]) {
+    async function handleQuizSubmit(answers: number[]) {
         const quizID = article.id + "-quiz";
-        //TODO: call cloud fn to check answers
+        const checkerResponse = await checkAnswers(quizID, answers);
+        //TODO implement this stuff
+
+        switch (checkerResponse.verdict) {
+            case "correct":
+
+                break;
+            case "incorrect":
+
+                break;
+            case "not-authenticated":
+
+                break;
+            case "already-completed":
+
+                break;
+            case "contest-not-live":
+
+                break;
+        }
+
     }
 
     return <main className="flex flex-col items-center h-auto">
-        {error ?
+        {articleLoadError ?
             <ModalContainer>
                 <Modal className="flex flex-col">
                     <h1 className={`font-mono text-2xl font-bold text-red-400 mb-2`}>Something went wrong...</h1>
