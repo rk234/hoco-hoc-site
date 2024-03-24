@@ -14,7 +14,7 @@ import Image from "next/image";
 
 import { EyeSlashIcon, CheckCircleIcon } from "@heroicons/react/24/solid"
 import ArticleRenderer from "@/app/components/article-renderer/articleRenderer";
-import { updateStartedArticles } from "@/app/services/userService"
+import { Profile, updateStartedArticles } from "@/app/services/userService"
 import { checkAnswers, getQuiz, Quiz } from "@/app/services/quizService"
 import QuizPrompt from "@/app/components/quiz/Quiz"
 
@@ -25,7 +25,7 @@ export default function Read() {
 
     let [quizError, setQuizError] = useState<"not-authenticated" |
         "contest-not-live" | "already-completed"
-        | undefined>(undefined)
+        | "error" | undefined>(undefined)
     let [articleLoadError, setArticleLoadError] = useState(false)
 
     let [showSponsor, setShowSponsor] = useState(true)
@@ -114,27 +114,38 @@ export default function Read() {
         }
     }, [profile, article, setProfile])
 
+    function markArticleComplete() {
+        let newProfile: Profile = {
+            ...profile
+        }
+        const articleIndex = profile.articlesStartedID.indexOf(article.id)
+        if (articleIndex != -1) {
+            newProfile.articlesStartedID.splice(articleIndex, 1)
+        }
+        if (!newProfile.articlesCompletedID.includes(article.id)) {
+            newProfile.articlesCompletedID.push(article.id)
+        }
+        setProfile(newProfile)
+        setProgress("complete")
+    }
+
 
     async function handleQuizSubmit(answers: number[]) {
         const quizID = article.id + "-quiz";
         const checkerResponse = await checkAnswers(quizID, answers);
-        //TODO implement this stuff
 
         switch (checkerResponse.verdict) {
             case "correct":
-
+                markArticleComplete()
                 break;
             case "incorrect":
-
                 break;
             case "not-authenticated":
-
-                break;
+            case "error":
             case "already-completed":
-
-                break;
             case "contest-not-live":
-
+            case "error":
+                setQuizError(checkerResponse.verdict)
                 break;
         }
 
@@ -192,7 +203,7 @@ export default function Read() {
         </div>
         <div className="max-w-3xl w-full h-full p-4">
             {
-                (!loadingQuiz && quiz) ? <QuizPrompt quiz={quiz} onSumbit={handleQuizSubmit} working={false} completed={true} /> :
+                (!loadingQuiz && quiz) ? <QuizPrompt quiz={quiz} onSumbit={handleQuizSubmit} working={false} completed={false} /> :
                     !loadingQuiz ? <button className="btn-primary font-mono">Mark Article Completed</button> : ""
             }
         </div>

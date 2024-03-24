@@ -13,7 +13,7 @@ type UserQuizAnswers = {
 
 //Response type from quiz checker
 type CheckerResponse = {
-    verdict: "correct" | "incorrect" | "not-authenticated" | "already-completed" | "contest-not-live"
+    verdict: "correct" | "incorrect" | "not-authenticated" | "already-completed" | "contest-not-live" | "error"
     wrongAnswers?: number[]
 }
 
