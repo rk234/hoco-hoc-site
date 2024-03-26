@@ -21,6 +21,8 @@ export default function Articles() {
     let [error, setError] = useState(false);
     const [showContent, setShowContent] = useState(false);
     const loadSections = useCallback(fetchSections, [sections])
+    const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({}); // Track expanded state for each section
+     
 
     useEffect(() => {
         loadSections()
@@ -58,6 +60,14 @@ export default function Articles() {
 
         console.log("FETCH!!!!")
         return hydrated
+    }
+
+
+    function toggleSectionExpansion(sectionId: string) {
+        setExpandedSections(prevState => ({
+            ...prevState,
+            [sectionId]: !prevState[sectionId] // Toggle the state
+        }));
     }
 
 
@@ -121,7 +131,7 @@ export default function Articles() {
                 return (
                     <div key={index}>
                         <div key={index} className="md:flex gap-4 justify-center "
-                            onClick={() => setShowContent(!showContent)}>
+                            onClick={() => toggleSectionExpansion(section.id)}>
                             <div className="hover:-translate-y-2 bg-blue-950 cursor-pointer p-4 rounded-lg border mb-4 md:w-1/2 ease-in-out duration-300 hover:shadow-xl hover:shadow-indigo-500/50">
                                 <p className="font-bold font-['Menlo']">{section.title}</p>
                                 <p className="pt-4 font-mono">{section.description}</p>
@@ -142,9 +152,9 @@ export default function Articles() {
                                 </div>
                             </div>
                         </div>
-                        {showContent &&
+                        {expandedSections[section.id] &&
                             section.articles.map((article, articleIndex) => (
-                                <div key={articleIndex} className={`md:flex gap-4 justify-center ${showContent ? 'animate-slideout show' : 'hidden'}`}>
+                                <div key={articleIndex} className={`md:flex gap-4 justify-center ${expandedSections[section.id] ? 'animate-slideout show' : 'hidden'}`}>
                                     <div className="flex justify-left hover:-translate-y-2 bg-indigo-900 cursor-pointer p-4 rounded-lg border md:w-1/2 mb-4 ease-in-out duration-300 hover:shadow-xl hover:shadow-indigo-500/50">
                                         <ul className="justify-left">
                                             <li>
