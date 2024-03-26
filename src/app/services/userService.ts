@@ -1,4 +1,4 @@
-import { Timestamp, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import { Timestamp, arrayUnion, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import {auth, authProvider, db} from "../firebase/config"
 import { User, signInWithPopup, signOut } from "firebase/auth"
 
@@ -12,7 +12,10 @@ export type Profile = {
         [section: string]: number
     }
     preferredLanguage: "python" | "cpp" | "java"
-    admin: boolean
+    admin: boolean,
+    articlesStartedID: string[],
+    articlesCompletedID: string[]
+    //TODO: add completed quizzes array field
 }
 
 export async function signInOrRegister(): Promise<User> {
@@ -34,7 +37,9 @@ export async function createUserProfile(user: User, school: string, preferredLan
         preferredLanguage: preferredLanguage,
         creationDate: Timestamp.fromDate(new Date()),
         scores: {},
-        admin: false
+        admin: false,
+        articlesCompletedID: [],
+        articlesStartedID: []
     }
 
     await setDoc(doc(db, "users/"+profile.uid), profile)
@@ -44,6 +49,18 @@ export async function createUserProfile(user: User, school: string, preferredLan
 export async function updateUserProfile(uid: string, preferredLanguage: "python" | "cpp" | "java") {
     await updateDoc(doc(db, "/users/" + uid), {
         preferredLanguage: preferredLanguage
+    })
+}
+
+export async function updateStartedArticles(uid: string, articleID: string) {
+    await updateDoc(doc(db, "/users/"+ uid), {
+        articlesStartedID: arrayUnion(articleID)
+    })
+}
+
+export async function updateCompletedArticles(uid: string, articleID: string) {
+    await updateDoc(doc(db, "/users/"+uid), {
+        articlesCompletedID: arrayUnion(articleID)
     })
 }
 

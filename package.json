@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@formkit/auto-animate": "^0.8.1",
     "@heroicons/react": "^2.1.1",
     "@tailwindcss/typography": "^0.5.10",
     "@uiw/react-md-editor": "^4.0.3",

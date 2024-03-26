@@ -15,16 +15,17 @@ body {
 
 @layer components {
   textarea, input[type=text], input[type=number] {
-    @apply bg-slate-700 p-2 rounded border-2 border-slate-600
+    @apply bg-gray-950 p-2 rounded border-2 border-gray-800
   }
 
   .btn-primary,
-  .btn-secondary {
+  .btn-secondary,
+  .btn-danger {
     @apply p-2 rounded text-sm
   }
 
   .btn-primary {
-    @apply bg-sky-300 text-slate-950
+    @apply bg-sky-300 text-slate-900
   }
 
   .btn-primary:hover {
@@ -37,6 +38,14 @@ body {
 
   .btn-secondary:hover {
     @apply bg-slate-300
+  }
+
+  .btn-danger {
+    @apply bg-red-500 uppercase font-bold text-slate-950
+  }
+
+  .btn-danger:hover {
+    @apply bg-red-400
   }
 
   .link {
