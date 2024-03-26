@@ -14,7 +14,7 @@ import Image from "next/image";
 
 import { EyeSlashIcon, CheckCircleIcon } from "@heroicons/react/24/solid"
 import ArticleRenderer from "@/app/components/article-renderer/articleRenderer";
-import { Profile, updateStartedArticles } from "@/app/services/userService"
+import { Profile, signInOrRegister, updateStartedArticles } from "@/app/services/userService"
 import { checkAnswers, getQuiz, Quiz } from "@/app/services/quizService"
 import QuizPrompt from "@/app/components/quiz/Quiz"
 import Confetti from "react-confetti"
@@ -236,12 +236,23 @@ export default function Read() {
                 }
 
             </SkeletonTheme>
+            <hr className="mt-6 border-b border-slate-400" />
         </div>
         <div className="max-w-3xl w-full h-full p-4">
-            {
+            {profile && (
                 (!loadingQuiz && quiz) ? <QuizPrompt quiz={quiz} onSumbit={handleQuizSubmit} working={quizCheckWorking} completed={progress == "complete"} wrongAns={wrongAns} /> :
-                    !loadingQuiz ? <button className="btn-primary font-mono">Mark Article Completed</button> : ""
-            }
+                    !loadingQuiz ? <button className="btn-primary font-mono w-full">Mark Article Completed</button> : ""
+            )}
+            {!profile && (
+                <div className="flex gap-4 flex-col md:flex-row md:items-center pb-4">
+                    <div className="">
+                        <h1 className="font-bold text-2xl"> Log in to complete quizzes and track your progress! </h1>
+                    </div>
+                    <div className="min-w-48">
+                        <button className="font-mono btn-primary w-full" onClick={() => signInOrRegister()}> Log in / Sign up </button>
+                    </div>
+                </div>
+            )}
         </div>
     </main>
 }
