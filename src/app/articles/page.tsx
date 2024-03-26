@@ -154,29 +154,31 @@ export default function Articles() {
                         </div>
                         {expandedSections[section.id] &&
                             section.articles.map((article, articleIndex) => (
-                                <div key={articleIndex} className={`md:flex gap-4 justify-center ${expandedSections[section.id] ? 'animate-slideout show' : 'hidden'}`}>
-                                    <div className="flex justify-left hover:-translate-y-2 bg-indigo-900 cursor-pointer p-4 rounded-lg border md:w-1/2 mb-4 ease-in-out duration-300 hover:shadow-xl hover:shadow-indigo-500/50">
-                                        <ul className="justify-left">
-                                            <li>
-                                                <div className="flex flex-row ml-3 justify-left">
-                                                    <div className="text-xl font-mono">{article.id}</div>
-                                                    <div className="ml-3 pl-2 pr-2 h-1/6 bg-cyan-500 rounded-lg">
-                                                        To-Do
+                                <Link href={`/articles/read?article=${article.id}`} passHref>
+                                    <div key={articleIndex} className={`md:flex gap-4 justify-center ${expandedSections[section.id] ? 'animate-slideout show' : 'hidden'}`}>
+                                        <div className="flex justify-left hover:-translate-y-2 bg-indigo-900 cursor-pointer p-4 rounded-lg border md:w-1/2 mb-4 ease-in-out duration-300 hover:shadow-xl hover:shadow-indigo-500/50">
+                                            <ul className="justify-left">
+                                                <li>
+                                                    <div className="flex flex-row ml-3 justify-left">
+                                                        <div className="text-xl font-mono">{article.title}</div>
+                                                        <div className="ml-3 pl-2 pr-2 h-1/6 bg-cyan-500 rounded-lg">
+                                                            To-Do
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div className="flex flex-row mt-2 ">
-                                                    {article.tags.map((tag, tagIndex) => (
-                                                        <div key={tagIndex} className="ml-3 pl-2 pr-2 bg-cyan-500 rounded-lg"> {tag} </div>
-                                                    ))}
-                                                </div>
-                                                <div className="ml-3 mt-2">
-                                                    <p className="text-lg text-slate-400"> {article.description}</p>
-                                                </div>
+                                                    <div className="flex flex-row mt-2 ">
+                                                        {article.tags.map((tag, tagIndex) => (
+                                                            <div key={tagIndex} className="ml-3 pl-2 pr-2 bg-cyan-500 rounded-lg"> {tag} </div>
+                                                        ))}
+                                                    </div>
+                                                    <div className="ml-3 mt-2">
+                                                        <p className="text-lg text-slate-400"> {article.description}</p>
+                                                    </div>
 
-                                            </li>
-                                        </ul>
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </div>
-                                </div>
+                                </Link>
                             ))}
                     </div>
                 );
