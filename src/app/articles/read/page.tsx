@@ -14,7 +14,7 @@ import Image from "next/image";
 
 import { EyeSlashIcon, CheckCircleIcon } from "@heroicons/react/24/solid"
 import ArticleRenderer from "@/app/components/article-renderer/articleRenderer";
-import { Profile, signInOrRegister, updateStartedArticles } from "@/app/services/userService"
+import { Profile, signInOrRegister, updateCompletedArticles, updateStartedArticles } from "@/app/services/userService"
 import { checkAnswers, getQuiz, Quiz } from "@/app/services/quizService"
 import QuizPrompt from "@/app/components/quiz/Quiz"
 import Confetti from "react-confetti"
@@ -129,7 +129,7 @@ export default function Read() {
         })
     }, [])
 
-    function markArticleComplete() {
+    function markArticleComplete(updateDB: boolean) {
         let newProfile: Profile = {
             ...profile
         }
@@ -139,6 +139,11 @@ export default function Read() {
         }
         if (!newProfile.articlesCompletedID.includes(article.id)) {
             newProfile.articlesCompletedID.push(article.id)
+        }
+        if (updateDB) {
+            updateCompletedArticles(profile.uid, article.id)
+                .then(() => console.log("Updated completed articles in firebase!"))
+                .catch(err => console.log("Error while updating completed: " + err))
         }
         setProfile(newProfile)
         setProgress("complete")
@@ -157,7 +162,7 @@ export default function Read() {
         setQuizCheckWorking(false)
         switch (checkerResponse.verdict) {
             case "correct":
-                markArticleComplete()
+                markArticleComplete(false)
                 break;
             case "incorrect":
                 const incorrect = checkerResponse.wrong_ans;
@@ -241,8 +246,11 @@ export default function Read() {
         <div className="max-w-3xl w-full h-full p-4">
             {profile && (
                 (!loadingQuiz && quiz) ? <QuizPrompt quiz={quiz} onSumbit={handleQuizSubmit} working={quizCheckWorking} completed={progress == "complete"} wrongAns={wrongAns} /> :
-                    !loadingQuiz ? <button className="btn-primary font-mono w-full">Mark Article Completed</button> : ""
+                    (!loadingQuiz && progress != "complete") ? <button className="btn-primary font-mono w-full" onClick={() => markArticleComplete(true)}>Mark Article Completed</button> : ""
             )}
+            {
+                !loadingQuiz && progress == "complete" ? <div> Complete </div> : ""
+            }
             {!profile && (
                 <div className="flex gap-4 flex-col md:flex-row md:items-center pb-4">
                     <div className="">

@@ -1,5 +1,5 @@
-import { Timestamp, arrayUnion, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
-import {auth, authProvider, db} from "../firebase/config"
+import { Timestamp, arrayRemove, arrayUnion, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import { auth, authProvider, db } from "../firebase/config"
 import { User, signInWithPopup, signOut } from "firebase/auth"
 
 export type Profile = {
@@ -42,7 +42,7 @@ export async function createUserProfile(user: User, school: string, preferredLan
         articlesStartedID: []
     }
 
-    await setDoc(doc(db, "users/"+profile.uid), profile)
+    await setDoc(doc(db, "users/" + profile.uid), profile)
     return profile
 }
 
@@ -53,26 +53,27 @@ export async function updateUserProfile(uid: string, preferredLanguage: "python"
 }
 
 export async function updateStartedArticles(uid: string, articleID: string) {
-    await updateDoc(doc(db, "/users/"+ uid), {
+    await updateDoc(doc(db, "/users/" + uid), {
         articlesStartedID: arrayUnion(articleID)
     })
 }
 
 export async function updateCompletedArticles(uid: string, articleID: string) {
-    await updateDoc(doc(db, "/users/"+uid), {
-        articlesCompletedID: arrayUnion(articleID)
+    await updateDoc(doc(db, "/users/" + uid), {
+        articlesCompletedID: arrayUnion(articleID),
+        articlesStartedID: arrayRemove(articleID)
     })
 }
 
 export async function getUserData(uid: string): Promise<Profile | undefined> {
     console.log("Fetch user data!")
     try {
-        let user = await getDoc(doc(db, "users/"+uid))
-        if(user.data() != undefined)
+        let user = await getDoc(doc(db, "users/" + uid))
+        if (user.data() != undefined)
             return user.data() as Profile
         else
             return undefined
-    } catch(err) {
+    } catch (err) {
         return undefined
     }
 }
