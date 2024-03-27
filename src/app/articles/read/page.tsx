@@ -217,7 +217,7 @@ export default function Read() {
 
                 <div className="flex flex-row mt-5 items-center">
                     <h1 className={`text-4xl md:text-5xl font-bold flex-1`}>{!loadingArticle && article ? article.title : <Skeleton width={"10ch"} />}</h1>
-                    {(!loadingArticle && profile) && <span className={`${progress == "complete" ? "bg-emerald-400" : "bg-sky-300"} text-slate-950 rounded p-2 text-sm font-mono flex gap-2 items-center font-bold`}> {progress} {progress == "complete" && <CheckCircleIcon height={10} width={15} className="h-7 w-7 text-sky-950" />}</span>}
+                    {(!loadingArticle && profile) && <span className={`bg-sky-300 text-slate-950 rounded p-2 text-sm font-mono flex gap-2 items-center font-bold`}> {progress} {progress == "complete" && <CheckCircleIcon height={10} width={15} className="h-7 w-7" />}</span>}
                 </div>
                 <p className={`font-mono mt-2 text-slate-300 text-sm`}>{!loadingArticle && article ? article.description : <Skeleton />}</p>
                 <div className={`font-mono flex gap-2 mt-2`}>
@@ -227,7 +227,7 @@ export default function Read() {
                         </div>
                     )) : <Skeleton containerClassName="flex-1" />}
                 </div>
-                <hr className="mt-3 border-b border-slate-400" />
+                <hr className="mt-3 border-b border-slate-600" />
 
                 {
                     !loadingArticle && article ?
@@ -241,15 +241,18 @@ export default function Read() {
                 }
 
             </SkeletonTheme>
-            <hr className="mt-6 border-b border-slate-400" />
+            <hr className="mt-6 border-b border-slate-600" />
         </div>
-        <div className="max-w-3xl w-full h-full p-4">
+        <div className="max-w-3xl w-full h-full p-4 flex flex-col gap-2">
             {profile && (
                 (!loadingQuiz && quiz) ? <QuizPrompt quiz={quiz} onSumbit={handleQuizSubmit} working={quizCheckWorking} completed={progress == "complete"} wrongAns={wrongAns} /> :
                     (!loadingQuiz && progress != "complete") ? <button className="btn-primary font-mono w-full" onClick={() => markArticleComplete(true)}>Mark Article Completed</button> : ""
             )}
             {
-                !loadingQuiz && progress == "complete" ? <div> Complete </div> : ""
+                !loadingQuiz && progress == "complete" ? <div className="flex items-center justify-center p-3 border-2 border-emerald-400 rounded bg-emerald-400/30 font-mono gap-2 font-bold text-lg">
+                    <CheckCircleIcon height={10} width={15} className="h-7 w-7 text-emerald-300" />
+                    <p className="text-2xl">Complete</p>
+                </div> : ""
             }
             {!profile && (
                 <div className="flex gap-4 flex-col md:flex-row md:items-center pb-4">
