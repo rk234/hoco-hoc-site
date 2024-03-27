@@ -14,23 +14,33 @@ import Image from "next/image";
 
 import { EyeSlashIcon, CheckCircleIcon } from "@heroicons/react/24/solid"
 import ArticleRenderer from "@/app/components/article-renderer/articleRenderer";
-import { updateStartedArticles } from "@/app/services/userService"
-import { getQuiz, Quiz } from "@/app/services/quizService"
+import { Profile, signInOrRegister, updateCompletedArticles, updateStartedArticles } from "@/app/services/userService"
+import { checkAnswers, getQuiz, Quiz } from "@/app/services/quizService"
 import QuizPrompt from "@/app/components/quiz/Quiz"
+import Confetti from "react-confetti"
 
 export default function Read() {
     const params = useSearchParams()
+    let [windowSize, setWindowSize] = useState({ width: 100, height: 100 })
     let [article, setArticle] = useState<Article>()
     let [loadingArticle, setLoadingArticle] = useState(true)
-    let [error, setError] = useState(false)
+
+    let [quizError, setQuizError] = useState<"not-authenticated" |
+        "contest-not-live" | "already-completed"
+        | "error" | undefined>(undefined)
+    let [articleLoadError, setArticleLoadError] = useState(false)
+
     let [showSponsor, setShowSponsor] = useState(true)
     let [visited, setVisited] = useState(false)
     let [progress, setProgress] = useState<"started" | "complete">("started")
     let [quiz, setQuiz] = useState<Quiz>(undefined)
     let [loadingQuiz, setLoadingQuiz] = useState<boolean>(true)
+    let [quizCheckWorking, setQuizCheckWorking] = useState<boolean>(false)
+    let [wrongAns, setWrongAns] = useState<number[]>([])
+    let [confetti, setConfetti] = useState<boolean>(false)
+
     let profile = useProfile()
     let setProfile = useProfileUpdate()
-
 
     useEffect(() => {
         if (!article) {
@@ -41,12 +51,12 @@ export default function Read() {
                     setArticle(article)
                     setLoadingArticle(false)
                 }).catch(err => {
-                    setError(true)
+                    setArticleLoadError(true)
                     setLoadingArticle(false)
                     console.log(err)
                 })
             } else {
-                setError(true)
+                setArticleLoadError(true)
                 setLoadingArticle(false)
             }
         }
@@ -63,7 +73,7 @@ export default function Read() {
                 console.log("Error while fetching the quiz for this article")
                 console.log(err)
                 setLoadingQuiz(false)
-                setError(true)
+                setArticleLoadError(true)
             })
         } else {
             console.log("No quiz for this article")
@@ -95,28 +105,81 @@ export default function Read() {
             setProfile(profile)
         }
 
-
-        if (article && profile && !profile.articlesStartedID.includes(article.id)) {
-            updateStartedArticles(profile.uid, article.id).then(() => {
-                addArticleStarted(article)
-                console.log(profile)
-            }).catch((err) => {
-                console.log("Failed to update started articles, failing gracefully.")
-                console.log(err)
-            })
+        if (article && profile && profile.articlesCompletedID.includes(article.id)) {
+            setProgress("complete")
         } else {
-            setProgress("started");
+            if (article && profile && !profile.articlesStartedID.includes(article.id)) {
+                updateStartedArticles(profile.uid, article.id).then(() => {
+                    addArticleStarted(article)
+                    console.log(profile)
+                }).catch((err) => {
+                    console.log("Failed to update started articles, failing gracefully.")
+                    console.log(err)
+                })
+            } else {
+                setProgress("started");
+            }
         }
     }, [profile, article, setProfile])
 
+    useEffect(() => {
+        setWindowSize({
+            width: window.innerWidth,
+            height: window.innerHeight
+        })
+    }, [])
 
-    function handleQuizSubmit(answers: number[]) {
+    function markArticleComplete(updateDB: boolean) {
+        let newProfile: Profile = {
+            ...profile
+        }
+        const articleIndex = profile.articlesStartedID.indexOf(article.id)
+        if (articleIndex != -1) {
+            newProfile.articlesStartedID.splice(articleIndex, 1)
+        }
+        if (!newProfile.articlesCompletedID.includes(article.id)) {
+            newProfile.articlesCompletedID.push(article.id)
+        }
+        if (updateDB) {
+            updateCompletedArticles(profile.uid, article.id)
+                .then(() => console.log("Updated completed articles in firebase!"))
+                .catch(err => console.log("Error while updating completed: " + err))
+        }
+        setProfile(newProfile)
+        setProgress("complete")
+        setWrongAns([])
+        setConfetti(true)
+        setTimeout(() => setConfetti(false), 5000)
+    }
+
+
+    async function handleQuizSubmit(answers: number[]) {
+        setQuizCheckWorking(true)
         const quizID = article.id + "-quiz";
-        //TODO: call cloud fn to check answers
+        const checkerResponse = await checkAnswers(quizID, article.id,
+            article.sectionID, profile.uid, answers);
+        console.log(checkerResponse)
+        setQuizCheckWorking(false)
+        switch (checkerResponse.verdict) {
+            case "correct":
+                markArticleComplete(false)
+                break;
+            case "incorrect":
+                const incorrect = checkerResponse.wrong_ans;
+                setWrongAns(incorrect)
+                break;
+            case "not-authenticated":
+            case "error":
+            case "already-completed":
+            case "contest-not-live":
+            default:
+                setQuizError(checkerResponse.verdict)
+                break;
+        }
     }
 
     return <main className="flex flex-col items-center h-auto">
-        {error ?
+        {articleLoadError ?
             <ModalContainer>
                 <Modal className="flex flex-col">
                     <h1 className={`font-mono text-2xl font-bold text-red-400 mb-2`}>Something went wrong...</h1>
@@ -124,7 +187,21 @@ export default function Read() {
                     <Link href={"/articles"} className={`font-mono btn-secondary`}> Go back to articles page </Link>
                 </Modal>
             </ModalContainer>
-            : ""}
+            : ""
+        }
+        {
+            quizError &&
+            <ModalContainer>
+                <Modal className="flex flex-col">
+                    <h1 className={`font-mono text-2xl font-bold text-red-400 mb-2`}>Something went wrong...</h1>
+                    <p className="mb-4">An error occured while trying to submit your quiz. Error Code: <span className="font-mono">{quizError}</span></p>
+                    <button onClick={() => setQuizError(undefined)} className="btn-secondary font-mono">Close</button>
+                </Modal>
+            </ModalContainer>
+        }
+        {
+            confetti && <Confetti className="fixed top-0 left-0" style={{ position: "fixed" }} width={windowSize.width} height={windowSize.height} />
+        }
         <div className="max-w-3xl w-full h-full p-4">
             <SkeletonTheme baseColor="#1e293b" highlightColor="#64748b">
 
@@ -140,7 +217,7 @@ export default function Read() {
 
                 <div className="flex flex-row mt-5 items-center">
                     <h1 className={`text-4xl md:text-5xl font-bold flex-1`}>{!loadingArticle && article ? article.title : <Skeleton width={"10ch"} />}</h1>
-                    {(!loadingArticle && profile) && <span className={`${progress == "complete" ? "bg-emerald-400" : "bg-sky-300"} text-slate-950 rounded p-2 text-sm font-mono flex gap-2 items-center`}> {progress} {progress == "complete" && <CheckCircleIcon height={10} width={15} className="h-5 w-5 text-slate-950" />}</span>}
+                    {(!loadingArticle && profile) && <span className={`bg-sky-300 text-slate-950 rounded p-2 text-sm font-mono flex gap-2 items-center font-bold`}> {progress} {progress == "complete" && <CheckCircleIcon height={10} width={15} className="h-7 w-7" />}</span>}
                 </div>
                 <p className={`font-mono mt-2 text-slate-300 text-sm`}>{!loadingArticle && article ? article.description : <Skeleton />}</p>
                 <div className={`font-mono flex gap-2 mt-2`}>
@@ -150,7 +227,7 @@ export default function Read() {
                         </div>
                     )) : <Skeleton containerClassName="flex-1" />}
                 </div>
-                <hr className="mt-3 border-b border-slate-400" />
+                <hr className="mt-3 border-b border-slate-600" />
 
                 {
                     !loadingArticle && article ?
@@ -164,12 +241,29 @@ export default function Read() {
                 }
 
             </SkeletonTheme>
+            <hr className="mt-6 border-b border-slate-600" />
         </div>
-        <div className="max-w-3xl w-full h-full p-4">
+        <div className="max-w-3xl w-full h-full p-4 flex flex-col gap-2">
+            {profile && (
+                (!loadingQuiz && quiz) ? <QuizPrompt quiz={quiz} onSumbit={handleQuizSubmit} working={quizCheckWorking} completed={progress == "complete"} wrongAns={wrongAns} /> :
+                    (!loadingQuiz && progress != "complete") ? <button className="btn-primary font-mono w-full" onClick={() => markArticleComplete(true)}>Mark Article Completed</button> : ""
+            )}
             {
-                (!loadingQuiz && quiz) ? <QuizPrompt quiz={quiz} onSumbit={handleQuizSubmit} working={false} completed={true} /> :
-                    !loadingQuiz ? <button className="btn-primary font-mono">Mark Article Completed</button> : ""
+                !loadingQuiz && progress == "complete" ? <div className="flex items-center justify-center p-3 border-2 border-emerald-400 rounded bg-emerald-400/30 font-mono gap-2 font-bold text-lg">
+                    <CheckCircleIcon height={10} width={15} className="h-7 w-7 text-emerald-300" />
+                    <p className="text-2xl">Complete</p>
+                </div> : ""
             }
+            {!profile && (
+                <div className="flex gap-4 flex-col md:flex-row md:items-center pb-4">
+                    <div className="">
+                        <h1 className="font-bold text-2xl"> Log in to complete quizzes and track your progress! </h1>
+                    </div>
+                    <div className="min-w-48">
+                        <button className="font-mono btn-primary w-full" onClick={() => signInOrRegister()}> Log in / Sign up </button>
+                    </div>
+                </div>
+            )}
         </div>
     </main>
 }

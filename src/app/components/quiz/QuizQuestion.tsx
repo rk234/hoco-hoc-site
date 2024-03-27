@@ -9,6 +9,7 @@ type Props = {
     className?: string
     question: Question
     number: number
+    wrong: boolean
     onChange: (selection: number) => void
 }
 
@@ -23,8 +24,8 @@ export default function QuizQuestion(props: Props) {
     }
 
     return <main className={`flex flex-col ${props.className} gap-2`}>
-        <div className="flex flex-row items-start gap-2">
-            <h1 className="ml-1 font-mono text-slate-400 text-lg">{props.number}.</h1>
+        <div className={`flex flex-row items-start gap-2 ${props.wrong && "border rounded border-red-400 bg-red-400/30"}`}>
+            <h1 className="ml-1 font-bold font-mono text-lg">{props.number}.</h1>
             <div className="w-full">
                 <Markdown className="text-lg w-full"
                     components={{
