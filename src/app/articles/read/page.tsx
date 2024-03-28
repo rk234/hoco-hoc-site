@@ -18,6 +18,7 @@ import { Profile, signInOrRegister, updateCompletedArticles, updateStartedArticl
 import { checkAnswers, getQuiz, Quiz } from "@/app/services/quizService"
 import QuizPrompt from "@/app/components/quiz/Quiz"
 import Confetti from "react-confetti"
+import { incrementHoursServed } from "@/app/services/statsService"
 
 export default function Read() {
     const params = useSearchParams()
@@ -33,6 +34,8 @@ export default function Read() {
     let [showSponsor, setShowSponsor] = useState(true)
     let [visited, setVisited] = useState(false)
     let [progress, setProgress] = useState<"started" | "complete">("started")
+    let [enterTime, setEnterTime] = useState<Date>(undefined)
+
     let [quiz, setQuiz] = useState<Quiz>(undefined)
     let [loadingQuiz, setLoadingQuiz] = useState<boolean>(true)
     let [quizCheckWorking, setQuizCheckWorking] = useState<boolean>(false)
@@ -83,6 +86,10 @@ export default function Read() {
     }, [article])
 
     useEffect(() => {
+        if (!enterTime) {
+            setEnterTime(new Date())
+        }
+
         if (!visited) {
             incrementViewCount()
                 .then(() => console.log("View count incremented"))
@@ -94,10 +101,20 @@ export default function Read() {
         }
 
         return () => {
-            //TODO: compute time spent on page and update firebase 
-            console.log("Leaving page")
+            if (enterTime) {
+                const now = new Date()
+                const delta = now.getTime() - enterTime.getTime();
+                console.log("Time spent (s): " + (delta / 1000))
+                incrementHoursServed(delta / 1000).then(() => {
+                    console.log("Incremented hours served by " +
+                        (delta / 1000) + "seconds")
+                }).catch(err => {
+                    console.log("Failed to increment hours served!")
+                    console.log(err)
+                })
+            }
         }
-    }, [visited])
+    }, [visited, enterTime])
 
     useEffect(() => {
         const addArticleStarted = (a: Article) => {
