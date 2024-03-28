@@ -19,12 +19,12 @@ export default function Home() {
   }, [])
 
   return (
-    <main className="flex flex-col bg-sky-950">
+    <main className="flex flex-col bg-black">
       <Hero />
-      <StatsCounter liveStats={stats} className="w-full" />
-      {/*<div className="mb-20" id="about" >
+      {/*<div id="about" >
         <AboutSection></AboutSection>
       </div>*/}
+      <StatsCounter liveStats={stats} className="w-full" />
       <div className="bg-gray-900" id="faq" >
         <Faq></Faq>
       </div>
