@@ -23,7 +23,7 @@ export default function StatsCounter(props: Props) {
                         <p className="font-mono text-left text-lg">Article Views</p>
                     </div>
                     <div className="p-4 bg-gray-800/50 rounded flex flex-col items-center w-full gap-2">
-                        <h1 className="bg-gradient-to-b from-indigo-300 to-indigo-400 text-transparent bg-clip-text font-mono text-5xl sm:text-6xl font-bold">{props.liveStats.totalHours}</h1>
+                        <h1 className="bg-gradient-to-b from-indigo-300 to-indigo-400 text-transparent bg-clip-text font-mono text-5xl sm:text-6xl font-bold">{Math.round(props.liveStats.totalHours)}</h1>
                         <p className="font-mono text-left text-lg">Hours Served</p>
                     </div>
                 </div>

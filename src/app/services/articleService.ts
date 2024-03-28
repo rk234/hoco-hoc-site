@@ -40,15 +40,6 @@ export async function incrementViewCount() {
     })
 }
 
-export async function incrementHoursServed(enter: Date, exit: Date) {
-    const hours = Math.abs(exit.getMilliseconds() - enter.getMilliseconds()) / 36e5;
-
-    let ref = doc(db, "aggregate/stats");
-    await updateDoc(ref, {
-        totalHours: increment(hours)
-    })
-}
-
 export async function createArticle(article: Article, section_id: string) {
     let ref = doc(db, "articles/" + article.id)
 
