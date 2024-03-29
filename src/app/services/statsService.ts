@@ -11,7 +11,7 @@ export type LiveStats = {
 export async function incrementHoursServed(seconds: number) {
     const ref = doc(db, "aggregate/stats")
     await updateDoc(ref, {
-        hoursServed: increment(seconds / (60 * 60))
+        totalHours: increment(seconds / (60 * 60))
     })
 }
 
