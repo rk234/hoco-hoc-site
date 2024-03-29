@@ -46,7 +46,7 @@ export default function Read() {
     let setProfile = useProfileUpdate()
 
     useEffect(() => {
-        if (!article) {
+        if (!article && !articleLoadError) {
             setLoadingArticle(true)
             let id = params.get("article")
             if (id) {
@@ -63,7 +63,7 @@ export default function Read() {
                 setLoadingArticle(false)
             }
         }
-    }, [article, loadingArticle, params])
+    }, [article, loadingArticle, params, articleLoadError])
 
     useEffect(() => {
         if (article && article.quiz) {
@@ -166,7 +166,7 @@ export default function Read() {
         setProgress("complete")
         setWrongAns([])
         setConfetti(true)
-        setTimeout(() => setConfetti(false), 5000)
+        setTimeout(() => setConfetti(false), 7000)
     }
 
 
@@ -200,7 +200,7 @@ export default function Read() {
             <ModalContainer>
                 <Modal className="flex flex-col">
                     <h1 className={`font-mono text-2xl font-bold text-red-400 mb-2`}>Something went wrong...</h1>
-                    <p className="mb-4">It looks like the article you requested does not exist. Try going back to the articles and sections page to find an existing article. If the problem persists, contact us.</p>
+                    <p className="mb-4">A error occured while fetching this article. This is most likely because the article you requested does not exist. Try going back to the articles and sections page to find an existing article. If the problem persists, contact us.</p>
                     <Link href={"/articles"} className={`font-mono btn-secondary`}> Go back to articles page </Link>
                 </Modal>
             </ModalContainer>
@@ -217,7 +217,7 @@ export default function Read() {
             </ModalContainer>
         }
         {
-            confetti && <Confetti className="fixed top-0 left-0" style={{ position: "fixed" }} width={windowSize.width} height={windowSize.height} />
+            confetti && <Confetti className="fixed top-0 left-0" numberOfPieces={500} recycle={false} style={{ position: "fixed" }} width={windowSize.width} height={windowSize.height} />
         }
         <div className="max-w-3xl w-full h-full p-4">
             <SkeletonTheme baseColor="#1e293b" highlightColor="#64748b">
@@ -232,7 +232,7 @@ export default function Read() {
                     </div> : ""
                 }
 
-                <div className="flex flex-row mt-5 items-center">
+                <div className="flex flex-row mt-5 items-center gap-2">
                     <h1 className={`text-4xl md:text-5xl font-bold flex-1`}>{!loadingArticle && article ? article.title : <Skeleton width={"10ch"} />}</h1>
                     {(!loadingArticle && profile) && <span className={`bg-sky-300 text-slate-950 rounded p-2 text-sm font-mono flex gap-2 items-center font-bold`}> {progress} {progress == "complete" && <CheckCircleIcon height={10} width={15} className="h-7 w-7" />}</span>}
                 </div>
@@ -266,7 +266,7 @@ export default function Read() {
                     (!loadingQuiz && progress != "complete") ? <button className="btn-primary font-mono w-full" onClick={() => markArticleComplete(true)}>Mark Article Completed</button> : ""
             )}
             {
-                !loadingQuiz && progress == "complete" ? <div className="flex items-center justify-center p-3 border-2 border-emerald-400 rounded bg-emerald-400/30 font-mono gap-2 font-bold text-lg">
+                !loadingQuiz && !quiz && progress == "complete" ? <div className="flex items-center justify-center p-3 border-2 border-emerald-400 rounded bg-emerald-400/30 font-mono gap-2 font-bold text-lg">
                     <CheckCircleIcon height={10} width={15} className="h-7 w-7 text-emerald-300" />
                     <p className="text-2xl">Complete</p>
                 </div> : ""
