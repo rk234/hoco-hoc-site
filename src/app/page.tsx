@@ -6,6 +6,7 @@ import StatsCounter from "./components/stats-counter/statsCounter";
 import { LiveStats, onStatsChange } from "./services/statsService";
 import AboutSection from './components/about/about';
 import Faq from './components/faq/faq';
+import Prizes from './components/prizes/prizes';
 
 export default function Home() {
   let [stats, setStats] = useState<LiveStats>({ totalHours: 0, totalUsers: 0, totalViews: 0 })
@@ -25,6 +26,9 @@ export default function Home() {
         <AboutSection></AboutSection>
       </div>*/}
       <StatsCounter liveStats={stats} className="w-full" />
+      <div className="bg-gray-900">
+        <Prizes></Prizes>
+      </div>
       <div className="bg-gray-900" id="faq" >
         <Faq></Faq>
       </div>
