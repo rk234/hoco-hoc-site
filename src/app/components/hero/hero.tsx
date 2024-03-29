@@ -7,56 +7,6 @@ import { logout, signInOrRegister } from "@/app/services/userService"
 export default function Hero() {
     const profile = useProfile()
     const canvasRef = useRef<HTMLCanvasElement>(null)
-    const [rotationText, setRotationText] = useState<string>("Learn");
-
-    const rotationPhrases = ["Learn if-statements.", "Learn Java.", "Learn sorting.", "Learn variables.", 
-                            "Learn for-loops.", "Learn dynamic programming.", "Learn maze-generation.", 
-                            "Learn libraries.", "Learn arrays.", "Learn automation.", "Learn algorithms.", 
-                            "Learn binary search.", "Learn recursion."];
-    const rotationInterval = useRef<NodeJS.Timeout | null>(null);
-    
-
-    useEffect(() => {
-        rotationInterval.current = setInterval(rotateText, 5000);
-
-        return () => {
-            if (rotationInterval.current) clearInterval(rotationInterval.current);
-        };
-    }, []);
-
-    const rotateText = () => {
-        setRotationText((prevText) => {
-            setRotationText(prevText);
-            const currentIndex = rotationPhrases.indexOf(prevText);
-            const nextIndex = (currentIndex + 1) % rotationPhrases.length;
-            const nextText = rotationPhrases[nextIndex];
-
-            let commonPrefix = "";
-            let i = 0;
-            while (prevText[i] === nextText[i]) {
-                commonPrefix += prevText[i];
-                i++;
-            }
-
-            let newText = commonPrefix;
-            let delay = 1000; 
-            for (let j = prevText.length; j > commonPrefix.length; j--) {
-                setTimeout(() => {
-                    setRotationText(prevText.substring(0, j - 1));
-                }, delay);
-                delay+=100;
-            }
-
-            delay+=1000;
-            for (let k = commonPrefix.length; k < nextText.length; k++) {
-                setTimeout(() => {
-                    setRotationText(nextText.substring(0, k + 1));
-                }, delay);
-                delay+=100;
-            }
-            return newText;
-        });
-    };
 
     useEffect(() => {
         window.addEventListener("resize", () => handleResize());
@@ -134,7 +84,6 @@ export default function Hero() {
                 <div className="md:w-2/3 w-full">
                     <h1 className="text-2xl md:text-6xl">Howard County</h1>
                     <h1 className={`bg-gradient-to-r from-sky-300 to-sky-500 text-transparent bg-clip-text text-7xl md:text-8xl font-extrabold mb-2 mt-2`}>Hour of Code</h1>
-                    <p className={`font-mono bg-gradient-to-b from-blue-400 to-blue-300 text-transparent bg-clip-text text-lg`}> {rotationText} </p>
                     <p className="text-md mt-3 md:text-base">Compete, Learn, and Win Prizes!</p>
                     <p className={`font-mono text-slate-400 text-sm`}> Howard County Hour of Code is a 5-day event taking place from May 29 to June 4, 2023. </p>
                     <div className={`font-mono flex flex-row mt-4 gap-2`}>
