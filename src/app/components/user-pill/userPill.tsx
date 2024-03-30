@@ -9,6 +9,7 @@ import ModalContainer from "../modal/modalContainer"
 import Modal from "../modal/modal"
 import ProfileEditor from "../profile-editor/profileEditor"
 import { useProfileUpdate } from "../auth-provider/authProvider"
+import Link from "next/link"
 
 type Props = {
     user: Profile
@@ -16,49 +17,12 @@ type Props = {
 
 export default function UserPill(props: Props) {
     let [dropVisible, setDropVisible] = useState(false)
-    let [edit, setEdit] = useState(false)
-    let [working, setWorking] = useState(false)
-    let [error, setError] = useState(false)
-    let setProfile = useProfileUpdate()
 
     function toggleDropdown() {
         setDropVisible(!dropVisible)
     }
 
-    function editProfile() {
-        setEdit(true)
-    }
-
-    function handleEdit(profile: Profile) {
-        setWorking(true)
-        updateUserProfile(profile.uid, profile.preferredLanguage).then(() => {
-            setEdit(false)
-            setWorking(false)
-            setProfile(profile)
-            console.log("UPDATED!")
-            setDropVisible(false)
-        }).catch((err) => {
-            console.log(err)
-            setWorking(false)
-            setError(true)
-        })
-    }
-
     return <main className="relative text-sm">
-        {edit &&
-            <ModalContainer>
-                <Modal>
-                    {error ?
-                        <div>
-                            <h1 className={`font-mono text-2xl font-bold text-red-400 mb-2`}>Something went wrong...</h1>
-                            <p className="mb-4">An error occured while updating your profile. Try again later or contact us if the problem persists.</p>
-                            <button className="btn-secondary font-mono" onClick={() => setEdit(false)}>Close</button>
-                        </div>
-                        :
-                        <ProfileEditor disabled={working || error} profile={props.user} onSave={handleEdit} onCancel={() => setEdit(false)} />}
-                </Modal>
-            </ModalContainer>
-        }
         <div className="flex select-none flex-row items-center gap-2 bg-slate-800 border border-slate-700 text-slate-200 rounded p-2 cursor-pointer hover:bg-slate-700" onClick={() => toggleDropdown()}>
             <p>Hello, {props.user.displayName}!</p>
             {props.user.admin && <span className="font-mono text-xs bg-amber-400 text-slate-900 p-1 rounded-sm">ADMIN</span>}
@@ -69,8 +33,7 @@ export default function UserPill(props: Props) {
                 <div className="flex flex-col absolute right-0 mt-3 rounded z-10 p-2 bg-slate-800 border border-gray-700 w-80 drop-shadow-md ">
                     <p className="font-bold text-lg">{props.user.displayName}</p>
                     <p className="mt-1">{getSchoolByID(props.user.school).name}</p>
-                    <p className="mt-1">Default Language: <span className="font-bold">{upperCaseFirstLetter(props.user.preferredLanguage)}</span></p>
-                    <button className={`font-mono bg-slate-700 hover:bg-slate-600 rounded text-slate-200 p-1 w-full mt-3`} onClick={editProfile}>Edit Profile</button>
+                    <Link className={`font-mono bg-slate-700 hover:bg-slate-600 rounded text-slate-200 p-1 w-full mt-3 text-center`} onClick={() => setDropVisible(false)} href="/me">Go to Dashboard</Link>
                     <button className={`font-mono bg-slate-700 hover:bg-slate-600 rounded text-slate-200 p-1 w-full mt-1`} onClick={logout}>Logout</button>
                 </div> : ""
         }
