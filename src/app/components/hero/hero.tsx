@@ -1,5 +1,5 @@
 "use client"
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
 import { useProfile } from "../auth-provider/authProvider"
 import { logout, signInOrRegister } from "@/app/services/userService"
@@ -7,6 +7,7 @@ import { logout, signInOrRegister } from "@/app/services/userService"
 export default function Hero() {
     const profile = useProfile()
     const canvasRef = useRef<HTMLCanvasElement>(null)
+
     useEffect(() => {
         window.addEventListener("resize", () => handleResize());
         handleResize()
@@ -82,8 +83,8 @@ export default function Hero() {
             <div className="flex flex-row items-center w-full max-w-screen-xl">
                 <div className="md:w-2/3 w-full">
                     <h1 className="text-2xl md:text-6xl">Howard County</h1>
-                    <h1 className={`bg-gradient-to-b from-sky-300 to-sky-500 text-transparent bg-clip-text text-7xl md:text-8xl font-extrabold mb-2 mt-2`}>Hour of Code</h1>
-                    <p className="text-md mt-5 md:text-base">Compete, Learn, and Win Prizes!</p>
+                    <h1 className={`bg-gradient-to-r from-sky-300 to-sky-500 text-transparent bg-clip-text text-7xl md:text-8xl font-extrabold mb-2 mt-2`}>Hour of Code</h1>
+                    <p className="text-md mt-3 md:text-base">Compete, Learn, and Win Prizes!</p>
                     <p className={`font-mono text-slate-400 text-sm`}> Howard County Hour of Code is a 5-day event taking place from May 29 to June 4, 2023. </p>
                     <div className={`font-mono flex flex-row mt-4 gap-2`}>
                         <button className={`btn-primary ${profile && ("bg-red-400 hover:bg-red-300")}`} onClick={handleAuth}> {profile ? "Logout" : "Login"} </button>
