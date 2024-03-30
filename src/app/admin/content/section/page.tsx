@@ -8,6 +8,7 @@ import { useState, useEffect } from "react"
 export default function AdminSectionEditPage() {
     const placeHolderID = "[REPLACE WITH THE ID YOU WANT]";
     const defualtSection: Section = {
+        points: {},
         id: placeHolderID,
         title: "Untitled Section",
         index: 0,
@@ -22,10 +23,10 @@ export default function AdminSectionEditPage() {
     let [editing, setEditing] = useState(false);
 
     useEffect(() => {
-        if(params.get("id")) {
+        if (params.get("id")) {
             setEditing(true)
             console.log(section)
-            if(section.id == placeHolderID) {
+            if (section.id == placeHolderID) {
                 getSection(params.get("id")).then(section => {
                     setSection(section)
                     //console.log(section)
@@ -55,11 +56,11 @@ export default function AdminSectionEditPage() {
     }
 
     return <main>
-        {(profile && profile.admin) ? 
-        <div className="w-full h-auto flex justify-center">
-            <div className="max-w-3xl w-full h-full p-4 flex flex-col gap-2">
-                <SectionEditor section={section} editing={editing} onSave={handleSave} onCancel={handleCancel}></SectionEditor>
-            </div>
-        </div> : <p className="p-2">You don&apos;t have admin permissions. If you think this is a mistake, contact us.</p>}    
+        {(profile && profile.admin) ?
+            <div className="w-full h-auto flex justify-center">
+                <div className="max-w-3xl w-full h-full p-4 flex flex-col gap-2">
+                    <SectionEditor section={section} editing={editing} onSave={handleSave} onCancel={handleCancel}></SectionEditor>
+                </div>
+            </div> : <p className="p-2">You don&apos;t have admin permissions. If you think this is a mistake, contact us.</p>}
     </main>
 }

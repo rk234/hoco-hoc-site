@@ -85,7 +85,7 @@ export default function ArticleEditor(props: Props) {
     function handleSave(quiz: Quiz, answers: number[]) {
         if (quiz) {
             createQuiz(quiz, answers).then(() => {
-                setArticleQuiz(props.article.id, true, quiz.points).then(() => {
+                setArticleQuiz(props.article.id, props.sectionID, true, quiz.points).then(() => {
                     alert("Quiz successfully created")
                     setQuizModal(false)
                 }).catch(err => console.log(err))
@@ -94,12 +94,12 @@ export default function ArticleEditor(props: Props) {
                 console.log(err)
             })
         } else {
-            setArticleQuiz(props.article.id, false, 0)
+            setArticleQuiz(props.article.id, props.sectionID, false, 0)
         }
     }
 
     function deleteQuiz() {
-        setArticleQuiz(props.article.id, false, 0)
+        setArticleQuiz(props.article.id, props.sectionID, false, 0)
     }
 
     return <div className="flex flex-row w-full h-full">
