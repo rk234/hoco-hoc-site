@@ -1,4 +1,5 @@
 "use client"
+import Skeleton from "react-loading-skeleton"
 import { useProfile } from "../components/auth-provider/authProvider"
 import ProfileDashboard from "../components/dashboard/dashboard"
 
