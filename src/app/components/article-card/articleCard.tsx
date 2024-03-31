@@ -1,4 +1,5 @@
 import { Article } from "@/app/services/articleService";
+import { truncate } from "@/app/services/utils";
 import Link from "next/link";
 
 type Props = {
@@ -18,7 +19,7 @@ export default function ArticleCard(props: Props) {
         </p>
       </div>
     </div>
-    <p className="text-sm text-slate-300 overflow-hidden text-ellipsis"> {props.article.description} </p>
+    <p className="text-sm text-slate-300 mt-2 overflow-hidden text-ellipsis"> {truncate(props.article.description, 75)} </p>
     {!props.complete ?
       <Link href={`/articles/read?article=${props.article.id}`} className="text-sm font-mono font-bold text-sky-400 mt-auto"> Continue Reading -&gt;</Link>
       : <Link href={`/articles/read?article=${props.article.id}`} className="text-sm font-mono font-bold text-emerald-400 mt-auto"> Complete </Link>

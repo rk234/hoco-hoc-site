@@ -22,7 +22,7 @@ export default function Articles() {
     const [showContent, setShowContent] = useState(false);
     const loadSections = useCallback(fetchSections, [sections])
     const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({}); // Track expanded state for each section
-     
+
 
     useEffect(() => {
         loadSections()
@@ -85,7 +85,7 @@ export default function Articles() {
             Complete articles to get points, which are transformed into raffle tickets and earns your school points!
         </p>
         <div className="">
-            <div id="buttons" className="flex justify-center gap-2 bg-sky-900 sm:w-1/2 lg:w-1/3 m-3 p-3 mx-auto rounded-lg">
+            <div id="buttons" className="flex justify-center gap-2 bg-slate-800 sm:w-1/2 lg:w-1/3 m-3 p-3 mx-auto rounded-lg">
                 <div className="flex flex-col items-center mr-2">
                     <div className="rounded-full bg-slate-300 w-16 h-16 flex items-center justify-center text-center hover:cursor-pointer hover:-translate-y-1.5 ease-in-out duration-300">
                         <span className="text-black">##</span>
@@ -132,35 +132,20 @@ export default function Articles() {
                     <div key={index}>
                         <div key={index} className="md:flex gap-4 justify-center "
                             onClick={() => toggleSectionExpansion(section.id)}>
-                            <div className="hover:-translate-y-2 bg-blue-950 cursor-pointer p-4 rounded-lg border mb-4 md:w-1/2 ease-in-out duration-300 hover:shadow-xl hover:shadow-indigo-500/50">
-                                <p className="font-bold font-['Menlo']">{section.title}</p>
-                                <p className="pt-4 font-mono">{section.description}</p>
-                                <div className="flex">
-                                    <Link className="link no-underline pt-3" href={''}>
-                                        Learn More
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            strokeWidth={1.5}
-                                            stroke="currentColor"
-                                            className="w-6 h-6 inline-block"
-                                        >
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
-                                        </svg>
-                                    </Link>
-                                </div>
+                            <div className="hover:-translate-y-2 z-20 bg-slate-800 cursor-pointer p-4 rounded-lg border border-slate-700 mb-4 md:w-1/2 ease-in-out duration-300 hover:shadow-xl hover:shadow-sky-500/20">
+                                <p className="font-bold font-mono text-2xl">{section.title}</p>
+                                <p className="pt-4">{section.description}</p>
                             </div>
                         </div>
                         {expandedSections[section.id] &&
                             section.articles.map((article, articleIndex) => (
-                                <Link href={`/articles/read?article=${article.id}`} passHref>
+                                <Link key={articleIndex} href={`/articles/read?article=${article.id}`} passHref>
                                     <div key={articleIndex} className={`md:flex gap-4 justify-center ${expandedSections[section.id] ? 'animate-slideout show' : 'hidden'}`}>
-                                        <div className="flex justify-left hover:-translate-y-2 bg-indigo-900 cursor-pointer p-4 rounded-lg border md:w-1/2 mb-4 ease-in-out duration-300 hover:shadow-xl hover:shadow-indigo-500/50">
+                                        <div className="flex justify-left hover:-translate-y-2 bg-slate-700 cursor-pointer p-4 rounded-lg border border-slate-600 md:w-1/2 mb-4 ease-in-out duration-300 hover:shadow-xl hover:shadow-sky-500/20">
                                             <ul className="justify-left">
                                                 <li>
                                                     <div className="flex flex-row ml-3 justify-left">
-                                                        <div className="text-xl font-mono">{article.title}</div>
+                                                        <div className="text-lg font-mono">{article.title}</div>
                                                         <div className="ml-3 pl-2 pr-2 h-1/6 bg-cyan-500 rounded-lg">
                                                             To-Do
                                                         </div>

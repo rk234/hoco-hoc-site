@@ -54,10 +54,10 @@ export default function ProfileDashboard(props: Props) {
     <div className="flex flex-row flex-wrap w-full items-stretch gap-4">
       {!loadingSections ? (
         sections.map(section =>
-          <SectionProgressCard className="flex-1 min-w-48 h-48" key={section.id} section={section} points={props.profile.scores[section.id]} />
+          <SectionProgressCard className="flex-1 min-w-64 h-52" key={section.id} section={section} points={props.profile.scores[section.id]} />
         )
       ) : (
-        Array.from(Array(3), (_, i) => <div key={i} className="h-48 min-w-48 flex-1 animate-pulse bg-slate-800 rounded"> </div>)
+        Array.from(Array(3), (_, i) => <div key={i} className="h-52 min-w-48 flex-1 animate-pulse bg-slate-800 rounded"> </div>)
       )}
     </div>
     <div className="grid grid-cols-1 flex-1 gap-4">
@@ -71,6 +71,11 @@ export default function ProfileDashboard(props: Props) {
           ) : (
             Array.from(Array(10), (_, i) => <div key={i} className="flex-1 min-h-44 min-w-60 animate-pulse bg-slate-700 rounded" />)
           )}
+          {!loadingArticles && startedArticles.length == 0 && (
+            <div className="flex-1 flex items-center min-h-44 justify-center">
+              <h1> Looks pretty empty here. Start reading articles to make progress! </h1>
+            </div>
+          )}
         </div>
       </div>
       <div className="rounded bg-slate-800">
@@ -82,6 +87,11 @@ export default function ProfileDashboard(props: Props) {
             completedArticles.map(art => <ArticleCard complete={false} key={art.id} article={art} />)
           ) : (
             Array.from(Array(10), (_, i) => <div key={i} className="flex-1 min-h-44 min-w-60 animate-pulse bg-slate-700 rounded" />)
+          )}
+          {!loadingArticles && completedArticles.length == 0 && (
+            <div className="flex-1 flex items-center min-h-44 justify-center">
+              <h1> Looks pretty empty here. Start reading articles to make progress! </h1>
+            </div>
           )}
         </div>
       </div>

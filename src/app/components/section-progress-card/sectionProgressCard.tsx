@@ -1,4 +1,5 @@
 import { Section } from "@/app/services/articleService";
+import { truncate } from "@/app/services/utils";
 
 type Props = {
   section: Section
@@ -21,7 +22,7 @@ export default function SectionProgressCard(props: Props) {
 
   return <main className={`rounded bg-slate-800 p-4 flex flex-col ${props.className || ""}`}>
     <h1 className="font-bold text-lg mb-2"> {props.section.title} </h1>
-    <p className="text-sm text-slate-300"> {props.section.description} </p>
+    <p className="text-sm text-slate-300"> {truncate(props.section.description, 50)} </p>
     <p className="mt-auto text-sm font-mono text-slate-500"> Earned {Math.round(props.points ?? 0)}/{possibleSectionPoints()}pts ({percentComplete()}%)</p>
     <div className="w-full bg-slate-700 rounded-full mt-2 h-2 overflow-hidden">
       <div style={{ width: `${percentComplete()}%` }} className={`h-full bg-emerald-400`}> </div>
