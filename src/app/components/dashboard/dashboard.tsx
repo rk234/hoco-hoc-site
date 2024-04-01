@@ -1,8 +1,7 @@
 "use client"
 import { Profile } from "@/app/services/userService"
 import SectionProgressCard from "../section-progress-card/sectionProgressCard"
-import { useEffect, useState } from "react";
-import { Article, Section, getAllArticles, getSections } from "@/app/services/articleService";
+import { Article, getAllArticles, getSections } from "@/app/services/articleService";
 import ArticleCard from "../article-card/articleCard";
 import ModalContainer from "../modal/modalContainer";
 import Modal from "../modal/modal";
