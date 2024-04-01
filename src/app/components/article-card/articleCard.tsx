@@ -9,7 +9,7 @@ type Props = {
 
 export default function ArticleCard(props: Props) {
   return <Link href={`/articles/read?article=${props.article.id}`} className="p-2 border rounded min-h-44 min-w-60 border-slate-700 flex flex-col" >
-    <div className="flex flex-row justify-start">
+    <div className="flex flex-row gap-2 justify-start">
       <div className="flex-1">
         <h1 className="font-bold text-lg"> {props.article.title} </h1>
       </div>

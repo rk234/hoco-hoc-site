@@ -75,7 +75,7 @@ export default function ProfileDashboard(props: Props) {
         </div>
         <div className="flex flex-row max-w-full gap-2 p-4 pt-2 overflow-x-scroll overflow-y-hidden">
           {!loadingArticles ? (
-            completedArticles.map(art => <ArticleCard complete={false} key={art.id} article={art} />)
+            completedArticles.map(art => <ArticleCard complete={true} key={art.id} article={art} />)
           ) : (
             Array.from(Array(10), (_, i) => <div key={i} className="flex-1 min-h-44 min-w-60 animate-pulse bg-slate-700 rounded" />)
           )}
