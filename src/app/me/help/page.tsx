@@ -28,7 +28,7 @@ export default function HelpPage() {
           <h1 className="font-bold text-lg mb-2 uppercase font-mono">Current Status Message</h1>
           <p> {status.statusMessage} </p>
         </div>
-        : <p className="p-2 bg-sky-300/50 rounded border border-sky-300 font-bold">:) No active status messages at this time! </p>
+        : <p className="p-2 bg-sky-300/50 rounded border border-sky-300 font-bold">😀 No active status messages at this time! </p>
       }
     </main>
   </div>

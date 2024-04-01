@@ -2,6 +2,7 @@
 import ArticleEditor from "@/app/components/admin/articleEditor"
 import { useProfile } from "@/app/components/auth-provider/authProvider"
 import { Article, createArticle, getArticleFromID, } from "@/app/services/articleService"
+import { useQuery } from "@tanstack/react-query"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useState, useEffect } from "react"
 
@@ -19,23 +20,17 @@ export default function AdminArticleEditPage() {
     let profile = useProfile()
     const router = useRouter()
     const params = useSearchParams()
-    let [article, setArticle] = useState<Article>(defaultArticle)
     let [editing, setEditing] = useState(false);
+
+    const { data: article, isLoading: loadingArticle, error: articleLoadError } = useQuery({
+        queryKey: ["article", params.get("id")],
+        queryFn: async () => getArticleFromID(params.get("id")),
+        enabled: !!params.get("id") && !!params.get("section")
+    })
 
     useEffect(() => {
         if (params.get("id") && params.get("section")) {
             setEditing(true)
-            //console.log(article)
-            if (article.id == placeHolderID) {
-                console.log("fetching new")
-                getArticleFromID(params.get("id")).then(article => {
-                    setArticle(article)
-                    //console.log(section)
-                }).catch(err => {
-                    alert("An error occured, see the console!")
-                    console.log(err)
-                })
-            }
         } else {
             //New
             setEditing(false)
@@ -46,6 +41,7 @@ export default function AdminArticleEditPage() {
         //console.log(article)
         //console.log(sectionID)
         article.sectionID = sectionID
+
         createArticle(article, sectionID).then(() => {
             alert("Section successfully updated/created!")
             router.back()
@@ -63,7 +59,7 @@ export default function AdminArticleEditPage() {
         {(profile && profile.admin) ?
             <div className="w-full flex flex-1 flex-col justify-center">
                 <div className="w-full flex-1 flex flex-col gap-2">
-                    <ArticleEditor sectionID={params.get("section")} article={article} editing={editing} onSave={handleSave} onCancel={handleCancel}></ArticleEditor>
+                    <ArticleEditor sectionID={params.get("section")} article={!loadingArticle && !articleLoadError && editing ? article : defaultArticle} editing={editing} onSave={handleSave} onCancel={handleCancel}></ArticleEditor>
                 </div>
             </div> : <p className="p-2">You don&apos;t have admin permissions. If you think this is a mistake, contact us.</p>}
     </main>
