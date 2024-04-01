@@ -1,15 +1,29 @@
-export default function TeamCard(props) {
+import React from 'react';
+
+type TeamMember = {
+    name: string;
+    position: string;
+    image: string;
+};
+
+type TeamProps = {
+    members: TeamMember[];
+};
+
+export default function TeamCard(props: TeamProps) {
     return (
-        <div className="w-48 p-2 pt-6 shadow-md transition duration-300 ease-in-out text-center flex flex-col items-start rounded-lg">
-            <div className="flex w-full px-4">
-                <div className="w-20 h-20 overflow-hidden rounded-full flex-shrink-0">
-                    <img className="object-cover w-full h-full" src={props.image} alt={props.name} />
+        <div className="max-w-full flex flex-wrap justify-center">
+            {props.members.map((member, index) => (
+                <div key={index} className= "bg-gray-900 p-4 rounded-md flex items-center sm:items-stretch w-72 md:w-80 lg:w-96 border border-sky-800 drop-shadow-2xl justify-center mx-4 my-4">
+                    <div >
+                        <img className="w-20 h-20 md:w-24 md:h-24 lg:w-32 lg:h-32 object-cover rounded-md" src={member.image} alt={member.name} />
+                    </div>
+                    <div className="ml-4 flex flex-col justify-center flex-grow">
+                        <div className="text-base md:text-lg lg:text-lg font-semibold text-white mb-2 whitespace-normal">{member.name}</div>
+                        <div className="text-base md:text-[0.8rem] lg:text-base text-slate-400 whitespace-normal">{member.position}</div>
+                    </div>
                 </div>
-                <div>
-                    <p>{props.name}</p>
-                    <p>{props.position}</p>
-                </div>
-            </div>
+            ))}
         </div>
     );
 }
