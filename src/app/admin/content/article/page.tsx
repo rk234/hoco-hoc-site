@@ -59,10 +59,10 @@ export default function AdminArticleEditPage() {
         router.back()
     }
 
-    return <main className="h-full">
+    return <main className="max-h-[calc(100vh-7.5rem)] flex flex-col h-full">
         {(profile && profile.admin) ?
-            <div className="w-full h-full flex justify-center">
-                <div className="w-full h-full flex flex-col gap-2">
+            <div className="w-full flex flex-1 flex-col justify-center">
+                <div className="w-full flex-1 flex flex-col gap-2">
                     <ArticleEditor sectionID={params.get("section")} article={article} editing={editing} onSave={handleSave} onCancel={handleCancel}></ArticleEditor>
                 </div>
             </div> : <p className="p-2">You don&apos;t have admin permissions. If you think this is a mistake, contact us.</p>}

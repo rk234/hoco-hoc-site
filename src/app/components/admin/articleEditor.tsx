@@ -102,7 +102,7 @@ export default function ArticleEditor(props: Props) {
         setArticleQuiz(props.article.id, props.sectionID, false, 0)
     }
 
-    return <div className="flex flex-row w-full h-full">
+    return <div className="flex flex-row w-full flex-1 max-h-[calc(100vh-7.5rem)]">
         {
             quizModal ? <ModalContainer>
                 <Modal>

@@ -19,25 +19,21 @@ import { checkAnswers, getQuiz, Quiz } from "@/app/services/quizService"
 import QuizPrompt from "@/app/components/quiz/Quiz"
 import Confetti from "react-confetti"
 import { incrementHoursServed } from "@/app/services/statsService"
+import { useQuery } from "@tanstack/react-query"
 
 export default function Read() {
     const params = useSearchParams()
     let [windowSize, setWindowSize] = useState({ width: 100, height: 100 })
-    let [article, setArticle] = useState<Article>()
-    let [loadingArticle, setLoadingArticle] = useState(true)
 
     let [quizError, setQuizError] = useState<"not-authenticated" |
         "contest-not-live" | "already-completed"
         | "error" | undefined>(undefined)
-    let [articleLoadError, setArticleLoadError] = useState(false)
 
     let [showSponsor, setShowSponsor] = useState(true)
     let [visited, setVisited] = useState(false)
     let [progress, setProgress] = useState<"started" | "complete">("started")
     let [enterTime, setEnterTime] = useState<Date>(undefined)
 
-    let [quiz, setQuiz] = useState<Quiz>(undefined)
-    let [loadingQuiz, setLoadingQuiz] = useState<boolean>(true)
     let [quizCheckWorking, setQuizCheckWorking] = useState<boolean>(false)
     let [wrongAns, setWrongAns] = useState<number[]>([])
     let [confetti, setConfetti] = useState<boolean>(false)
@@ -45,45 +41,17 @@ export default function Read() {
     let profile = useProfile()
     let setProfile = useProfileUpdate()
 
-    useEffect(() => {
-        if (!article && !articleLoadError) {
-            setLoadingArticle(true)
-            let id = params.get("article")
-            if (id) {
-                getArticleFromID(id).then(article => {
-                    setArticle(article)
-                    setLoadingArticle(false)
-                }).catch(err => {
-                    setArticleLoadError(true)
-                    setLoadingArticle(false)
-                    console.log(err)
-                })
-            } else {
-                setArticleLoadError(true)
-                setLoadingArticle(false)
-            }
-        }
-    }, [article, loadingArticle, params, articleLoadError])
+    const { data: article, isLoading: loadingArticle, error: articleLoadError } = useQuery({
+        queryKey: ["article", params.get("article")],
+        queryFn: async () => getArticleFromID(params.get("article")),
+        enabled: !!params.get("article")
+    })
 
-    useEffect(() => {
-        if (article && article.quiz) {
-            console.log("Article has quiz!")
-            getQuiz(article.id + "-quiz").then(quiz => {
-                console.log(quiz)
-                setQuiz(quiz)
-                setLoadingQuiz(false)
-            }).catch(err => {
-                console.log("Error while fetching the quiz for this article")
-                console.log(err)
-                setLoadingQuiz(false)
-                setArticleLoadError(true)
-            })
-        } else {
-            console.log("No quiz for this article")
-            setQuiz(undefined)
-            setLoadingQuiz(false)
-        }
-    }, [article])
+    const { data: quiz, isLoading: loadingQuiz, error: quizLoadError } = useQuery({
+        queryKey: ["quiz", article && article.id + "-quiz"],
+        queryFn: async () => getQuiz(article.id + "-quiz"),
+        enabled: (article != undefined && article.quiz != undefined)
+    })
 
     useEffect(() => {
         if (!enterTime) {

@@ -6,48 +6,39 @@ import { Article, Section, getAllArticles, getSections } from "@/app/services/ar
 import ArticleCard from "../article-card/articleCard";
 import ModalContainer from "../modal/modalContainer";
 import Modal from "../modal/modal";
+import { useQuery } from "@tanstack/react-query";
 
 type Props = {
   profile: Profile
 }
 
 export default function ProfileDashboard(props: Props) {
-  let [sections, setSections] = useState<Section[]>([]);
-  let [loadingSections, setLoadingSections] = useState(true)
-  let [startedArticles, setStartedArticles] = useState<Article[]>([])
-  let [completedArticles, setCompletedArticles] = useState<Article[]>([])
-  let [loadingArticles, setLoadingArticles] = useState(true)
-  let [error, setError] = useState<Error | undefined>(undefined);
+  let startedArticles: Article[] = []
+  let completedArticles: Article[] = []
 
-  useEffect(() => {
-    getSections().then((sections) => {
-      setSections(sections)
-      setLoadingSections(false)
-      setError(undefined)
-    }).catch(err => {
-      console.log(err)
-      setError(err)
-    })
-  }, [])
+  const { data: sections, isLoading: loadingSections, error: sectionLoadErr } = useQuery({
+    queryKey: ["sections"],
+    queryFn: getSections,
+    enabled: !!props.profile
+  })
 
-  useEffect(() => {
-    getAllArticles().then((articles) => {
-      setStartedArticles(articles.filter(a => props.profile.articlesStartedID.includes(a.id)))
-      setCompletedArticles(articles.filter(a => props.profile.articlesCompletedID.includes(a.id)))
-      setError(undefined)
-      setLoadingArticles(undefined)
-    }).catch(err => {
-      console.log(err)
-      setError(err)
-    })
-  }, [props.profile])
+  const { data: articles, isLoading: loadingArticles, error: articleLoadErr } = useQuery({
+    queryKey: ["articles"],
+    queryFn: getAllArticles,
+    enabled: !!props.profile
+  })
+
+  if (props.profile && !loadingArticles && !articleLoadErr) {
+    startedArticles = (articles.filter(a => props.profile.articlesStartedID.includes(a.id)))
+    completedArticles = (articles.filter(a => props.profile.articlesCompletedID.includes(a.id)))
+  }
 
   return <main className="w-full h-full flex flex-col gap-4">
-    {error && (
+    {(sectionLoadErr || articleLoadErr) && (
       <ModalContainer>
         <Modal className="flex flex-col">
           <h1 className={`font-mono text-2xl font-bold text-red-400 mb-2`}>Something went wrong...</h1>
-          <p className="mb-4">An error occured while loading. Error Code: <span className="font-mono">{error.name} - {error.message}</span></p>
+          <p className="mb-4">An error occured while loading. Error Code: <span className="font-mono">{(sectionLoadErr || articleLoadErr).name} - {(sectionLoadErr || articleLoadErr).message}</span></p>
         </Modal>
       </ModalContainer>
     )}
