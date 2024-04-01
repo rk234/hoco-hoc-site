@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { getAllArticles, getSections, Article } from "../services/articleService"
+import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link"
 import ModalContainer from "../components/modal/modalContainer"
 import Modal from "../components/modal/modal"
@@ -120,34 +121,42 @@ export default function Articles() {
                                 <p className="pt-4">{section.description}</p>
                             </div>
                         </div>
-                        {expandedSections[section.id] &&
-                            section.articles.map((article, articleIndex) => (
-                                <Link key={articleIndex} href={`/articles/read?article=${article.id}`} passHref>
-                                    <div key={articleIndex} className={`md:flex gap-4 justify-center ${expandedSections[section.id] ? 'animate-slideout show' : 'hidden'}`}>
-                                        <div className="flex justify-left hover:-translate-y-2 bg-slate-700 cursor-pointer p-4 rounded-lg border border-slate-600 md:w-1/2 mb-4 ease-in-out duration-300 hover:shadow-xl hover:shadow-sky-500/20">
-                                            <ul className="justify-left">
-                                                <li>
-                                                    <div className="flex flex-row ml-3 justify-left">
-                                                        <div className="text-lg font-mono">{article.title}</div>
-                                                        <div className="ml-3 pl-2 pr-2 h-1/6 bg-cyan-500 rounded-lg">
-                                                            To-Do
-                                                        </div>
-                                                    </div>
-                                                    <div className="flex flex-row mt-2 ">
-                                                        {article.tags.map((tag, tagIndex) => (
-                                                            <div key={tagIndex} className="ml-3 pl-2 pr-2 bg-cyan-500 rounded-lg"> {tag} </div>
-                                                        ))}
-                                                    </div>
-                                                    <div className="ml-3 mt-2">
-                                                        <p className="text-lg text-slate-400"> {article.description}</p>
-                                                    </div>
-
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </Link>
-                            ))}
+                        <AnimatePresence>
+                            {expandedSections[section.id] &&
+                                section.articles.map((article, articleIndex) => (
+                                    <Link key={articleIndex} href={`/articles/read?article=${article.id}`} passHref>
+                                        <motion.div
+                                            initial={{ y: -100, height: 0, opacity: 0 }}
+                                            animate={{ y: 0, height: 'auto', opacity: 1 }}
+                                            exit={{ y: -100, height: 0, opacity: 0 }}
+                                            transition={{ duration: articleIndex / 4 }}
+                                        >
+                                            <div key={articleIndex} className={`md:flex gap-4 justify-center`}>
+                                                <div className="flex justify-left hover:-translate-y-2 cursor-pointer p-4 rounded-lg border md:w-1/2 mb-4 ease-in-out duration-300 hover:shadow-xl border-slate-700">
+                                                    <ul className="justify-left">
+                                                        <li>
+                                                            <div className="flex flex-row ml-3 justify-left">
+                                                                <div className="text-xl font-mono">{article.title}</div>
+                                                                <div className="ml-3 pl-2 pr-2 h-1/6 bg-cyan-500 rounded-lg">
+                                                                    To-Do
+                                                                </div>
+                                                            </div>
+                                                            <div className="flex flex-row mt-2 ">
+                                                                {article.tags.map((tag, tagIndex) => (
+                                                                    <div key={tagIndex} className="ml-3 pl-2 pr-2 bg-cyan-500 rounded-lg"> {tag} </div>
+                                                                ))}
+                                                            </div>
+                                                            <div className="ml-3 mt-2">
+                                                                <p className="text-lg text-slate-400"> {article.description}</p>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </motion.div>
+                                    </Link>
+                                ))}
+                        </AnimatePresence>
                     </div>
                 );
             })}
