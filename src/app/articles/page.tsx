@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react"
 import { getAllArticles, getSections, Article } from "../services/articleService"
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link"
 import ModalContainer from "../components/modal/modalContainer"
 import Modal from "../components/modal/modal"
@@ -153,13 +153,20 @@ export default function Articles() {
                                 </div>
                             </div>
                         </div>
+                        <AnimatePresence>
                         {expandedSections[section.id] &&
                             section.articles.map((article, articleIndex) => (
+                                
                                 <Link href={`/articles/read?article=${article.id}`} passHref>
                                     <motion.div
+                                        key={section.id}
                                         initial={{ y: -100, opacity: 0 }}
                                         animate={{ y: 0, opacity: 1 }}
-                                        exit={{ y: -100, opacity: 0 }}
+                                        exit={{
+                                            opacity: 0, 
+                                            y:-100,
+                                            transition: { duration: articleIndex/7 }
+                                          }}
                                         transition={{ duration: articleIndex/4}}
                                     >
                                         <div key={articleIndex} className={`md:flex gap-4 justify-center`}>
@@ -188,6 +195,7 @@ export default function Articles() {
                                     </motion.div>
                                 </Link>
                             ))}
+                            </AnimatePresence>
                     </div>
                 );
             })}
