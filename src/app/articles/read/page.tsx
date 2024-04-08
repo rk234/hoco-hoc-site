@@ -15,7 +15,7 @@ import Image from "next/image";
 import { EyeSlashIcon, CheckCircleIcon } from "@heroicons/react/24/solid"
 import ArticleRenderer from "@/app/components/article-renderer/articleRenderer";
 import { Profile, signInOrRegister, updateCompletedArticles, updateStartedArticles } from "@/app/services/userService"
-import { checkAnswers, getQuiz, Quiz } from "@/app/services/quizService"
+import { checkAnswers, getQuiz } from "@/app/services/quizService"
 import QuizPrompt from "@/app/components/quiz/Quiz"
 import Confetti from "react-confetti"
 import { incrementHoursServed } from "@/app/services/statsService"

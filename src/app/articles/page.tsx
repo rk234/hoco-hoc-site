@@ -8,6 +8,7 @@ import ModalContainer from "../components/modal/modalContainer"
 import Modal from "../components/modal/modal"
 import "./page.css"
 import { useQuery } from "@tanstack/react-query"
+import { useProfile } from "../components/auth-provider/authProvider";
 
 type PopulatedSection = {
     id: string,
@@ -20,6 +21,7 @@ type PopulatedSection = {
 export default function Articles() {
     const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({}); // Track expanded state for each section
 
+    const profile = useProfile()
     const { data: sections, isLoading, isError, refetch } = useQuery({
         queryKey: ["pop-sections"],
         queryFn: fetchSections
@@ -43,7 +45,6 @@ export default function Articles() {
             hydrated.push(sectionObj)
         })
 
-        console.log("FETCH!!!!")
         return hydrated
     }
 
