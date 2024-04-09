@@ -9,6 +9,7 @@ import Modal from "../components/modal/modal"
 import "./page.css"
 import { useQuery } from "@tanstack/react-query"
 import { useProfile } from "../components/auth-provider/authProvider";
+import ErrorPopup from "../components/error-popup/errorPopup";
 
 type PopulatedSection = {
     id: string,
@@ -22,7 +23,7 @@ export default function Articles() {
     const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({}); // Track expanded state for each section
 
     const profile = useProfile()
-    const { data: sections, isLoading, isError, refetch } = useQuery({
+    const { data: sections, isLoading, error, refetch } = useQuery({
         queryKey: ["pop-sections"],
         queryFn: fetchSections
     })
@@ -58,13 +59,10 @@ export default function Articles() {
 
 
     return <main className="p-4">
-        {isError ? <ModalContainer>
-            <Modal className="flex flex-col">
-                <h1 className={`font-mono text-2xl font-bold text-red-400 mb-2`}>Something went wrong...</h1>
-                <p className="mb-4">An error occured while fetching articles and sections. Try again or contact us if the problem persists.</p>
-                <button onClick={() => refetch()} className={`font-mono btn-secondary text-left`}> Try Again </button>
-            </Modal>
-        </ModalContainer> : ""}
+        {error ? <ErrorPopup error={error}>
+            <p className="mb-4">An error occured while fetching articles and sections. Try again or contact us if the problem persists.</p>
+            <button onClick={() => refetch()} className={`font-mono btn-secondary text-left`}> Try Again </button>
+        </ErrorPopup> : ""}
         <h1 className="font-mono text-6xl text-center mb-3 "> Articles </h1>
         <p className="font-mono text-md mx-auto text-center w-3/5 text-slate-400">
             Complete articles to get points, which are transformed into raffle tickets and earns your school points!
@@ -112,7 +110,7 @@ export default function Articles() {
         </div>
 
         <ul className="list-disc ml-4 mt-5">
-            {!isLoading && !isError && sections.map((section, index) => {
+            {!isLoading && !error && sections.map((section, index) => {
                 return (
                     <div key={index}>
                         <div key={index} className="md:flex gap-4 justify-center "

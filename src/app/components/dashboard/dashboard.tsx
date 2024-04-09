@@ -6,6 +6,7 @@ import ArticleCard from "../article-card/articleCard";
 import ModalContainer from "../modal/modalContainer";
 import Modal from "../modal/modal";
 import { useQuery } from "@tanstack/react-query";
+import ErrorPopup from "../error-popup/errorPopup";
 
 type Props = {
   profile: Profile
@@ -34,12 +35,9 @@ export default function ProfileDashboard(props: Props) {
 
   return <main className="w-full h-full flex flex-col gap-4">
     {(sectionLoadErr || articleLoadErr) && (
-      <ModalContainer>
-        <Modal className="flex flex-col">
-          <h1 className={`font-mono text-2xl font-bold text-red-400 mb-2`}>Something went wrong...</h1>
-          <p className="mb-4">An error occured while loading. Error Code: <span className="font-mono">{(sectionLoadErr || articleLoadErr).name} - {(sectionLoadErr || articleLoadErr).message}</span></p>
-        </Modal>
-      </ModalContainer>
+      <ErrorPopup error={articleLoadErr || sectionLoadErr}>
+        <p className="mb-4">An error occured while loading your dashboard. </p>
+      </ErrorPopup>
     )}
     <div className="flex flex-row flex-wrap w-full items-stretch gap-4">
       {!loadingSections ? (

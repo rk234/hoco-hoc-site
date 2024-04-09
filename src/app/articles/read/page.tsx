@@ -6,9 +6,7 @@ import { useEffect, useState } from "react"
 import Skeleton from 'react-loading-skeleton'
 import { SkeletonTheme } from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
-import Modal from "@/app/components/modal/modal"
 import Link from "next/link"
-import ModalContainer from "@/app/components/modal/modalContainer"
 import { useProfile, useProfileUpdate } from "@/app/components/auth-provider/authProvider";
 import Image from "next/image";
 
@@ -20,6 +18,7 @@ import QuizPrompt from "@/app/components/quiz/Quiz"
 import Confetti from "react-confetti"
 import { incrementHoursServed } from "@/app/services/statsService"
 import { useQuery } from "@tanstack/react-query"
+import ErrorPopup from "@/app/components/error-popup/errorPopup"
 
 export default function Read() {
     const params = useSearchParams()
@@ -167,24 +166,25 @@ export default function Read() {
 
     return <main className="flex flex-col items-center h-auto">
         {articleLoadError ?
-            <ModalContainer>
-                <Modal className="flex flex-col">
-                    <h1 className={`font-mono text-2xl font-bold text-red-400 mb-2`}>Something went wrong...</h1>
-                    <p className="mb-4">A error occured while fetching this article. This is most likely because the article you requested does not exist. Try going back to the articles and sections page to find an existing article. If the problem persists, contact us.</p>
-                    <Link href={"/articles"} className={`font-mono btn-secondary`}> Go back to articles page </Link>
-                </Modal>
-            </ModalContainer>
+            <ErrorPopup error={articleLoadError}>
+                <p className="mb-4">A error occured while fetching this article. This is most likely because the article you requested does not exist. Try going back to the articles and sections page to find an existing article. If the problem persists, contact us.</p>
+                <Link href={"/articles"} className={`font-mono btn-secondary`}> Go back to articles page </Link>
+            </ErrorPopup>
+            : ""
+        }
+        {quizLoadError ?
+            <ErrorPopup error={quizLoadError}>
+                <p className="mb-4">A error occured while fetching the quiz for this article. This is probably a problem on our end, contact us.</p>
+                <Link href={"/articles"} className={`font-mono btn-secondary`}> Go back to articles page </Link>
+            </ErrorPopup>
             : ""
         }
         {
             quizError &&
-            <ModalContainer>
-                <Modal className="flex flex-col">
-                    <h1 className={`font-mono text-2xl font-bold text-red-400 mb-2`}>Something went wrong...</h1>
-                    <p className="mb-4">An error occured while trying to submit your quiz. Error Code: <span className="font-mono">{quizError}</span></p>
-                    <button onClick={() => setQuizError(undefined)} className="btn-secondary font-mono">Close</button>
-                </Modal>
-            </ModalContainer>
+            <ErrorPopup error={new Error(quizError)}>
+                <p className="mb-4">An error occured while trying to submit your quiz.</p>
+                <button onClick={() => setQuizError(undefined)} className="btn-secondary font-mono">Close</button>
+            </ErrorPopup>
         }
         {
             confetti && <Confetti className="fixed top-0 left-0" numberOfPieces={500} recycle={false} style={{ position: "fixed" }} width={windowSize.width} height={windowSize.height} />
@@ -252,5 +252,5 @@ export default function Read() {
                 </div>
             )}
         </div>
-    </main>
+    </main >
 }
