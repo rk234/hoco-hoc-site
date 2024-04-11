@@ -153,10 +153,8 @@ export default function Articles() {
                                 </div>
                             </div>
                         </div>
-                        <AnimatePresence>
-                        {expandedSections[section.id] &&
+                        <AnimatePresence> {expandedSections[section.id] &&
                             section.articles.map((article, articleIndex) => (
-                                
                                 <Link href={`/articles/read?article=${article.id}`} passHref>
                                     <motion.div
                                         key={section.id}
@@ -194,8 +192,7 @@ export default function Articles() {
                                         </div>
                                     </motion.div>
                                 </Link>
-                            ))}
-                            </AnimatePresence>
+                            ))} </AnimatePresence>
                     </div>
                 );
             })}
