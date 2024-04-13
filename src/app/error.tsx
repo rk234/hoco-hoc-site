@@ -19,10 +19,7 @@ export default function CustomError({
 
   return <main>
     <ErrorPopup error={error}>
-      <p className="font-mono font-bold mb-2 text-lg">:(</p>
-      <h1 className={`font-mono text-2xl font-bold text-red-400 mb-2`}>Something went wrong...</h1>
       <p className="mb-4">Sorry, an uncaught error occurred somewhere. This is not supposed to happen. Contact us if the problem persists.</p>
-      <p className="font-mono text-slate-400"> Error Details: {error.name} - {error.message} </p>
     </ErrorPopup>
   </main>
 }
