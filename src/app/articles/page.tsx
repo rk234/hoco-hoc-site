@@ -55,6 +55,28 @@ export default function Articles() {
         }));
     }
 
+    function getSectionProgress(sectionID: string): { points: number; total: number; percent: number; } {
+        let section = sections.find(s => s.id === sectionID)
+        let totalPoints = section.articles.reduce((accum, cur) => {
+            return accum + cur.quiz.points
+        }, 0)
+
+        return {
+            points: profile.scores[section.id],
+            total: totalPoints,
+            percent: profile.scores[section.id] / totalPoints
+        } as { points: number, total: number, percent: number }
+    }
+
+    function getOverallProgress() {
+        let totalScore = 0;
+        let totalPts = 0
+        for (let section of sections) {
+            let prog = getSectionProgress(section.id)
+            totalScore += prog.points
+
+        }
+    }
 
     return <main className="p-4">
         {error ? <ErrorPopup error={error}>
