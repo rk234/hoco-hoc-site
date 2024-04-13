@@ -114,7 +114,7 @@ export default function Articles() {
                 </div>}
                 {!isLoading && !error && sections.map((section, index) => {
                     return (
-                        <div key={index} className="flex flex-col">
+                        <div key={index} className="flex flex-col w-full lg:max-w-xl">
                             <div
                                 onClick={() => toggleSectionExpansion(section.id)} className="hover:-translate-y-2 z-20 bg-slate-800 cursor-pointer p-4 rounded-lg border border-slate-700 mb-4 ease-in-out duration-300 hover:shadow-xl hover:shadow-sky-500/20">
                                 <p className="font-bold font-mono text-2xl">{section.title}</p>
