@@ -4,8 +4,6 @@ import { useState } from "react"
 import { getAllArticles, getSections, Article } from "../services/articleService"
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link"
-import ModalContainer from "../components/modal/modalContainer"
-import Modal from "../components/modal/modal"
 import "./page.css"
 import { useQuery } from "@tanstack/react-query"
 import { useProfile } from "../components/auth-provider/authProvider";
