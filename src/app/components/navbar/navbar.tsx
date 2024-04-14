@@ -14,8 +14,8 @@ export default function NavBar() {
                 <Link className={`font-mono text-sky-300 text-xl md:text-2xl font-bold`} href={"/"}>&lt;HocoHOC/&gt;</Link>
                 <div className="flex-1"></div>
                 <div className="flex flex-row text-xs gap-5 md:text-md items-stretch">
-                    <Link className={`font-mono rounded text-sm items-center justify-center hidden md:flex font-bold hover:text-sky-300 hover:underline`} href={"/articles"}>Articles</Link>
-                    <Link className={`font-mono rounded text-sm items-center justify-center hidden md:flex font-bold hover:text-sky-300 hover:underline`} href={"/leaderboard"}>Leaderboard</Link>
+                    <Link className={`font-mono rounded text-sm items-center justify-center md:flex font-bold hover:text-sky-300 hover:underline`} href={"/articles"}>Articles</Link>
+                    <Link className={`font-mono rounded text-sm items-center justify-center md:flex font-bold hover:text-sky-300 hover:underline`} href={"/leaderboard"}>Leaderboard</Link>
                     {
                         profile ? <UserPill user={profile} />
                             :

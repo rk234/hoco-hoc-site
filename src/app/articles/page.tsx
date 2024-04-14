@@ -1,13 +1,14 @@
 "use client"
 
-import { useCallback, useEffect, useState } from "react"
+import { useState } from "react"
 import { getAllArticles, getSections, Article } from "../services/articleService"
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link"
-import ModalContainer from "../components/modal/modalContainer"
-import Modal from "../components/modal/modal"
-import { useRouter } from "next/navigation"
 import "./page.css"
+import { useQuery } from "@tanstack/react-query"
+import { useProfile } from "../components/auth-provider/authProvider";
+import ErrorPopup from "../components/error-popup/errorPopup";
+import { ChevronDownIcon } from "@heroicons/react/24/outline";
 
 type PopulatedSection = {
     id: string,
@@ -18,37 +19,22 @@ type PopulatedSection = {
 }
 
 export default function Articles() {
-    let [sections, setSections] = useState<PopulatedSection[]>([])
-    let [error, setError] = useState(false);
-    const [showContent, setShowContent] = useState(false);
-    const loadSections = useCallback(fetchSections, [sections])
     const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({}); // Track expanded state for each section
-     
 
-    useEffect(() => {
-        loadSections()
-    }, [loadSections])
+    const profile = useProfile()
+    const { data: sections, isLoading, error, refetch } = useQuery({
+        queryKey: ["pop-sections"],
+        queryFn: fetchSections
+    })
 
-    function fetchSections() {
-        if (sections.length == 0) {
-            fetchData().then(secs => {
-                setSections(secs)
-                setError(false)
-            }).catch(err => {
-                console.log(err)
-                setError(true)
-            })
-        }
-    }
-
-    async function fetchData() {
+    async function fetchSections(): Promise<PopulatedSection[]> {
         let [sections, articles] = await Promise.all([getSections(), getAllArticles()])
 
-        let hydrated = []
+        let hydrated: PopulatedSection[] = []
 
         sections.sort((a, b) => a.index - b.index)
         sections.forEach(section => {
-            let sectionObj = {
+            let sectionObj: PopulatedSection = {
                 id: section.id,
                 index: section.index,
                 title: section.title,
@@ -59,7 +45,6 @@ export default function Articles() {
             hydrated.push(sectionObj)
         })
 
-        console.log("FETCH!!!!")
         return hydrated
     }
 
@@ -71,126 +56,136 @@ export default function Articles() {
         }));
     }
 
+    function getSectionProgress(sectionID: string): { points: number; total: number; percent: number; } {
+        let section = sections.find(s => s.id === sectionID)
+        let totalPoints = section.articles.reduce((accum, cur) => {
+            return accum + (cur.quiz ? cur.quiz.points : 0)
+        }, 0)
+
+        return {
+            points: profile && profile.scores[section.id] ? profile.scores[section.id] : 0,
+            total: totalPoints,
+            percent: profile && profile.scores[section.id] ? profile.scores[section.id] / totalPoints : 0
+        } as { points: number, total: number, percent: number }
+    }
+
+    function getOverallProgress(): { points: number; total: number; percent: number; } {
+        let totalScore = 0
+        let totalPts = 0
+        for (let section of sections) {
+            let prog = getSectionProgress(section.id)
+            totalScore += prog.points
+            totalPts += prog.total
+        }
+
+        return {
+            points: totalScore,
+            total: totalPts,
+            percent: totalPts > 0 ? totalScore / totalPts : 0
+        } as { points: number, total: number, percent: number }
+    }
+
+    function getArticleStatus(id: string): string {
+        if (!profile) return "To-Do"
+
+        if (profile.articlesCompletedID.includes(id)) {
+            return "Done!"
+        } else if (profile.articlesStartedID.includes(id)) {
+            return "Started"
+        } else {
+            return "To-Do"
+        }
+    }
 
 
-    return <main className="p-4">
-        {error ? <ModalContainer>
-            <Modal className="flex flex-col">
-                <h1 className={`font-mono text-2xl font-bold text-red-400 mb-2`}>Something went wrong...</h1>
-                <p className="mb-4">An error occured while fetching articles and sections. Try again or contact us if the problem persists.</p>
-                <button onClick={() => fetchData()} className={`font-mono btn-secondary text-left`}> Try Again </button>
-            </Modal>
-        </ModalContainer> : ""}
-        <h1 className="font-mono text-6xl text-center mb-3 "> Articles </h1>
-        <p className="font-mono text-md mx-auto text-center w-3/5 text-slate-400">
-            Complete articles to get points, which are transformed into raffle tickets and earns your school points!
-        </p>
-        <div className="">
-            <div id="buttons" className="flex justify-center gap-2 bg-sky-900 sm:w-1/2 lg:w-1/3 m-3 p-3 mx-auto rounded-lg">
-                <div className="flex flex-col items-center mr-2">
-                    <div className="rounded-full bg-slate-300 w-16 h-16 flex items-center justify-center text-center hover:cursor-pointer hover:-translate-y-1.5 ease-in-out duration-300">
-                        <span className="text-black">##</span>
-                    </div>
-                    <span className="text-center hover:cursor-pointer">Section 1</span>
-                </div>
-
-                <div className="flex flex-col items-center mr-2">
-                    <div className="rounded-full bg-slate-300 w-16 h-16 flex items-center justify-center text-center hover:cursor-pointer hover:-translate-y-1.5 ease-in-out duration-300">
-                        <span className="text-black">##</span>
-                    </div>
-                    <span className="text-center hover:cursor-pointer">Section 2</span>
-                </div>
-
-                <div className="flex flex-col items-center mr-2">
-                    <div className="rounded-full bg-slate-300 w-16 h-16 flex items-center justify-center text-center hover:cursor-pointer hover:-translate-y-1.5 ease-in-out duration-300">
-                        <span className="text-black">##</span>
-                    </div>
-                    <span className="text-center hover:cursor-pointer">Section 3</span>
-                </div>
-
-                <div className="flex flex-col items-center mr-2">
-                    <div className="rounded-full bg-slate-300 w-16 h-16 flex items-center justify-center text-center hover:cursor-pointer hover:-translate-y-1.5 ease-in-out duration-300">
-                        <span className="text-black">##</span>
-                    </div>
-                    <span className="text-center hover:cursor-pointer">Section 4</span>
+    return <main className="h-[calc(100vh-3.5rem-4rem)] overflow-hidden">
+        {error ? <ErrorPopup error={error}>
+            <p className="mb-4">An error occured while fetching articles and sections. Try again or contact us if the problem persists.</p>
+            <button onClick={() => refetch()} className={`font-mono btn-secondary text-left`}> Try Again </button>
+        </ErrorPopup> : ""}
+        <div className="flex flex-col lg:flex-row h-full">
+            <div className="lg:flex-1 p-10 lg:p-16 bg-gradient-to-tr from-sky-800 to-blue-800 border-r flex flex-col items-end border-r-slate-800">
+                <div className="w-full h-full lg:max-w-xl flex flex-col">
+                    <h1 className="font-bold text-6xl md:text-7xl mb-3"> Articles </h1>
+                    <p className="text-lg text-slate-400">
+                        Complete articles to get points, which are transformed into raffle tickets and earns your school points!
+                    </p>
+                    <div className="flex-1 min-h-4" />
+                    {!isLoading && !error && profile && <div className="rounded-md border border-slate-800 bg-slate-950/50 p-4">
+                        <div className="w-full rounded-full bg-slate-800 h-3 mb-2 overflow-hidden">
+                            <div style={{ width: `${Math.round(getOverallProgress().percent * 100)}%` }} className={`h-full bg-sky-300`} />
+                        </div>
+                        <p> Earned {getOverallProgress().points}/{getOverallProgress().total} total points.</p>
+                    </div>}
+                    {!profile && <div className="rounded-md border border-slate-800 bg-slate-950/50 p-4">
+                        Sign in to see your progress here!
+                    </div>}
                 </div>
             </div>
-            <div>
-                <div className="flex justify-center mt-4">
-                    <div className="bg-sky-700 rounded-full md:w-1/2 w-full h-3">
-                        <div style={{ width: "70%" }} className="h-full bg-sky-600 rounded-full"></div>
-                    </div>
-                </div>
-                <div className="mx-auto w-1/2 mt-1">
-                    <p className="sm:text-right text-center"> 0 / 273 tasks completed</p>
+            <div className="flex-1 flex flex-col h-full">
+                <div className="flex flex-col w-full lg:max-w-xl bg-slate-800/70 h-full overflow-y-scroll">
+                    {isLoading && <div className="w-full h-full flex items-center justify-center">
+                        <svg className="animate-spin -ml-1 mr-3 h-10 w-10 text-sky-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                    </div>}
+                    {!isLoading && !error && sections.map((section, index) => {
+                        return (
+                            <div key={index} className="flex flex-col w-full">
+                                <div
+                                    onClick={() => toggleSectionExpansion(section.id)}
+                                    className={`z-20 cursor-pointer p-4 border-b border-r drop-shadow-2xl bg-slate-800 ${!expandedSections[section.id] ? " border-slate-700" : "border-b-4 border-r-slate-700 border-b-sky-300"} ease-in-out duration-300`}>
+                                    <div className="flex gap-2 items-center">
+                                        <h2 className="font-bold flex-1 font-mono text-2xl">{section.title}</h2>
+                                        <ChevronDownIcon className={`h-6 w-6 duration-300 ease-in-out ${expandedSections[section.id] ? 'rotate-180' : 'rotate-0'}`} />
+                                    </div>
+                                    <p className="pt-4">{section.description}</p>
+                                    {profile && <div className="w-full rounded-full bg-slate-700 h-2 mt-4 overflow-hidden">
+                                        <div style={{ width: `${Math.round(getSectionProgress(section.id).percent * 100)}%` }} className={`h-full bg-sky-300`} />
+                                    </div>}
+                                    {profile && <p className="font-mono text-sm text-slate-400 mt-2">Earned {getSectionProgress(section.id).points}/{getSectionProgress(section.id).total} section points</p>}
+                                </div>
+                                <AnimatePresence>
+                                    {expandedSections[section.id] &&
+                                        section.articles.map((article, articleIndex) => (
+                                            <motion.div key={articleIndex}
+                                                initial={{ y: -50, height: 0, opacity: 0 }}
+                                                animate={{ y: 0, height: 'auto', opacity: 1 }}
+                                                exit={{ y: -50, height: 0, opacity: 0 }}
+                                                transition={{ delay: articleIndex / 40 }}
+                                            >
+                                                <Link href={`/articles/read?article=${article.id}`} passHref>
+                                                    <div className="content-box flex bg-slate-700/50 flex-col justify-left cursor-pointer p-4 border-b border-r hover:border-b-sky-300 ease-in-out duration-75 hover:shadow-xl border-slate-700">
+                                                        <div className="flex flex-row gap-2 justify-left">
+                                                            <div className="text-xl flex-1 font-bold">{article.title}</div>
+                                                            <div className="p-1 font-mono bg-sky-300 rounded-sm text-slate-900 text-sm">
+                                                                {getArticleStatus(article.id)}
+                                                            </div>
+                                                            <div className="flex p-1 items-center justify-center bg-slate-600 font-mono rounded-sm text-sm">
+                                                                {
+                                                                    article.quiz ? `${article.quiz.points}pts` : "NQ"
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex flex-row gap-2 mt-2">
+                                                            {article.tags.map((tag, tagIndex) => (
+                                                                <div key={tagIndex} className="p-1 text-xs bg-sky-300 text-slate-900 font-mono rounded-sm"> {tag} </div>
+                                                            ))}
+                                                        </div>
+                                                        <div className="mt-2">
+                                                            <p className="text-slate-400"> {article.description}</p>
+                                                        </div>
+                                                    </div>
+                                                </Link>
+                                            </motion.div>
+                                        ))}
+                                </AnimatePresence>
+                            </div>
+                        );
+                    })}
                 </div>
             </div>
         </div>
-
-        <ul className="list-disc ml-4 mt-5">
-            {sections.map((section, index) => {
-                return (
-                    <div key={index}>
-                        <div key={index} className="md:flex gap-4 justify-center "
-                            onClick={() => toggleSectionExpansion(section.id)}>
-                            <div className="hover:-translate-y-2 bg-blue-950 cursor-pointer p-4 rounded-lg border mb-4 md:w-1/2 ease-in-out duration-300 hover:shadow-xl hover:shadow-indigo-500/50">
-                                <p className="font-bold font-['Menlo']">{section.title}</p>
-                                <p className="pt-4 font-mono">{section.description}</p>
-                                <div className="flex">
-                                    <Link className="link no-underline pt-3" href={''}>
-                                        Learn More
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            strokeWidth={1.5}
-                                            stroke="currentColor"
-                                            className="w-6 h-6 inline-block"
-                                        >
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
-                                        </svg>
-                                    </Link>
-                                </div>
-                            </div>
-                        </div>
-                        {expandedSections[section.id] &&
-                            section.articles.map((article, articleIndex) => (
-                                <Link href={`/articles/read?article=${article.id}`} passHref>
-                                    <motion.div
-                                        initial={{ y: -100, opacity: 0 }}
-                                        animate={{ y: 0, opacity: 1 }}
-                                        exit={{ y: -100, opacity: 0 }}
-                                        transition={{ duration: articleIndex/4}}
-                                    >
-                                        <div key={articleIndex} className={`md:flex gap-4 justify-center`}>
-                                            <div className="flex justify-left hover:-translate-y-2 bg-indigo-900 cursor-pointer p-4 rounded-lg border md:w-1/2 mb-4 ease-in-out duration-300 hover:shadow-xl hover:shadow-indigo-500/50">
-                                                <ul className="justify-left">
-                                                    <li>
-                                                        <div className="flex flex-row ml-3 justify-left">
-                                                            <div className="text-xl font-mono">{article.title}</div>
-                                                            <div className="ml-3 pl-2 pr-2 h-1/6 bg-cyan-500 rounded-lg">
-                                                                To-Do
-                                                            </div>
-                                                        </div>
-                                                        <div className="flex flex-row mt-2 ">
-                                                            {article.tags.map((tag, tagIndex) => (
-                                                                <div key={tagIndex} className="ml-3 pl-2 pr-2 bg-cyan-500 rounded-lg"> {tag} </div>
-                                                            ))}
-                                                        </div>
-                                                        <div className="ml-3 mt-2">
-                                                            <p className="text-lg text-slate-400"> {article.description}</p>
-                                                        </div>
-
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </motion.div>
-                                </Link>
-                            ))}
-                    </div>
-                );
-            })}
-        </ul>
     </main>
 }

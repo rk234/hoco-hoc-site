@@ -24,6 +24,9 @@ export type Section = {
     index: number,
     title: string,
     description: string,
+    points: {
+        [articleID: string]: number
+    }
     articles: DocumentReference[]
 }
 
@@ -96,11 +99,15 @@ export async function getArticleFromRef(articleRef: DocumentReference): Promise<
     return getArticleFromID(articleRef.id)
 }
 
-export async function setArticleQuiz(articleID: string, hasQuiz: boolean, pts: number) {
-    const ref = doc(db, "articles/" + articleID)
-    await updateDoc(ref, {
+export async function setArticleQuiz(articleID: string, sectionID: string, hasQuiz: boolean, pts: number) {
+    const articleRef = doc(db, "articles/" + articleID)
+    const sectionRef = doc(db, "sections/" + sectionID)
+    await updateDoc(articleRef, {
         quiz: hasQuiz ? {
             points: pts
         } : undefined
+    })
+    await updateDoc(sectionRef, {
+        ["points." + articleID]: hasQuiz ? pts : 0
     })
 }
