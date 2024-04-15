@@ -106,11 +106,11 @@ export default function Articles() {
         <div className="flex flex-col lg:flex-row h-full">
             <div className="lg:flex-1 p-4 lg:p-16 bg-gradient-to-tr from-sky-800 to-blue-800 border-r flex flex-col items-end border-r-slate-800">
                 <div className="w-full h-full lg:max-w-xl flex flex-col">
-                    <h1 className="font-bold text-3xl md:text-7xl mb-3"> Articles </h1>
+                    <h1 className="font-bold text-3xl md:text-7xl mb-1 md:mb-3"> Articles </h1>
                     <p className="text-sm md:text-lg text-slate-400">
                         Complete articles to get points, which are transformed into raffle tickets and earns your school points!
                     </p>
-                    <div className="flex-1 min-h-4" />
+                    <div className="flex-1 min-h-2 md:min-h-4" />
                     {!isLoading && !error && profile && <div className="rounded-md text-sm md:text-base border border-slate-800 bg-slate-950/50 p-2 md:p-4">
                         <div className="w-full rounded-full bg-slate-800 h-3 mb-2 overflow-hidden">
                             <div style={{ width: `${Math.round(getOverallProgress().percent * 100)}%` }} className={`h-full bg-sky-300`} />
@@ -135,7 +135,7 @@ export default function Articles() {
                             <div key={index} className="flex flex-col w-full">
                                 <div
                                     onClick={() => toggleSectionExpansion(section.id)}
-                                    className={`z-20 cursor-pointer p-4 border-b border-r drop-shadow-2xl bg-slate-800 ${!expandedSections[section.id] ? " border-slate-700" : "border-b-4 border-r-slate-700 border-b-sky-300"} ease-in-out duration-300`}>
+                                    className={`z-[20] cursor-pointer p-4 border-b border-r drop-shadow-2xl bg-slate-800 ${!expandedSections[section.id] ? " border-slate-700" : "border-b-4 border-r-slate-700 border-b-sky-300"} ease-in-out duration-300`}>
                                     <div className="flex gap-2 items-center">
                                         <h2 className="font-bold flex-1 font-mono text-xl md:text-2xl">{section.title}</h2>
                                         <ChevronDownIcon className={`h-6 w-6 duration-300 ease-in-out ${expandedSections[section.id] ? 'rotate-180' : 'rotate-0'}`} />
