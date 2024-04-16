@@ -21,7 +21,7 @@ export default function TeamSection() {
     ];
 
     return (
-        <div>
+        <div className = "lg:px-12">
             <h3 className="font-mono mt-16 ml-2 mr-2 md:ml-25 md:mr-25 text-sky-300 font-bold bg-gradient-to-b from-sky-300 to-sky-500 text-transparent bg-clip-text text-5xl md:text-6xl mb-8 text-center leading-tight">Meet the Team</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-center px-4 mb-10">
             {teamMembers.map((member, index) => (
