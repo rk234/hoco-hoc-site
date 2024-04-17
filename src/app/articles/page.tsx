@@ -157,12 +157,12 @@ export default function Articles() {
                                             >
                                                 <Link href={`/articles/read?article=${article.id}`} passHref>
                                                     <div className="content-box flex bg-slate-700/50 flex-col justify-left cursor-pointer p-4 border-b border-r hover:border-b-sky-300 ease-in-out duration-75 hover:shadow-xl border-slate-700">
-                                                        <div className="flex flex-row gap-2 justify-left">
+                                                        <div className="flex flex-row gap-2 items-start justify-left">
                                                             <div className="text-xl flex-1 font-bold">{article.title}</div>
-                                                            <div className="p-1 font-mono bg-sky-300 rounded-sm text-slate-900 text-sm">
+                                                            <div className="p-1 font-mono bg-sky-300 rounded-sm text-slate-900 text-xs md:text-sm">
                                                                 {getArticleStatus(article.id)}
                                                             </div>
-                                                            <div className="flex p-1 items-center justify-center bg-slate-600 font-mono rounded-sm text-sm">
+                                                            <div className="flex p-1 items-center justify-center bg-slate-600 font-mono rounded-sm text-xs md:text-sm">
                                                                 {
                                                                     article.quiz ? `${article.quiz.points}pts` : "NQ"
                                                                 }
