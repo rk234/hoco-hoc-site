@@ -104,25 +104,25 @@ export default function Articles() {
             <button onClick={() => refetch()} className={`font-mono btn-secondary text-left`}> Try Again </button>
         </ErrorPopup> : ""}
         <div className="flex flex-col lg:flex-row h-full">
-            <div className="lg:flex-1 p-10 lg:p-16 bg-gradient-to-tr from-sky-800 to-blue-800 border-r flex flex-col items-end border-r-slate-800">
+            <div className="lg:flex-1 p-4 lg:p-16 bg-gradient-to-tr from-sky-800 to-blue-800 border-r flex flex-col items-end border-r-slate-800">
                 <div className="w-full h-full lg:max-w-xl flex flex-col">
-                    <h1 className="font-bold text-6xl md:text-7xl mb-3"> Articles </h1>
-                    <p className="text-lg text-slate-400">
+                    <h1 className="font-bold text-3xl md:text-7xl mb-1 md:mb-3"> Articles </h1>
+                    <p className="text-sm md:text-lg text-slate-400">
                         Complete articles to get points, which are transformed into raffle tickets and earns your school points!
                     </p>
-                    <div className="flex-1 min-h-4" />
-                    {!isLoading && !error && profile && <div className="rounded-md border border-slate-800 bg-slate-950/50 p-4">
+                    <div className="flex-1 min-h-2 md:min-h-4" />
+                    {!isLoading && !error && profile && <div className="rounded-md text-sm md:text-base border border-slate-800 bg-slate-950/50 p-2 md:p-4">
                         <div className="w-full rounded-full bg-slate-800 h-3 mb-2 overflow-hidden">
                             <div style={{ width: `${Math.round(getOverallProgress().percent * 100)}%` }} className={`h-full bg-sky-300`} />
                         </div>
                         <p> Earned {getOverallProgress().points}/{getOverallProgress().total} total points.</p>
                     </div>}
-                    {!profile && <div className="rounded-md border border-slate-800 bg-slate-950/50 p-4">
+                    {!profile && <div className="rounded-md text-sm md:text-base border border-slate-800 bg-slate-950/50 p-2 md:p-4">
                         Sign in to see your progress here!
                     </div>}
                 </div>
             </div>
-            <div className="flex-1 flex flex-col h-full">
+            <div className="flex-1 flex flex-col h-1/2 lg:h-full">
                 <div className="flex flex-col w-full lg:max-w-xl bg-slate-800/70 h-full overflow-y-scroll">
                     {isLoading && <div className="w-full h-full flex items-center justify-center">
                         <svg className="animate-spin -ml-1 mr-3 h-10 w-10 text-sky-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -135,9 +135,9 @@ export default function Articles() {
                             <div key={index} className="flex flex-col w-full">
                                 <div
                                     onClick={() => toggleSectionExpansion(section.id)}
-                                    className={`z-20 cursor-pointer p-4 border-b border-r drop-shadow-2xl bg-slate-800 ${!expandedSections[section.id] ? " border-slate-700" : "border-b-4 border-r-slate-700 border-b-sky-300"} ease-in-out duration-300`}>
+                                    className={`z-[20] cursor-pointer p-4 border-b border-r drop-shadow-2xl bg-slate-800 ${!expandedSections[section.id] ? " border-slate-700" : "border-b-4 border-r-slate-700 border-b-sky-300"} ease-in-out duration-300`}>
                                     <div className="flex gap-2 items-center">
-                                        <h2 className="font-bold flex-1 font-mono text-2xl">{section.title}</h2>
+                                        <h2 className="font-bold flex-1 font-mono text-xl md:text-2xl">{section.title}</h2>
                                         <ChevronDownIcon className={`h-6 w-6 duration-300 ease-in-out ${expandedSections[section.id] ? 'rotate-180' : 'rotate-0'}`} />
                                     </div>
                                     <p className="pt-4">{section.description}</p>
@@ -157,12 +157,12 @@ export default function Articles() {
                                             >
                                                 <Link href={`/articles/read?article=${article.id}`} passHref>
                                                     <div className="content-box flex bg-slate-700/50 flex-col justify-left cursor-pointer p-4 border-b border-r hover:border-b-sky-300 ease-in-out duration-75 hover:shadow-xl border-slate-700">
-                                                        <div className="flex flex-row gap-2 justify-left">
+                                                        <div className="flex flex-row gap-2 items-start justify-left">
                                                             <div className="text-xl flex-1 font-bold">{article.title}</div>
-                                                            <div className="p-1 font-mono bg-sky-300 rounded-sm text-slate-900 text-sm">
+                                                            <div className="p-1 font-mono bg-sky-300 rounded-sm text-slate-900 text-xs md:text-sm">
                                                                 {getArticleStatus(article.id)}
                                                             </div>
-                                                            <div className="flex p-1 items-center justify-center bg-slate-600 font-mono rounded-sm text-sm">
+                                                            <div className="flex p-1 items-center justify-center bg-slate-600 font-mono rounded-sm text-xs md:text-sm">
                                                                 {
                                                                     article.quiz ? `${article.quiz.points}pts` : "NQ"
                                                                 }
