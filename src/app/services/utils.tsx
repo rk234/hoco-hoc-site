@@ -18,8 +18,8 @@ export function truncate(text: string, chars: number): string {
     return text.length <= chars ? text : text.substring(0, chars) + "..."
 }
 
-export function mdCodeBlockParser(code_props: (ClassAttributes<HTMLElement> & HTMLAttributes<HTMLElement> & ExtraProps), profile: Profile): JSX.Element {
-    const { children, className, ...rest } = code_props;
+export function mdCodeBlockParser(codeProps: (ClassAttributes<HTMLElement> & HTMLAttributes<HTMLElement> & ExtraProps), profile: Profile): JSX.Element {
+    const { children, className, ...rest } = codeProps;
     let langs = className ? className.split('-')[1].split(',') : [];
     let examples = children ? (children as string).split('\n%%\n') : [];
     let out: string
