@@ -77,6 +77,7 @@ export default function ArticleEditor(props: Props) {
 
     function handleSave(quiz: Quiz, answers: number[]) {
         if (quiz) {
+            quiz.id = article.id + "-quiz"
             createQuiz(quiz, answers).then(() => {
                 setArticleQuiz(props.article.id, props.sectionID, true, quiz.points).then(() => {
                     alert("Quiz successfully created")
