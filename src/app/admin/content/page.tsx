@@ -19,10 +19,14 @@ export default function AdminContentPage() {
     })
 
     function articlesForSection(section: Section): Article[] {
-        return articles.filter(article => {
-            let found = section.articles.find((ref) => ref.id == article.id)
-            return found ? true : false
-        })
+        if (articles) {
+            return articles.filter(article => {
+                let found = section.articles.find((ref) => ref.id == article.id)
+                return found ? true : false
+            })
+        } else {
+            return []
+        }
     }
 
     return <main>
