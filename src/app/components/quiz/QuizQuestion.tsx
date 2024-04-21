@@ -40,7 +40,15 @@ export default function QuizQuestion(props: Props) {
             <fieldset className="flex flex-col gap-1">
                 {props.question.options.map((opt, i) => <div key={i} onClick={() => handleSelectionChange(i)} className={`flex flex-row gap-2 items-center rounded border p-2 py-4 cursor-pointer hover:bg-sky-700/30 ${i == selected ? "bg-sky-700/30 border-sky-300" : "bg-slate-9000/30 border-slate-700"}`}>
                     <div className={`min-w-4 min-h-4 rounded-full overflow-hidden ${i == selected ? "bg-sky-300" : "bg-slate-600"}`}></div>
-                    <label htmlFor={props.number + "-opt-" + i}>{opt}</label>
+                    <label htmlFor={props.number + "-opt-" + i}>
+                        <Markdown className="w-full"
+                            components={{
+                                code(code_props) {
+                                    return mdCodeBlockParser(code_props, profile)
+                                }
+                            }}
+                        >{opt}</Markdown>
+                    </label>
                 </div>
                 )}
             </fieldset>
