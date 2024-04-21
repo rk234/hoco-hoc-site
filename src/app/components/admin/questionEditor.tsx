@@ -1,5 +1,8 @@
 import { Question } from "@/app/services/quizService"
+import { mdCodeBlockParser } from "@/app/services/utils"
 import { useEffect, useState } from "react"
+import Markdown from "react-markdown"
+import { useProfile } from "../auth-provider/authProvider"
 
 type Props = {
     className?: string
@@ -14,6 +17,7 @@ export default function QuestionEditor(props: Props) {
     let [question, setQuestion] = useState<Question>(props.question)
     let [correctIndex, setCorrectIndex] = useState<number>(props.answer ?? -1)
     let [newOpt, setNewOpt] = useState<string>("")
+    const profile = useProfile()
 
     useEffect(() => {
         setQuestion(props.question)
@@ -60,7 +64,15 @@ export default function QuestionEditor(props: Props) {
         {
             question.options.map((opt, i) => {
                 return <div key={i} className="flex flex-row items-center border rounded p-2 border-slate-700">
-                    <p className="hover:line-through cursor-pointer hover:text-red-400 hover:font-bold" onClick={() => removeOption(i)}>{i + 1}: {opt}</p>
+                    <p className="hover:line-through cursor-pointer hover:text-red-400 hover:font-bold" onClick={() => removeOption(i)}>{i + 1}:
+                        <Markdown className="w-full"
+                            components={{
+                                code(code_props) {
+                                    return mdCodeBlockParser(code_props, profile)
+                                }
+                            }}
+                        >{opt}</Markdown>
+                    </p>
                     <div className="flex-1"></div>
                     <button className={`btn-secondary font-mono ${correctIndex == i && "bg-green-400"}`} onClick={() => handleMarkCorrect(i)}>[Mark Correct]</button>
                 </div>

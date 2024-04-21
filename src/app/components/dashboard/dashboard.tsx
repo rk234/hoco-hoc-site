@@ -41,7 +41,7 @@ export default function ProfileDashboard(props: Props) {
     )}
     <div className="flex flex-row flex-wrap w-full items-stretch gap-4">
       {!loadingSections ? (
-        sections.map(section =>
+        sections.sort((a, b) => a.index - b.index).map(section =>
           <SectionProgressCard className="flex-1 min-w-64 h-52" key={section.id} section={section} points={props.profile.scores[section.id]} />
         )
       ) : (
