@@ -15,7 +15,7 @@ export default function TeamCard(props: TeamProps) {
     
     return (
         <div className="max-w-full flex flex-wrap justify-center">
-            <div className= "bg-gray-900 p-4 rounded-md flex items-center sm:items-stretch w-72 md:w-80 lg:w-96 border border-sky-800 drop-shadow-2xl justify-center mx-4 my-4">
+            <div className= "bg-gray-900 p-4 rounded-md flex items-center sm:items-stretch w-full md:w-80 lg:w-96 border border-sky-800 drop-shadow-2xl justify-center mx-4 my-2 md:my-4">
                 <div >
                     <img className="w-20 h-20 md:w-24 md:h-24 lg:w-32 lg:h-32 object-cover rounded-md" src={member.image} alt={member.name} />
                 </div>
