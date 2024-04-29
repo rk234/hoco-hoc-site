@@ -11,12 +11,7 @@ export default function Sponsors() {
           <h1 className="font-mono text-lg">Silver</h1>
         </div>
         <div className="flex flex-row flex-wrap justify-center items-center p-4 bg-gray-600/3 gap-8">
-          <a href="https://www.interviewcake.com/" target='_blank'>
-            <img src="/sponsors/interview-cake.svg" className='h-24' alt="Interview Cake Logo" />
-          </a>
-          <a href="https://www.janestreet.com/" target='_blank'>
-            <img src="sponsors/jane-street.png" className='h-24' alt="Jane Street Logo" />
-          </a>
+          
         </div>
       </div>
 
@@ -25,16 +20,17 @@ export default function Sponsors() {
           <h1 className="font-mono text-lg">Bronze</h1>
         </div>
         <div className="flex flex-row flex-wrap justify-center p-4 items-center bg-amber-700/30 gap-8">
-          <a href="https://artofproblemsolving.com/" target='_blank' className='bg-slate-200 p-1 rounded'>
-            <img src="/sponsors/aops.png" className='h-24' alt="AOPS Logo" />
+        <a href="https://www.interviewcake.com/" target='_blank'>
+            <img src="/sponsors/script_kiddo.png" className='h-24' alt="Interview Cake Logo" />
           </a>
-
-          <a href="https://1password.com/" target='_blank' className='p-1 rounded'>
-            <img src="/sponsors/1password.svg" className='h-24' alt="1Password Logo" />
+          <a href="https://www.janestreet.com/" target='_blank'>
+            <img src="sponsors/aops.png" className='h-24' alt="Jane Street Logo" />
           </a>
-
-          <a href="https://www.smythjewelers.com/" target='_blank' className='p-1 rounded'>
-            <img src="/sponsors/smyth.webp" className='h-24' alt="Smyth Jewelers Logo" />
+          <a href="https://www.janestreet.com/" target='_blank'>
+            <img src="sponsors/wolfram-alpha.png" className='h-24' alt="Jane Street Logo" />
+          </a>
+          <a href="https://www.janestreet.com/" target='_blank'>
+            <img src="sponsors/vercel.png" className='h-24' alt="Jane Street Logo" />
           </a>
         </div>
       </div>
