@@ -20,7 +20,7 @@ type ProfileContext = {
 
 const AuthContext = createContext<ProfileContext>({
     profile: null,
-    setProfile: (newProfile) => {}
+    setProfile: (newProfile) => { }
 });
 
 export function useProfile(): Profile {
@@ -39,7 +39,7 @@ export default function AuthProvider(props: Props) {
     let [profileContext, setProfileContext] = useState<ProfileContext>(
         {
             profile: null,
-            setProfile: (n) => {setProfileContext({...profileContext, profile: n})}
+            setProfile: (n) => { setProfileContext({ ...profileContext, profile: n }) }
         }
     );
     let [firebaseUser, setFirebaseUser] = useState<User>(undefined);
@@ -52,12 +52,12 @@ export default function AuthProvider(props: Props) {
         //console.log("Update")
         const listener = onAuthStateChanged(auth, user => {
             setFirebaseUser(user)
-            if(user) {
-                if(!profileContext.profile) {
+            if (user) {
+                if (!profileContext.profile) {
                     getUserData(user.uid).then(prof => {
-                        if(prof) {
+                        if (prof) {
                             setProfileContext(
-                                {...profileContext, profile: prof}
+                                { ...profileContext, profile: prof }
                             )
                         } else {
                             setShowRegisterModal(true)
@@ -69,9 +69,9 @@ export default function AuthProvider(props: Props) {
                 }
             } else {
                 //console.log("Here")
-                if(profileContext.profile != null) {
+                if (profileContext.profile != null) {
                     setProfileContext(
-                        {...profileContext, profile: null}
+                        { ...profileContext, profile: null }
                     )
                 }
                 setShowRegisterModal(false)
@@ -106,20 +106,20 @@ export default function AuthProvider(props: Props) {
                     <div>
                         <div className="mb-2">
                             <p className="font-bold text-md">Select your highschool</p>
-                            <p className="text-sm text-slate-300">Note: You will not be able to change this later!</p>    
+                            <p className="text-sm text-slate-300">Note: You will not be able to change this later!</p>
                         </div>
                         <select className="font-mono bg-gray-700 p-2 rounded border-2 border-gray-600 hover:bg-gray-600 w-full cursor-pointer" value={school.id} onChange={(e) => setSchool(schools.find(sc => sc.id == e.target.value))}>
-                            {schools.map((s, index) => 
-                               <option key={index} value={s.id}>{s.name}</option> 
+                            {schools.map((s, index) =>
+                                <option key={index} value={s.id}>{s.name}</option>
                             )}
                         </select>
                         <div className="my-2">
                             <p className="font-bold text-md">Select your preferred programming language</p>
-                            <p className="text-sm text-slate-300">This is the language you will see code examples in by default (when they are available in that language).</p>    
+                            <p className="text-sm text-slate-300">This is the language you will see code examples in by default (when they are available in that language).</p>
                         </div>
-                        <select className="font-mono bg-gray-700 p-2 rounded border-2 border-gray-600 hover:bg-gray-600 w-full cursor-pointer" value={ALL_LANGUAGES.indexOf(language)} onChange={(e) => {setLanguage(ALL_LANGUAGES[e.target.value])}}>
-                            {ALL_LANGUAGES.map((lang, index) => 
-                               <option key={index} value={index}>{lang}</option> 
+                        <select className="font-mono bg-gray-700 p-2 rounded border-2 border-gray-600 hover:bg-gray-600 w-full cursor-pointer" value={ALL_LANGUAGES.indexOf(language)} onChange={(e) => { setLanguage(ALL_LANGUAGES[e.target.value]) }}>
+                            {ALL_LANGUAGES.map((lang, index) =>
+                                <option key={index} value={index}>{lang}</option>
                             )}
                         </select>
                     </div>

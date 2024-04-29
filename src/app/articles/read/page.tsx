@@ -6,38 +6,33 @@ import { useEffect, useState } from "react"
 import Skeleton from 'react-loading-skeleton'
 import { SkeletonTheme } from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
-import Modal from "@/app/components/modal/modal"
 import Link from "next/link"
-import ModalContainer from "@/app/components/modal/modalContainer"
 import { useProfile, useProfileUpdate } from "@/app/components/auth-provider/authProvider";
 import Image from "next/image";
 
 import { EyeSlashIcon, CheckCircleIcon } from "@heroicons/react/24/solid"
 import ArticleRenderer from "@/app/components/article-renderer/articleRenderer";
 import { Profile, signInOrRegister, updateCompletedArticles, updateStartedArticles } from "@/app/services/userService"
-import { checkAnswers, getQuiz, Quiz } from "@/app/services/quizService"
+import { checkAnswers, getQuiz } from "@/app/services/quizService"
 import QuizPrompt from "@/app/components/quiz/Quiz"
 import Confetti from "react-confetti"
 import { incrementHoursServed } from "@/app/services/statsService"
+import { useQuery } from "@tanstack/react-query"
+import ErrorPopup from "@/app/components/error-popup/errorPopup"
 
 export default function Read() {
     const params = useSearchParams()
     let [windowSize, setWindowSize] = useState({ width: 100, height: 100 })
-    let [article, setArticle] = useState<Article>()
-    let [loadingArticle, setLoadingArticle] = useState(true)
 
     let [quizError, setQuizError] = useState<"not-authenticated" |
         "contest-not-live" | "already-completed"
         | "error" | undefined>(undefined)
-    let [articleLoadError, setArticleLoadError] = useState(false)
 
     let [showSponsor, setShowSponsor] = useState(true)
     let [visited, setVisited] = useState(false)
     let [progress, setProgress] = useState<"started" | "complete">("started")
     let [enterTime, setEnterTime] = useState<Date>(undefined)
 
-    let [quiz, setQuiz] = useState<Quiz>(undefined)
-    let [loadingQuiz, setLoadingQuiz] = useState<boolean>(true)
     let [quizCheckWorking, setQuizCheckWorking] = useState<boolean>(false)
     let [wrongAns, setWrongAns] = useState<number[]>([])
     let [confetti, setConfetti] = useState<boolean>(false)
@@ -45,45 +40,17 @@ export default function Read() {
     let profile = useProfile()
     let setProfile = useProfileUpdate()
 
-    useEffect(() => {
-        if (!article && !articleLoadError) {
-            setLoadingArticle(true)
-            let id = params.get("article")
-            if (id) {
-                getArticleFromID(id).then(article => {
-                    setArticle(article)
-                    setLoadingArticle(false)
-                }).catch(err => {
-                    setArticleLoadError(true)
-                    setLoadingArticle(false)
-                    console.log(err)
-                })
-            } else {
-                setArticleLoadError(true)
-                setLoadingArticle(false)
-            }
-        }
-    }, [article, loadingArticle, params, articleLoadError])
+    const { data: article, isLoading: loadingArticle, error: articleLoadError } = useQuery({
+        queryKey: ["article", params.get("article")],
+        queryFn: async () => getArticleFromID(params.get("article")),
+        enabled: !!params.get("article")
+    })
 
-    useEffect(() => {
-        if (article && article.quiz) {
-            console.log("Article has quiz!")
-            getQuiz(article.id + "-quiz").then(quiz => {
-                console.log(quiz)
-                setQuiz(quiz)
-                setLoadingQuiz(false)
-            }).catch(err => {
-                console.log("Error while fetching the quiz for this article")
-                console.log(err)
-                setLoadingQuiz(false)
-                setArticleLoadError(true)
-            })
-        } else {
-            console.log("No quiz for this article")
-            setQuiz(undefined)
-            setLoadingQuiz(false)
-        }
-    }, [article])
+    const { data: quiz, isLoading: loadingQuiz, error: quizLoadError } = useQuery({
+        queryKey: ["quiz", article && article.id + "-quiz"],
+        queryFn: async () => getQuiz(article.id + "-quiz"),
+        enabled: (article != undefined && article.quiz != undefined)
+    })
 
     useEffect(() => {
         if (!enterTime) {
@@ -162,6 +129,8 @@ export default function Read() {
                 .then(() => console.log("Updated completed articles in firebase!"))
                 .catch(err => console.log("Error while updating completed: " + err))
         }
+        newProfile.scores[article.sectionID] += article.quiz ? article.quiz.points : 0
+
         setProfile(newProfile)
         setProgress("complete")
         setWrongAns([])
@@ -197,24 +166,25 @@ export default function Read() {
 
     return <main className="flex flex-col items-center h-auto">
         {articleLoadError ?
-            <ModalContainer>
-                <Modal className="flex flex-col">
-                    <h1 className={`font-mono text-2xl font-bold text-red-400 mb-2`}>Something went wrong...</h1>
-                    <p className="mb-4">A error occured while fetching this article. This is most likely because the article you requested does not exist. Try going back to the articles and sections page to find an existing article. If the problem persists, contact us.</p>
-                    <Link href={"/articles"} className={`font-mono btn-secondary`}> Go back to articles page </Link>
-                </Modal>
-            </ModalContainer>
+            <ErrorPopup error={articleLoadError}>
+                <p className="mb-4">A error occured while fetching this article. This is most likely because the article you requested does not exist. Try going back to the articles and sections page to find an existing article. If the problem persists, contact us.</p>
+                <Link href={"/articles"} className={`font-mono btn-secondary`}> Go back to articles page </Link>
+            </ErrorPopup>
+            : ""
+        }
+        {quizLoadError ?
+            <ErrorPopup error={quizLoadError}>
+                <p className="mb-4">A error occured while fetching the quiz for this article. This is probably a problem on our end, contact us.</p>
+                <Link href={"/articles"} className={`font-mono btn-secondary`}> Go back to articles page </Link>
+            </ErrorPopup>
             : ""
         }
         {
             quizError &&
-            <ModalContainer>
-                <Modal className="flex flex-col">
-                    <h1 className={`font-mono text-2xl font-bold text-red-400 mb-2`}>Something went wrong...</h1>
-                    <p className="mb-4">An error occured while trying to submit your quiz. Error Code: <span className="font-mono">{quizError}</span></p>
-                    <button onClick={() => setQuizError(undefined)} className="btn-secondary font-mono">Close</button>
-                </Modal>
-            </ModalContainer>
+            <ErrorPopup error={new Error(quizError)}>
+                <p className="mb-4">An error occured while trying to submit your quiz.</p>
+                <button onClick={() => setQuizError(undefined)} className="btn-secondary font-mono">Close</button>
+            </ErrorPopup>
         }
         {
             confetti && <Confetti className="fixed top-0 left-0" numberOfPieces={500} recycle={false} style={{ position: "fixed" }} width={windowSize.width} height={windowSize.height} />
@@ -282,5 +252,5 @@ export default function Read() {
                 </div>
             )}
         </div>
-    </main>
+    </main >
 }

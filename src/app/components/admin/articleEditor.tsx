@@ -8,6 +8,7 @@ import ModalContainer from "../modal/modalContainer"
 import QuizEditor from "./quizEditor"
 import Modal from "../modal/modal"
 import { Quiz, createQuiz, getQuiz, getQuizAnswers } from "@/app/services/quizService"
+import { useQuery } from "@tanstack/react-query"
 
 type Props = {
     article: Article
@@ -33,8 +34,6 @@ export default function ArticleEditor(props: Props) {
     let [sectionID, setSectionID] = useState<string>(props.sectionID)
     let [sponsored, setSponsored] = useState(props.article.sponsor ? true : false)
     let [quizModal, setQuizModal] = useState<boolean>(false)
-    let [quiz, setQuiz] = useState<Quiz>(undefined)
-    let [quizAnswers, setQuizAnswers] = useState<number[]>(undefined)
     let [hasQuiz, setHasQuiz] = useState<boolean>(false)
 
     useEffect(() => {
@@ -44,33 +43,27 @@ export default function ArticleEditor(props: Props) {
         setSponsored(props.article.sponsor ? true : false)
     }, [props.article, props.sectionID])
 
-    useEffect(() => {
-        if (props.article.id) {
-            getQuiz(props.article.id + "-quiz").then(q => {
-                console.log("Found quiz for article!")
-                if (q) {
-                    setQuiz(q)
-                    console.log(q)
-                    setHasQuiz(true)
-                } else {
-                    setQuiz(DEFAULT_QUIZ)
-                    setHasQuiz(false)
-                }
-            }).catch(err => {
-                console.log("no quiz")
-                setQuiz(DEFAULT_QUIZ)
-                setHasQuiz(false)
-            })
+    const { data: quiz, isLoading: loadingQuiz, error: quizLoadError } = useQuery({
+        queryKey: ["quiz", article.id + "-quiz"],
+        queryFn: async () => getQuiz(article.id + "-quiz"),
+        enabled: !!article.quiz,
+        initialData: DEFAULT_QUIZ
+    })
 
-            getQuizAnswers(props.article.id + "-quiz").then(ans => {
-                console.log(ans)
-                setQuizAnswers(ans)
-            }).catch(err => {
-                console.log("err while fetching questions")
-                console.log(err)
-            })
+    const { data: quizAnswers, isLoading: loadingAnswers, error: answersLoadError } = useQuery({
+        queryKey: ["quiz-ans", article.id + "-quiz"],
+        queryFn: async () => getQuizAnswers(article.id + "-quiz"),
+        enabled: !!article.quiz,
+        initialData: []
+    })
+
+    useEffect(() => {
+        if (props.article.quiz) {
+            setHasQuiz(true)
+        } else {
+            setHasQuiz(false)
         }
-    }, [props.article.id])
+    }, [props.article])
 
     function handleSponsor(sponsored: boolean) {
         setSponsored(sponsored)
@@ -85,7 +78,7 @@ export default function ArticleEditor(props: Props) {
     function handleSave(quiz: Quiz, answers: number[]) {
         if (quiz) {
             createQuiz(quiz, answers).then(() => {
-                setArticleQuiz(props.article.id, true, quiz.points).then(() => {
+                setArticleQuiz(props.article.id, props.sectionID, true, quiz.points).then(() => {
                     alert("Quiz successfully created")
                     setQuizModal(false)
                 }).catch(err => console.log(err))
@@ -94,15 +87,15 @@ export default function ArticleEditor(props: Props) {
                 console.log(err)
             })
         } else {
-            setArticleQuiz(props.article.id, false, 0)
+            setArticleQuiz(props.article.id, props.sectionID, false, 0)
         }
     }
 
     function deleteQuiz() {
-        setArticleQuiz(props.article.id, false, 0)
+        setArticleQuiz(props.article.id, props.sectionID, false, 0)
     }
 
-    return <div className="flex flex-row w-full h-full">
+    return <div className="flex flex-row w-full flex-1 h-[calc(100vh-7.5rem)]">
         {
             quizModal ? <ModalContainer>
                 <Modal>
@@ -158,7 +151,7 @@ export default function ArticleEditor(props: Props) {
                 <button className="btn-secondary font-mono" onClick={props.onCancel}> Cancel </button>
             </div>
         </div>
-        <div className="flex-1 flex-col h-full">
+        <div className="flex-1 flex-col h-[calc(100vh-7.5rem)]">
             <MDEditor className="flex-1"
                 value={article.content}
                 height={"100%"}

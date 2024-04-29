@@ -23,6 +23,7 @@ export default function QuizPrompt(props: Props) {
 
     return <main className={`flex flex-col bg-slate-800 rounded-md overflow-hidden border gap-2 ${props.completed ? "border-2 border-emerald-400" : "border-gray-600"}`}>
         <div className={`p-2 text-slate-200 border-b border-gray-600 flex flex-row items-center gap-2 ${props.completed && "bg-emerald-600/30"}`}>
+            {props.completed && <CheckCircleIcon height={10} width={15} className="h-7 w-7 text-emerald-300" />}
             <h1 className="text-2xl font-bold flex-1 font-mono">Quiz</h1>
             <p className={`font-mono text-sm ${props.completed ? "text-slate-100" : "text-slate-400"}`}>{props.quiz.points} pts</p>
         </div>
