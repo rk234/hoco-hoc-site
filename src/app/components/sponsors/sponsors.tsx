@@ -1,4 +1,5 @@
 import { JetBrains_Mono } from 'next/font/google'
+import Image from 'next/image';
 
 export default function Sponsors() {
   return <div className='flex flex-col md:flex-row bg-gray-900 p-4 pt-16 md:p-8 md:pt-10 gap-9 md:gap-9 items-top'>
@@ -20,17 +21,17 @@ export default function Sponsors() {
           <h1 className="font-mono text-lg">Bronze</h1>
         </div>
         <div className="flex flex-row flex-wrap justify-center p-4 items-center bg-amber-700/30 gap-8">
-        <a href="https://www.interviewcake.com/" target='_blank'>
-            <img src="/sponsors/script_kiddo.png" className='h-24' alt="Interview Cake Logo" />
+        <a href="/" target='_blank'>
+            <img src="/sponsors/script_kiddo.png" className='h-24' alt="Script Kiddo" />
           </a>
-          <a href="https://www.janestreet.com/" target='_blank'>
-            <img src="sponsors/aops.png" className='h-24' alt="Jane Street Logo" />
+          <a href="https://artofproblemsolving.com/" target='_blank'>
+            <img src="sponsors/aops.png" className='h-24 bg-slate-200 rounded-lg p-2' alt="Art of Problem Solving" />
           </a>
-          <a href="https://www.janestreet.com/" target='_blank'>
-            <img src="sponsors/wolfram-alpha.png" className='h-24' alt="Jane Street Logo" />
+          <a href="https://www.wolframalpha.com/" target='_blank'>
+            <img src="sponsors/wolfram-alpha.png" className='h-24' alt="Wolfram Alpha" />
           </a>
-          <a href="https://www.janestreet.com/" target='_blank'>
-            <img src="sponsors/vercel.png" className='h-24' alt="Jane Street Logo" />
+          <a href="https://vercel.com/" target='_blank'>
+            <img src="sponsors/vercel.png" className='h-24' alt="Vercel" />
           </a>
         </div>
       </div>
