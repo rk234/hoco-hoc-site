@@ -8,6 +8,7 @@ import AboutSection from './components/about/about';
 import Faq from './components/faq/faq';
 import Prizes from './components/prizes/prizes';
 import Team from './components/team/team';
+import Sponsors from "./components/sponsors/sponsors";
 
 export default function Home() {
   let [stats, setStats] = useState<LiveStats>({ totalHours: 0, totalUsers: 0, totalViews: 0 })
@@ -35,6 +36,9 @@ export default function Home() {
       </div>
       <div className="bg-gray-900" id="faq" >
         <Faq></Faq>
+      </div>
+      <div>
+        <Sponsors />
       </div>
     </main>
   );
