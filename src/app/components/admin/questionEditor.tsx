@@ -46,6 +46,7 @@ export default function QuestionEditor(props: Props) {
 
         newQuestion.options.push(newOpt)
         setQuestion(newQuestion)
+        setNewOpt("")
         props.onChange(props.number, newQuestion, correctIndex)
     }
 

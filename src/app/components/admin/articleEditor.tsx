@@ -43,18 +43,19 @@ export default function ArticleEditor(props: Props) {
         setSponsored(props.article.sponsor ? true : false)
     }, [props.article, props.sectionID])
 
-    const { data: quiz, isLoading: loadingQuiz, error: quizLoadError } = useQuery({
-        queryKey: ["quiz", article.id + "-quiz"],
-        queryFn: async () => getQuiz(article.id + "-quiz"),
-        enabled: !!article.quiz,
-        initialData: DEFAULT_QUIZ
-    })
 
     const { data: quizAnswers, isLoading: loadingAnswers, error: answersLoadError } = useQuery({
         queryKey: ["quiz-ans", article.id + "-quiz"],
         queryFn: async () => getQuizAnswers(article.id + "-quiz"),
         enabled: !!article.quiz,
         initialData: []
+    })
+
+    const { data: quiz, isLoading: loadingQuiz, error: quizLoadError } = useQuery({
+        queryKey: ["quiz", article.id + "-quiz"],
+        queryFn: async () => getQuiz(article.id + "-quiz"),
+        enabled: !!article.quiz,
+        initialData: DEFAULT_QUIZ
     })
 
     useEffect(() => {
