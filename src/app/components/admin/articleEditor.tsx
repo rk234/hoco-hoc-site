@@ -119,6 +119,8 @@ export default function ArticleEditor(props: Props) {
                     setSectionID(e.target.value)
                 }}></input>
             </div>
+            <p>Index of article in section: </p>
+            <input type="number" value={article.index} onChange={e => setArticle({ ...article, index: parseInt(e.target.value) })} />
 
             <p>Article Title</p>
             <input type="text" placeholder="Title" value={article.title} onChange={(e) => setArticle({ ...article, title: e.target.value })}></input>

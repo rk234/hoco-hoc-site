@@ -41,7 +41,9 @@ export default function Articles() {
                 description: section.description,
                 articles: [] as Article[]
             }
-            sectionObj.articles = section.articles.map(article => articles.find(a => a.id == article.id))
+            sectionObj.articles = section.articles.map(article => articles.find(a => a.id == article.id)).sort(
+                (a, b) => a.index - b.index
+            )
             hydrated.push(sectionObj)
         })
 

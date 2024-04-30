@@ -9,6 +9,7 @@ import { useState, useEffect } from "react"
 export default function AdminArticleEditPage() {
     const placeHolderID = "[REPLACE WITH THE ID YOU WANT]";
     const defaultArticle: Article = {
+        index: 1,
         id: placeHolderID,
         title: "Untitled article",
         description: "Description...",
