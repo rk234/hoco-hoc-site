@@ -9,7 +9,7 @@ export type Article = {
     content: string,
     tags: string[],
     sectionID: string,
-    index?: number,
+    index: number,
     sponsor?: {
         name: string,
         imageUrl: string,
