@@ -11,7 +11,7 @@ export default function Faq() {
                 <div className="w-full md:w-1/2 flex flex-col">
                     <FaqQuestion
                         question={"When is the Hour of Code?"}
-                        answer={`Date TBD`}
+                        answer={`Howard County Hour of Code is a 5-day event taking place from May 29 to June 4, 2023.`}
                     />
                     <FaqQuestion
                         question={"How do I participate in the Hour of Code?"}
@@ -24,7 +24,7 @@ export default function Faq() {
                     <FaqQuestion
                         question={"How do the points/prizes work?"}
                         answer={`
-                        Points are earned by completing articles! Stay tuned for more information about prizes. 
+                        Points are earned by completing articles! Scroll up to our prizes section to see what you can win this year. 
                     `}
 
                     />
