@@ -14,8 +14,8 @@ export default function TeamCard(props: TeamProps) {
     const { member } = props;
 
     return (
-        <div className="w-full">
-            <div className="w-full bg-gray-900 p-4 rounded-md flex items-center sm:items-stretch border border-gray-800 drop-shadow-2xl justify-center">
+        <div className="w-full h-full">
+            <div className="w-full h-full bg-gray-900 p-4 rounded-md flex items-center sm:items-stretch border border-gray-800 drop-shadow-2xl justify-center">
                 <div>
                     <img className="w-20 h-20 object-cover rounded-full" src={member.image} alt={member.name} />
                 </div>
