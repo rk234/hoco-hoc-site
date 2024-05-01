@@ -41,14 +41,16 @@ export default function AboutSection() {
 
 
     return (
-        <div className="p-4 md:p-8 md:py-32 py-16 max-w-full flex flex-wrap justify-center">
-            <div className="md:text-left max-w-screen-xl justify-center">
-                <h3 className="text-slate-200 font-bold  text-5xl md:text-6xl leading-tight pb-8">Learn <span className="bg-gradient-to-b from-sky-300 to-sky-500 text-transparent bg-clip-text font-mono"><Typewriter words={phrases} cursor={true} cursorStyle={"_"} loop={true} /></span> <span className="underline">the fun way! </span> </h3>
-                <p className="mb-10 text-lg md:text-xl font-sans text-slate-300 flex flex-row gap-2 w-full max-w-4xl">
-                    The Hour of Code started as a one-hour introduction to computer science, designed to demystify "code", to show that anybody can learn the basics, and to broaden participation in the field of computer science. It has since become a worldwide effort to celebrate computer science, starting with 1-hour coding activities but expanding to all sorts of community efforts. Howard County's version of Hour of Code is made by students, for students.
-                </p>
+        <div className="p-4 md:p-8 md:py-32 py-16 w-full flex flex-wrap justify-center">
+            <div className="max-w-screen-2xl w-full flex flex-col gap-32 justify-center">
+                <div>
+                    <h3 className="text-slate-200 font-bold  text-5xl md:text-6xl leading-tight pb-8">Learn <span className="bg-gradient-to-b from-sky-300 to-sky-500 text-transparent bg-clip-text font-mono"><Typewriter words={phrases} cursor={true} cursorStyle={"_"} loop={true} /></span> <span className="underline">the fun way! </span> </h3>
+                    <p className="mb-10 text-lg md:text-xl font-sans text-slate-300 flex flex-row gap-2 w-full max-w-4xl">
+                        The Hour of Code started as a one-hour introduction to computer science, designed to demystify "code", to show that anybody can learn the basics, and to broaden participation in the field of computer science. It has since become a worldwide effort to celebrate computer science, starting with 1-hour coding activities but expanding to all sorts of community efforts. Howard County's version of Hour of Code is made by students, for students.
+                    </p>
+                </div>
 
-                <div className="flex flex-col gap-12 md:flex-row items-center md:space-x-4 my-16 md:my-20">
+                <div className="flex flex-col gap-12 md:flex-row items-center md:space-x-4">
                     <div className="flex-1">
                         <h3 className="font-mono text-4xl md:text-5xl bg-gradient-to-r from-sky-300 to-sky-500 text-transparent bg-clip-text font-bold pb-4 md:pb-10">Compete For Glory!</h3>
                         <p className="font-sans mb-10  text-l text-slate-300 md:text-xl">We aim to provide aspiring computer scientists with an opportunity for skill development and friendly competition. Visit the leaderboard to check out how your high school is doing! All Howard County schools and corresponding points will be displayed here.</p>
@@ -62,7 +64,7 @@ export default function AboutSection() {
                 </div>
 
 
-                <div className="flex flex-col-reverse gap-12 items-center md:flex-row my-16 md:my-20">
+                <div className="flex flex-col-reverse gap-12 items-center md:flex-row">
                     <div className="flex-1 relative w-full h-full text-slate-300 bg-slate-800 rounded-lg border-b-2 border-gray-900 overflow-hidden">
                         <div className="absolute z-20 w-full h-full bg-gradient-to-b from-transparent via-70% via-transparent to-slate-800 rounded-lg"></div>
                         <div className="text-left w-full h-full p-4 ">
@@ -90,7 +92,7 @@ export default function AboutSection() {
                     </div>
                 </div>
 
-                <div className="flex flex-col md:flex-row gap-12 mt-16 md:mt-20 items-center">
+                <div className="flex flex-col md:flex-row gap-12 items-center">
                     <div className="flex-1 max-w-screen-2xl font-mono">
                         <h3 className="font-mono leading-tight text-4xl md:text-5xl bg-gradient-to-r from-sky-300 to-sky-500 text-transparent bg-clip-text font-bold pb-4 md:pb-10">Track Your Progress!</h3>
                         <p className="font-sans text-lg text-slate-300 md:text-xl mb-10">Complete quizzes to earn points! You'll be able to see how you progress through four sections: Fundamentals, Data Structures & Algorithms, Web Development, and Machine Learning.</p>
