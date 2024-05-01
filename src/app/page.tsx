@@ -30,7 +30,7 @@ export default function Home() {
       <div className="bg-gray-900">
         <Prizes></Prizes>
       </div>
-      <div className="bg-gradient-to-br from-black via-90% via-sky-950 to-sky-950" id="team">
+      <div className="bg-black" id="team">
         <Team></Team>
       </div>
       <div className="bg-gray-900" id="faq" >

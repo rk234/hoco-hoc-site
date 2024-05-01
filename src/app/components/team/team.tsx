@@ -23,14 +23,14 @@ export default function TeamSection() {
     return (
         <div className="flex flex-col items-center p-4 md:p-8 py-20 md:py-32">
             <h3 className="font-mono text-sky-300 font-bold bg-gradient-to-b from-sky-300 to-sky-500 text-transparent bg-clip-text text-5xl md:text-6xl mb-10 text-center">Meet the Team</h3>
-            <div className = "flex flex-col max-w-screen-xl items-center items-start w-full">
-            <div className="gap-x-8 gap-y-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-center">
-                {teamMembers.map((member, index) => (
-                    <TeamCard key={index} member={member} />
-                ))}
-            </div>
+            <div className="flex w-full flex-col max-w-screen-xl items-center">
+                <div className="gap-x-4 gap-y-4 grid grid-cols-1 w-full sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 auto-rows-fr justify-center">
+                    {teamMembers.map((member, index) => (
+                        <TeamCard key={index} member={member} />
+                    ))}
+                </div>
             </div>
         </div>
     );
-    
+
 }
