@@ -27,7 +27,7 @@ export default function Home() {
         <AboutSection></AboutSection>
       </div>
       <StatsCounter liveStats={stats} className="w-full" />
-      <div className="bg-gray-900">
+      <div className="bg-slate-900">
         <Prizes></Prizes>
       </div>
       <div className="bg-black" id="team">

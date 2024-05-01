@@ -33,10 +33,10 @@ export default function AboutSection() {
     };
 
     const progressData = [
-        { percentage: 25, color: "text-sky-400" },
-        { percentage: 50, color: "text-sky-400" },
+        { percentage: 100, color: "text-sky-400" },
         { percentage: 75, color: "text-sky-400" },
-        { percentage: 100, color: "text-sky-400" }
+        { percentage: 50, color: "text-sky-400" },
+        { percentage: 25, color: "text-sky-400" }
     ];
 
 
