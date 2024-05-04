@@ -25,8 +25,10 @@ export default function QuizQuestion(props: Props) {
 
     return <main className={`flex flex-col ${props.className} gap-2`}>
         <div className={`flex flex-row items-start gap-2 ${props.wrong && "border rounded border-red-400 bg-red-400/30"}`}>
-            <h1 className="ml-1 font-bold font-mono text-lg">{props.number}.</h1>
-            <div className="w-full">
+            <div>
+                <h1 className="ml-1 font-bold font-mono text-lg">{props.number}.</h1>
+            </div>
+            <div className="w-5/6">
                 <Markdown className="text-lg w-full"
                     components={{
                         code(code_props) {

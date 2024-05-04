@@ -43,18 +43,19 @@ export default function ArticleEditor(props: Props) {
         setSponsored(props.article.sponsor ? true : false)
     }, [props.article, props.sectionID])
 
-    const { data: quiz, isLoading: loadingQuiz, error: quizLoadError } = useQuery({
-        queryKey: ["quiz", article.id + "-quiz"],
-        queryFn: async () => getQuiz(article.id + "-quiz"),
-        enabled: !!article.quiz,
-        initialData: DEFAULT_QUIZ
-    })
 
     const { data: quizAnswers, isLoading: loadingAnswers, error: answersLoadError } = useQuery({
         queryKey: ["quiz-ans", article.id + "-quiz"],
         queryFn: async () => getQuizAnswers(article.id + "-quiz"),
         enabled: !!article.quiz,
         initialData: []
+    })
+
+    const { data: quiz, isLoading: loadingQuiz, error: quizLoadError } = useQuery({
+        queryKey: ["quiz", article.id + "-quiz"],
+        queryFn: async () => getQuiz(article.id + "-quiz"),
+        enabled: !!article.quiz,
+        initialData: DEFAULT_QUIZ
     })
 
     useEffect(() => {
@@ -118,6 +119,8 @@ export default function ArticleEditor(props: Props) {
                     setSectionID(e.target.value)
                 }}></input>
             </div>
+            <p>Index of article in section: </p>
+            <input type="number" value={article.index} onChange={e => setArticle({ ...article, index: parseInt(e.target.value) })} />
 
             <p>Article Title</p>
             <input type="text" placeholder="Title" value={article.title} onChange={(e) => setArticle({ ...article, title: e.target.value })}></input>
