@@ -12,10 +12,10 @@ export default function TeamSection() {
         { name: "Nicole Luo", position: "Web Dev", image: "./headshots/nicole_headshot.jpg" },
         //everyone else
         { name: "Jamie Lee", position: "Outreach", image: "./headshots/jamie_headshot.png" },
-        { name: "Anjali Vallabhaneni", position: "Outreach\nSponsorships", image: "./headshots/anjali_headshot.png" },
-        { name: "Sai Chandra", position: "Articles\nSponsorships", image: "./headshots/sai_headshot.png" },
-        { name: "Seonyoung Lee", position: "Articles\nSponsorships", image: "./headshots/seonyoung_headshot.png" },
-        { name: "Suhas Anumolu", position: "Articles\nSponsorships", image: "./headshots/suhas_headshot.png" },
+        { name: "Anjali Vallabhaneni", position: "Outreach, Sponsorships", image: "./headshots/anjali_headshot.png" },
+        { name: "Sai Chandra", position: "Articles, Sponsorships", image: "./headshots/sai_headshot.png" },
+        { name: "Seonyoung Lee", position: "Articles, Sponsorships", image: "./headshots/seonyoung_headshot.png" },
+        { name: "Suhas Anumolu", position: "Articles, Sponsorships", image: "./headshots/suhas_headshot.png" },
         { name: "Thomas Li", position: "Sponsorships", image: "./headshots/thomas_headshot.png" },
         { name: "Yoan Fodjong", position: "Articles", image: "./headshots/yoan_headshot.png" },
     ];
