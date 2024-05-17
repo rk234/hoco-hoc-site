@@ -7,7 +7,7 @@ export default function TeamSection() {
         { name: "Alex Luo", position: "Director", image: "./headshots/alex_headshot.png" },
         { name: "Aryan Sharma", position: "Director", image: "./headshots/aryan_headshot.jpg" },
         //web dev
-        { name: "Ramy Kaddouri", position: "Web Dev Lead", image: "./headshots/ramy_headshot.jpeg" },
+        { name: "Ramy Kaddouri", position: "Web Dev Lead and Neovim Enjoyer", github: "https://github.com/rk234", image: "./headshots/ramy_headshot.jpeg" },
         { name: "Arif Vempalle", position: "Web Dev", image: "./headshots/arif_headshot.png" },
         { name: "Nicole Luo", position: "Web Dev", image: "./headshots/nicole_headshot.jpg" },
         //everyone else
