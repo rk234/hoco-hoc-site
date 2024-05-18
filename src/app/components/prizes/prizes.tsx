@@ -16,16 +16,22 @@ export default function Prizes() {
             <div className="flex-1 pt-8">
               <h2 className="text-white text-3xl font-mono bg-slate-900 rounded-t border border-slate-700 p-4">Individual Prizes</h2>
               <ul className="rounded-b bg-slate-800 p-4 pl-8 list-disc border text-lg border-slate-700">
-                <li>2x Razer Gaming keyboards ($180)</li>
-                <li>12x Best Buy gift cards ($25)</li>
-                <li>4x Art of Problem Solving gift cards ($25)</li>
+                <li>4x Art of Problem Solving Gift Cards</li>
+                <li>3x Vercel Water Bottle & NextJS Hat</li>
+                <li>2x Razer Cynosa Keyboard</li>
+                <li>2x Holy Stone Quadcopter</li>
+                <li>2x Logitech G502 Gaming Mouse</li>
+                <li>1x Logitech G635 Gaming Headset</li>
               </ul>
             </div>
             <div className="flex-1 pt-8">
               <h2 className="text-white text-3xl font-mono bg-slate-900 rounded-t border border-slate-700 p-4">School Prizes</h2>
               <ul className="rounded-b bg-slate-800 p-4 pl-8 list-disc text-lg border border-slate-700">
-                <li>2x Razer Gaming keyboards ($180)</li>
-                <li>12x Best Buy gift cards ($25)</li>
+                <li>Website banner</li>
+                <li>$300 donation to computer science department</li>
+                <li>60x Wolfram Awards</li>
+                <br />
+                <br />
                 <br />
               </ul>
             </div>
