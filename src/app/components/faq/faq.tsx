@@ -35,16 +35,16 @@ export default function Faq() {
                         answer={`Every student should have the opportunity to learn computer science. It helps nurture problem-solving skills, logic and creativity. By starting early, students will have a foundation for success in any 21st-century career path.`}
                     />
                     <FaqQuestion
-                        question={"Why was this website made?"}
-                        answer={`This website is the product of a collaboration between various schools and clubs across the county. It is intended to be a version of Hour of Code better catered for high schoolers and to better promote CS education through inter-school competitions.`}
-                    />
-                    <FaqQuestion
                         question={"How do I keep learning after Hour of Code?"}
                         answer={`Our teachers in Howard County are some of the best educators in the world- take advantage of the opportunities HCPSS offers! If you liked learning about CS, then consider taking some of our county’s CS courses. CS is also unique in that there is a wide array of online resources to help you learn virtually any topic you can imagine, from YouTube tutorials, to free courses, to online forums - make sure to take advantage of these!`}
                     />
                     <FaqQuestion
                         question={"I still have questions. Where can I ask them?"}
                         answer={`Please email any questions to mdhocohoc@gmail.com and we will get back to you as soon as possible.`}
+                    />
+                    <FaqQuestion
+                        question={"I found something wrong, what do I do?"}
+                        answer={`If you find a bug or incorrect information in an article, please report it to mdhocohoc@gmail.com. Bug hunters may receive special swag!`}
                     />
                 </div>
             </div>
