@@ -24,14 +24,14 @@ export default function Home() {
   return (
     <main className="flex flex-col bg-black">
       <Hero />
-      {/*<div id="about" >
+      <div className="bg-slate-900" id="about" >
         <AboutSection></AboutSection>
-      </div>*/}
+      </div>
       <StatsCounter liveStats={stats} className="w-full" />
-      <div className="bg-gray-900">
+      <div className="bg-slate-900">
         <Prizes></Prizes>
       </div>
-      <div className="bg-gradient-to-br from-black via-90% via-sky-950 to-sky-950" id="team">
+      <div className="bg-black" id="team">
         <Team></Team>
       </div>
       <div className="bg-gray-900" id="faq" >

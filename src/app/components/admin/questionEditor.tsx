@@ -1,5 +1,8 @@
 import { Question } from "@/app/services/quizService"
+import { mdCodeBlockParser } from "@/app/services/utils"
 import { useEffect, useState } from "react"
+import Markdown from "react-markdown"
+import { useProfile } from "../auth-provider/authProvider"
 
 type Props = {
     className?: string
@@ -14,9 +17,10 @@ export default function QuestionEditor(props: Props) {
     let [question, setQuestion] = useState<Question>(props.question)
     let [correctIndex, setCorrectIndex] = useState<number>(props.answer ?? -1)
     let [newOpt, setNewOpt] = useState<string>("")
+    const profile = useProfile()
 
     useEffect(() => {
-       setQuestion(props.question) 
+        setQuestion(props.question)
     }, [props.question])
 
     useEffect(() => {
@@ -25,7 +29,7 @@ export default function QuestionEditor(props: Props) {
 
     function removeOption(index: number) {
         setCorrectIndex(-1)
-        let newQuestion = {...question}
+        let newQuestion = { ...question }
 
         newQuestion.options.splice(index, 1)
         setQuestion(newQuestion)
@@ -38,16 +42,17 @@ export default function QuestionEditor(props: Props) {
     }
 
     function handleAddOption() {
-        let newQuestion = {...question}
+        let newQuestion = { ...question }
 
         newQuestion.options.push(newOpt)
         setQuestion(newQuestion)
+        setNewOpt("")
         props.onChange(props.number, newQuestion, correctIndex)
     }
 
     function handleQuestionTextChange(text: string) {
-        setQuestion({...question, question: text})
-        props.onChange(props.number, {...question, question: text}, correctIndex)
+        setQuestion({ ...question, question: text })
+        props.onChange(props.number, { ...question, question: text }, correctIndex)
     }
 
     return <main className={`flex flex-col gap-1 border rounded bg-slate-800/50 border-slate-700 p-2 ${props.className}`}>
@@ -59,15 +64,23 @@ export default function QuestionEditor(props: Props) {
         <p>Options (Hover over option text and click to delete)</p>
         {
             question.options.map((opt, i) => {
-              return <div key={i} className="flex flex-row items-center border rounded p-2 border-slate-700">
-                <p className="hover:line-through cursor-pointer hover:text-red-400 hover:font-bold" onClick={() => removeOption(i)}>{i+1}: {opt}</p>  
-                <div className="flex-1"></div>
-                <button className={`btn-secondary font-mono ${correctIndex == i && "bg-green-400"}`} onClick={() => handleMarkCorrect(i)}>[Mark Correct]</button>
-              </div>
+                return <div key={i} className="flex flex-row items-center border rounded p-2 border-slate-700">
+                    <p className="hover:line-through cursor-pointer hover:text-red-400 hover:font-bold" onClick={() => removeOption(i)}>{i + 1}:
+                        <Markdown className="w-full"
+                            components={{
+                                code(code_props) {
+                                    return mdCodeBlockParser(code_props, profile)
+                                }
+                            }}
+                        >{opt}</Markdown>
+                    </p>
+                    <div className="flex-1"></div>
+                    <button className={`btn-secondary font-mono ${correctIndex == i && "bg-green-400"}`} onClick={() => handleMarkCorrect(i)}>[Mark Correct]</button>
+                </div>
             })
         }
         <div className="flex flex-row gap-2 items-center">
-            <input className="flex-1" type="text" value={newOpt} placeholder="Add another option..." onChange={e => setNewOpt(e.target.value)} />
+            <textarea className="flex-1" value={newOpt} placeholder="Add another option..." onChange={e => setNewOpt(e.target.value)} />
             <button className="btn-primary font-mono" onClick={handleAddOption} disabled={newOpt.length == 0}>Add Option</button>
         </div>
     </main>

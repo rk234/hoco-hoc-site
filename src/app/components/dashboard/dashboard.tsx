@@ -3,8 +3,6 @@ import { Profile } from "@/app/services/userService"
 import SectionProgressCard from "../section-progress-card/sectionProgressCard"
 import { Article, getAllArticles, getSections } from "@/app/services/articleService";
 import ArticleCard from "../article-card/articleCard";
-import ModalContainer from "../modal/modalContainer";
-import Modal from "../modal/modal";
 import { useQuery } from "@tanstack/react-query";
 import ErrorPopup from "../error-popup/errorPopup";
 
@@ -41,7 +39,7 @@ export default function ProfileDashboard(props: Props) {
     )}
     <div className="flex flex-row flex-wrap w-full items-stretch gap-4">
       {!loadingSections ? (
-        sections.map(section =>
+        sections.sort((a, b) => a.index - b.index).map(section =>
           <SectionProgressCard className="flex-1 min-w-64 h-52" key={section.id} section={section} points={props.profile.scores[section.id]} />
         )
       ) : (
