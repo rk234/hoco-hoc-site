@@ -64,7 +64,16 @@ const schools: School[] = [
     {
         id: "wilde-lake",
         name: "Wilde Lake High School"
-    }
+    },
+    //Middle Schools
+    {
+        id: "bbms",
+        name: "Bonnie Branch Middle School"
+    },
+    {
+        id: "bmms",
+        name: "Burleigh Manor Middle School"
+    },
 ]
 
 export function getAllSchools(): School[] {

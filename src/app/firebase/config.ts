@@ -17,13 +17,13 @@ const firebaseConfig = {
     appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
     measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
 };
-  
+
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 let analytics: Analytics;
 isSupported().then(supported => {
-    if(supported) {
+    if (supported) {
         analytics = getAnalytics(app)
         console.log("Google analytics initialized!")
     }
@@ -36,4 +36,4 @@ authProvider.setCustomParameters({
     prompt: "select_account"
 })
 
-export {app, analytics, db, authProvider, auth}
+export { app, analytics, db, authProvider, auth }
