@@ -19,10 +19,14 @@ export default function AdminContentPage() {
     })
 
     function articlesForSection(section: Section): Article[] {
-        return articles.filter(article => {
-            let found = section.articles.find((ref) => ref.id == article.id)
-            return found ? true : false
-        })
+        if (articles) {
+            return articles.filter(article => {
+                let found = section.articles.find((ref) => ref.id == article.id)
+                return found ? true : false
+            })
+        } else {
+            return []
+        }
     }
 
     return <main>
@@ -37,7 +41,9 @@ export default function AdminContentPage() {
                         </div>
                         <h1 className="font-bold text-2xl">Manage Content</h1>
                         <Link href={`/admin/content/section`} className="btn-primary font-mono">Add New Section</Link>
-                        {!loadingSections && !sectionLoadErr && sections.map(section =>
+                        {!loadingSections && !sectionLoadErr && sections.sort(
+                            (a, b) => a.index - b.index
+                        ).map(section =>
                             <div key={section.id} className="border-2 border-slate-700 rounded">
                                 <div className="flex flex-row items-center bg-slate-800 gap-2 p-2 border-b-2 border-b-slate-700">
                                     <p key={section.id} className="font-bold">{section.title}</p>
@@ -45,11 +51,13 @@ export default function AdminContentPage() {
                                     <Link href={`/admin/content/article?section=${section.id}`} className="btn-secondary font-mono text-sm">Add Article</Link>
                                 </div>
                                 <div className="bg-slate-800 space-y-1">
-                                    {articlesForSection(section).map(article => {
+                                    {articlesForSection(section).sort(
+                                        (a, b) => a.index - b.index
+                                    ).map(article => {
                                         return <div key={article.id} className="flex items-center border-b-2 border-b-slate-700 p-2">
                                             <div className="flex-1">
                                                 <p>{article.title}</p>
-                                                <span className="font-mono text-xs">(ID: {article.id})</span>
+                                                <span className="font-mono text-xs">(ID: {article.id}, index: {article.index})</span>
                                             </div>
                                             <Link href={`/admin/content/article?section=${section.id}&id=${article.id}`} className="btn-secondary font-mono text-sm">
                                                 Edit

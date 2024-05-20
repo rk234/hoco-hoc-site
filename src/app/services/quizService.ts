@@ -44,7 +44,8 @@ export async function getQuizAnswers(quiz_id: string) {
 //returns a boolean representing whether correct/incorrect based on response from cloud fn
 export async function checkAnswers(quiz_id: string, article_id: string, section_id: string, user_id: string, answers: number[]): Promise<CheckerResponse> {
     //todo call cloud fn
-    const url = "https://checkquizanswers-6wvjhr5vgq-uc.a.run.app"
+    // old project: const url = "https://checkquizanswers-6wvjhr5vgq-uc.a.run.app"
+    const url = "https://checkquizanswers-6ybgw2ldqa-uc.a.run.app"
     const response = await axios.post(url, {
         quiz_id: quiz_id,
         article_id: article_id,

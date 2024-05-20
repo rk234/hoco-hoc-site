@@ -33,7 +33,7 @@ export default function MultiCodeView(props: Props) {
                 showInlineLineNumbers={true}
                 wrapLongLines={false}
             >
-                { (idx < props.codeSamples.length) && props.codeSamples[idx].trim()}
+                {(idx < props.codeSamples.length) && props.codeSamples[idx].trim()}
             </SyntaxHighlighter>
         </div>
         {props.output && <div>
