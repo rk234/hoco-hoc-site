@@ -4,20 +4,20 @@ import React from 'react';
 export default function TeamSection() {
     const teamMembers = [
         //directors
-        { name: "Alex Luo", position: "Director", image: "./headshots/alex_headshot.png" },
-        { name: "Aryan Sharma", position: "Director", image: "./headshots/aryan_headshot.jpg" },
+        { name: "Alex Luo", position: "Director", image: "/headshots/alex_headshot.png" },
+        { name: "Aryan Sharma", position: "Director", image: "/headshots/aryan_headshot.jpg" },
         //web dev
-        { name: "Ramy Kaddouri", position: "Web Dev Lead and Neovim Enjoyer", github: "https://github.com/rk234", image: "./headshots/ramy_headshot.jpeg" },
-        { name: "Arif Vempalle", position: "Web Dev", image: "./headshots/arif_headshot.png" },
-        { name: "Nicole Luo", position: "Web Dev", image: "./headshots/nicole_headshot.jpg" },
+        { name: "Ramy Kaddouri", position: "Web Dev Lead and Neovim Enjoyer", github: "https://github.com/rk234", image: "/headshots/ramy_headshot.jpeg" },
+        { name: "Arif Vempalle", position: "Web Dev", image: "/headshots/arif_headshot.png" },
+        { name: "Nicole Luo", position: "Web Dev", image: "/headshots/nicole_headshot.jpg" },
         //everyone else
-        { name: "Jamie Lee", position: "Outreach", image: "./headshots/jamie_headshot.png" },
-        { name: "Anjali Vallabhaneni", position: "Outreach, Sponsorships", image: "./headshots/anjali_headshot.png" },
-        { name: "Sai Chandra", position: "Articles, Sponsorships", image: "./headshots/sai_headshot.png" },
-        { name: "Seonyoung Lee", position: "Articles, Sponsorships", image: "./headshots/seonyoung_headshot.png" },
-        { name: "Suhas Anumolu", position: "Articles, Sponsorships", image: "./headshots/suhas_headshot.png" },
-        { name: "Thomas Li", position: "Sponsorships", image: "./headshots/thomas_headshot.png" },
-        { name: "Yoan Fodjong", position: "Articles", image: "./headshots/yoan_headshot.png" },
+        { name: "Jamie Lee", position: "Outreach", image: "/headshots/jamie_headshot.png" },
+        { name: "Anjali Vallabhaneni", position: "Outreach, Sponsorships", image: "/headshots/anjali_headshot.png" },
+        { name: "Sai Chandra", position: "Articles, Sponsorships", image: "/headshots/sai_headshot.png" },
+        { name: "Seonyoung Lee", position: "Articles, Sponsorships", image: "/headshots/seonyoung_headshot.png" },
+        { name: "Suhas Anumolu", position: "Articles, Sponsorships", image: "/headshots/suhas_headshot.png" },
+        { name: "Thomas Li", position: "Sponsorships", image: "/headshots/thomas_headshot.png" },
+        { name: "Yoan Fodjong", position: "Articles", image: "/headshots/yoan_headshot.png" },
     ];
 
     return (
