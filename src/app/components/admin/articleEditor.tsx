@@ -105,7 +105,7 @@ export default function ArticleEditor(props: Props) {
                 </Modal>
             </ModalContainer> : ""
         }
-        <div className="flex flex-col gap-2 p-2 bg-gray-900 border-r-2 border-r-slate-700 h-auto overflow-y-scroll">
+        <div className="flex flex-col gap-2 p-2 bg-gray-900 border-r-2 border-r-slate-700 h-[calc(100vh-7.5rem)] overflow-y-scroll">
             <h1 className="text-xl font-bold">{props.editing ? "Edit Article" : "Create Article"}</h1>
 
             {!props.editing ? <div>
