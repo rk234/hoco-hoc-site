@@ -89,7 +89,7 @@ export default function Hero() {
                     <div className={`font-mono flex flex-row mt-4 gap-2`}>
                         <button className={`btn-primary ${profile && ("bg-red-400 hover:bg-red-300")}`} onClick={handleAuth}> {profile ? "Logout" : "Login"} </button>
                         <Link className="btn-secondary" href={"/articles"}> View Articles </Link>
-                        <Link className="btn-secondary bg-blurple hover:bg-blurple-accent" target="_blank" href="https://discord.com"> Discord </Link>
+                        <Link className="btn-secondary bg-blurple hover:bg-blurple-accent" target="_blank" href="https://discord.gg/FrP9ahy7Gr"> Discord </Link>
                     </div>
                 </div>
             </div>
