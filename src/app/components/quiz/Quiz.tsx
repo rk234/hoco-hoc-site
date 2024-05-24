@@ -31,7 +31,7 @@ export default function QuizPrompt(props: Props) {
             {props.quiz.questions.map((question, index) => <QuizQuestion wrong={props.wrongAns.includes((index))} onChange={(ans) => handleQuestionAnswered(index, ans)} key={index} question={question} number={index + 1} />)}
         </div>}
         {!props.completed && <div className="p-2 pt-0">
-            <button className={`btn-primary font-mono w-full ${props.working && "bg-opacity-50 hover:bg-opacity-50 cursor-wait"}`} disabled={props.working} onClick={() => props.onSumbit(answers)}>{props.working ? "Submitting..." : "Sumbit"}</button>
+            <button className={`btn-primary font-mono w-full ${props.working && "bg-opacity-50 hover:bg-opacity-50 cursor-wait"}`} disabled={props.working} onClick={() => props.onSumbit(answers)}>{props.working ? "Submitting..." : "Submit"}</button>
         </div>}
     </main>
 }

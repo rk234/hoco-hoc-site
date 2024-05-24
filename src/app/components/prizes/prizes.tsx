@@ -28,7 +28,7 @@ export default function Prizes() {
               <h2 className="text-white text-3xl font-mono bg-slate-900 rounded-t border border-slate-700 p-4">School Prizes</h2>
               <ul className="rounded-b bg-slate-800 p-4 pl-8 list-disc text-lg border border-slate-700">
                 <li>Website banner</li>
-                <li>$300 donation to computer science department</li>
+                <li>$250 donation to computer science department</li>
                 <li>60x Wolfram Awards</li>
                 <br />
                 <br />
