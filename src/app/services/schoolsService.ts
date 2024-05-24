@@ -59,7 +59,7 @@ const schools: School[] = [
     },
     {
         id: "resevoir",
-        name: "Resevoir High School"
+        name: "Reservoir High School"
     },
     {
         id: "wilde-lake",
@@ -145,7 +145,7 @@ const schools: School[] = [
 ]
 
 export function getAllSchools(): School[] {
-    return schools
+    return schools.sort((a, b) => a.name.localeCompare(b.name));
 }
 
 export function getSchoolByID(id: string): School {
