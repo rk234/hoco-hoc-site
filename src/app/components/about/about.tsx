@@ -10,7 +10,7 @@ export default function AboutSection() {
         "CS",
         "Algorithms",
         "Web Dev",
-        "Machine Learning",
+        "ML",
         "Python",
         "Java",
         "C++"
