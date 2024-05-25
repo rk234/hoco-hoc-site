@@ -32,7 +32,7 @@ export default function LeaderboardPage() {
         <div className="max-w-2xl w-full">
             <div className="bg-sky-800 p-4 rounded mb-2 border-2 border-sky-900">
                 <h1 className="font-mono text-2xl font-bold mb-2">School Leaderboard</h1>
-                <p className="text-sm text-slate-300"> Don't see your school? Schools that have zero points are not included on the leaderboard. </p>
+                <p className="text-sm text-slate-300"> Don&apos;t see your school? Schools that have zero points are not included on the leaderboard. </p>
             </div>
             {sort(schools).length > 0 ?
                 <Leaderboard schools={sort(schools)} className="w-full" />
