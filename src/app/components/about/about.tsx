@@ -46,7 +46,7 @@ export default function AboutSection() {
                 <div>
                     <h3 className="text-slate-200 font-bold  text-5xl md:text-6xl leading-tight pb-8">Learn <span className="block md:inline bg-gradient-to-b from-sky-300 to-sky-500 text-transparent bg-clip-text font-mono"><Typewriter words={phrases} cursor={true} cursorStyle={"_"} loop={true} /></span> <span className="underline">the fun way! </span> </h3>
                     <p className="text-lg md:text-xl font-sans text-slate-300 flex flex-row gap-2 w-full max-w-4xl">
-                        The Hour of Code started as a one-hour introduction to computer science, designed to demystify "code", to show that anybody can learn the basics, and to broaden participation in the field of computer science. It has since become a worldwide effort to celebrate computer science, starting with 1-hour coding activities but expanding to all sorts of community efforts. Howard County's version of Hour of Code is made by students, for students.
+                        The Hour of Code started as a one-hour introduction to computer science, designed to demystify &quot;code&quot;, to show that anybody can learn the basics, and to broaden participation in the field of computer science. It has since become a worldwide effort to celebrate computer science, starting with 1-hour coding activities but expanding to all sorts of community efforts. Howard County&apos;s version of Hour of Code is made by students, for students.
                     </p>
                 </div>
 
@@ -87,7 +87,7 @@ export default function AboutSection() {
 
                     <div className="md:flex-1 w-full font-mono">
                         <h3 className="font-mono leading-tight text-4xl md:text-5xl bg-gradient-to-r from-sky-300 to-sky-500 text-transparent bg-clip-text font-bold pb-4 md:pb-10"> Learn New Topics! </h3>
-                        <p className="font-sans mb-10 text-lg md:text-xl text-slate-300">HocoHOC offers a wide variety of interesting and informative articles on computer science topics. By completing them, you'll not only acquire new skills but also earn your school points!</p>
+                        <p className="font-sans mb-10 text-lg md:text-xl text-slate-300">HocoHOC offers a wide variety of interesting and informative articles on computer science topics. By completing them, you&apos;ll not only acquire new skills but also earn your school points!</p>
                         <Link href={"/articles"} className="btn-secondary font-mono text-lg">View Articles</Link>
                     </div>
                 </div>
@@ -95,7 +95,7 @@ export default function AboutSection() {
                 <div className="flex flex-col md:flex-row gap-8 md:gap-12 items-center">
                     <div className="md:flex-1">
                         <h3 className="font-mono leading-tight text-4xl md:text-5xl bg-gradient-to-r from-sky-300 to-sky-500 text-transparent bg-clip-text font-bold pb-4 md:pb-10">Track Your Progress!</h3>
-                        <p className="font-sans text-lg text-slate-300 md:text-xl mb-10">Complete quizzes to earn points! You'll be able to see how you progress through four sections: Fundamentals, Data Structures & Algorithms, Web Development, and Machine Learning.</p>
+                        <p className="font-sans text-lg text-slate-300 md:text-xl mb-10">Complete quizzes to earn points! You&apos;ll be able to see how you progress through four sections: Fundamentals, Data Structures & Algorithms, Web Development, and Machine Learning.</p>
                         <Link href={"/me"} className="btn-secondary font-mono text-lg">View Dashboard</Link>
                     </div>
                     <div className="md:flex-1 w-full h-full justify-center">
