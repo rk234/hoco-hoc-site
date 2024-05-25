@@ -11,7 +11,7 @@ export default function Faq() {
                 <div className="w-full md:w-1/2 flex flex-col">
                     <FaqQuestion
                         question={"When is the Hour of Code?"}
-                        answer={`Howard County Hour of Code is a 7-day event taking place from May 29 to June 4, 2023.`}
+                        answer={`Howard County Hour of Code is a 7-day event taking place from May 29 to June 4, 2024.`}
                     />
                     <FaqQuestion
                         question={"How do I participate in the Hour of Code?"}
@@ -19,7 +19,7 @@ export default function Faq() {
                     />
                     <FaqQuestion
                         question={"What device should I use?"}
-                        answer={`Please use a laptop or device with a large screen for the best user experience. Some pages will look funky on mobile...`}
+                        answer={`Any device should work fine, we've worked hard to provide a good experience on all screen sizes. However, if you do experience a problem, using a larger screen never hurts!`}
                     />
                     <FaqQuestion
                         question={"How do the points/prizes work?"}
@@ -36,7 +36,7 @@ export default function Faq() {
                     />
                     <FaqQuestion
                         question={"How do I keep learning after Hour of Code?"}
-                        answer={`Our teachers in Howard County are some of the best educators in the world- take advantage of the opportunities HCPSS offers! If you liked learning about CS, then consider taking some of our county’s CS courses. CS is also unique in that there is a wide array of online resources to help you learn virtually any topic you can imagine, from YouTube tutorials, to free courses, to online forums - make sure to take advantage of these!`}
+                        answer={`If you liked learning about CS, then consider taking some of our county’s courses! CS is also unique in that there is a wide array of online resources to help you learn, from YouTube tutorials to free courses to online forums. Make sure to take advantage of these!`}
                     />
                     <FaqQuestion
                         question={"I still have questions. Where can I ask them?"}

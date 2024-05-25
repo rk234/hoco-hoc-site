@@ -1,5 +1,5 @@
 export default function Sponsors() {
-  return <div className='flex flex-col w-full justify-center md:flex-row bg-gray-900 px-4 py-28 gap-9 md:gap-9 items-center '>
+  return <div className='flex flex-col w-full justify-center md:flex-row bg-gray-900 px-4 md:px-8 py-28 gap-9 md:gap-9 items-center '>
     <div className="max-w-screen-xl gap-16 flex flex-col w-full">
       <h1 className="text-4xl md:text-5xl font-bold"> Howard County Hour of Code is made possible by:</h1>
 
