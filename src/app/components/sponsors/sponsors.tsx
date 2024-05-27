@@ -6,7 +6,7 @@ export default function Sponsors() {
       <div className="flex flex-col gap-4">
         <h1 className="font-bold text-3xl text-amber-500">Bronze</h1>
         <div className="flex flex-row flex-wrap justify-start items-center gap-4">
-          <a href="/" target='_blank'>
+          <a href="https://scriptkiddo.com" target='_blank'>
             <img src="/sponsors/script_kiddo.png" className='h-24 md:h-32 bg-slate-200 rounded-lg p-2' alt="Script Kiddo" />
           </a>
           <a href="https://artofproblemsolving.com/" target='_blank'>
