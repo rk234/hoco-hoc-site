@@ -129,7 +129,13 @@ export default function Read() {
                 .then(() => console.log("Updated completed articles in firebase!"))
                 .catch(err => console.log("Error while updating completed: " + err))
         }
-        newProfile.scores[article.sectionID] += article.quiz ? article.quiz.points : 0
+        if (newProfile.scores[article.sectionID]) {
+            newProfile.scores[article.sectionID] += article.quiz ? article.quiz.points : 0
+        } else {
+            newProfile.scores[article.sectionID] = article.quiz ? article.quiz.points : 0
+        }
+        console.log("NEW PROFILE:")
+        console.log(newProfile)
 
         setProfile(newProfile)
         setProgress("complete")
