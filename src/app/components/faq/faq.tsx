@@ -15,7 +15,7 @@ export default function Faq() {
                     />
                     <FaqQuestion
                         question={"How do I participate in the Hour of Code?"}
-                        answer={`Login using your HCPSS Google account, navigate to the Articles tab on this website, and start completing articles! Completing articles will earn you and your school points, which are transformed into raffle tickets at the end of the event.`}
+                        answer={`Login on the website using your HCPSS Google account, navigate to the Articles tab on this website, and start reading articles and answering questions! By completing articles, you will earn you and your school points.`}
                     />
                     <FaqQuestion
                         question={"What device should I use?"}
@@ -24,15 +24,15 @@ export default function Faq() {
                     <FaqQuestion
                         question={"How do the points/prizes work?"}
                         answer={`
-                        Points are earned by completing articles! Scroll up to our prizes section to see what you can win this year. 
+                        Points are earned by completing articles, which are transformed into raffle tickets at the end of the event. Scroll up to our prizes section to see what you can win this year.
                     `}
 
                     />
                 </div>
                 <div className="w-full md:w-1/2 flex flex-col">
                     <FaqQuestion
-                        question={"Why computer science?"}
-                        answer={`Every student should have the opportunity to learn computer science. It helps nurture problem-solving skills, logic and creativity. By starting early, students will have a foundation for success in any 21st-century career path.`}
+                        question={"Why should I learn about computer science?"}
+                        answer={`Computer science helps nurture problem-solving skills, logic and creativity. Every student should have the opportunity to learn computer science, and through this event, you will get the chance to see what computer science is all about and its wide range of topics. By starting early in learning about computer science, students will have a foundation for success in any 21st-century career path.`}
                     />
                     <FaqQuestion
                         question={"How do I keep learning after Hour of Code?"}

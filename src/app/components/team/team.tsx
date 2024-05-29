@@ -11,9 +11,12 @@ export default function TeamSection() {
         { name: "Arif Vempalle", position: "Web Dev", image: "/headshots/arif_headshot.png" },
         { name: "Nicole Luo", position: "Web Dev", image: "/headshots/nicole_headshot.jpg" },
         //everyone else
-        { name: "Jamie Lee", position: "Outreach", image: "/headshots/jamie_headshot.png" },
         { name: "Anjali Vallabhaneni", position: "Outreach", image: "/headshots/anjali_headshot.png" },
+        { name: "Jamie Lee", position: "Outreach", image: "/headshots/jamie_headshot.png" },
         { name: "Thomas Li", position: "Sponsorships", image: "/headshots/thomas_headshot.png" },
+        { name: "Alex Zhu", position: "Articles", image: "/headshots/alex_headshot.jpg" },
+        { name: "Gavin Zhao", position: "Articles", image: "/headshots/gavin_headshot.png" },
+        { name: "Jonathan Cai", position: "Articles", image: "/headshots/jonathan_headshot.jpg" },
         { name: "Tristan Carter", position: "Articles", image: "/headshots/tristan_headshot.png" },
         { name: "Sai Chandra", position: "Articles", image: "/headshots/sai_headshot.png" },
         { name: "Seonyoung Lee", position: "Articles", image: "/headshots/seonyoung_headshot.png" },
