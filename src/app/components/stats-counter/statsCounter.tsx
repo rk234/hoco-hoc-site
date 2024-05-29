@@ -21,7 +21,7 @@ export default function StatsCounter(props: Props) {
                 totalViews: Math.min(prevStats.totalViews + 1, props.liveStats.totalViews),
                 totalHours: Math.min(prevStats.totalHours + 1, props.liveStats.totalHours),
             }));
-        }, 10); // change duration
+        }, 2); // change duration
 
         return () => clearInterval(interval);
     }, [props.liveStats]);

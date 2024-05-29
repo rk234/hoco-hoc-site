@@ -43,6 +43,7 @@ export async function createUserProfile(user: User, school: string, preferredLan
     }
 
     await setDoc(doc(db, "users/" + profile.uid), profile)
+    console.log("HERE")
     await updateDoc(doc(db, "aggregate/stats"), {
         totalUsers: increment(1)
     })
