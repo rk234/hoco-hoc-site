@@ -1,4 +1,4 @@
-import { Timestamp, arrayRemove, arrayUnion, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import { Timestamp, arrayRemove, arrayUnion, doc, getDoc, increment, setDoc, updateDoc } from "firebase/firestore";
 import { auth, authProvider, db } from "../firebase/config"
 import { User, signInWithPopup, signOut } from "firebase/auth"
 
@@ -43,6 +43,9 @@ export async function createUserProfile(user: User, school: string, preferredLan
     }
 
     await setDoc(doc(db, "users/" + profile.uid), profile)
+    await updateDoc(doc(db, "aggregate/stats"), {
+        totalUsers: increment(1)
+    })
     return profile
 }
 
