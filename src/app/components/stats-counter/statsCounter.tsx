@@ -35,7 +35,7 @@ export default function StatsCounter(props: Props) {
                 <div className="rounded flex flex-col md:flex-row gap-2 justify-center items-center">
                     <div className="p-4 bg-gray-800/50 rounded flex flex-col items-center w-full gap-2">
                         <h1 className="bg-gradient-to-b from-indigo-300 to-indigo-400 text-transparent bg-clip-text font-mono text-5xl sm:text-6xl font-bold">{displayedStats.totalUsers}</h1>
-                        <p className="font-mono text-left text-lg">Users</p>
+                        <p className="font-mono text-left text-lg">Registered Users</p>
                     </div>
                     <div className="p-4 bg-gray-800/50 rounded flex flex-col items-center w-full gap-2">
                         <h1 className="bg-gradient-to-b from-indigo-300 to-indigo-400 text-transparent bg-clip-text font-mono text-5xl sm:text-6xl font-bold">{displayedStats.totalViews}</h1>
