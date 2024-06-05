@@ -146,41 +146,20 @@ export default function Read() {
 
 
     async function handleQuizSubmit(answers: number[]) {
-        setQuizCheckWorking(true)
-        const quizID = article.id + "-quiz";
-        const checkerResponse = await checkAnswers(quizID, article.id,
-            article.sectionID, profile.uid, answers);
-        console.log(checkerResponse)
-        setQuizCheckWorking(false)
-        switch (checkerResponse.verdict) {
-            case "correct":
-                markArticleComplete(false)
-                break;
-            case "incorrect":
-                const incorrect = checkerResponse.wrong_ans;
-                setWrongAns(incorrect)
-                break;
-            case "not-authenticated":
-            case "error":
-            case "already-completed":
-            case "contest-not-live":
-            default:
-                setQuizError(checkerResponse.verdict)
-                break;
-        }
+        setQuizError("contest-not-live")
     }
 
     return <main className="flex flex-col items-center h-auto">
         {articleLoadError ?
             <ErrorPopup error={articleLoadError}>
-                <p className="mb-4">A error occured while fetching this article. This is most likely because the article you requested does not exist. Try going back to the articles and sections page to find an existing article. If the problem persists, contact us.</p>
+                <p className="mb-4">A error occurred while fetching this article. This is most likely because the article you requested does not exist. Try going back to the articles and sections page to find an existing article. If the problem persists, contact us.</p>
                 <Link href={"/articles"} className={`font-mono btn-secondary`}> Go back to articles page </Link>
             </ErrorPopup>
             : ""
         }
         {quizLoadError ?
             <ErrorPopup error={quizLoadError}>
-                <p className="mb-4">A error occured while fetching the quiz for this article. This is probably a problem on our end, contact us.</p>
+                <p className="mb-4">A error occurred while fetching the quiz for this article. This is probably a problem on our end, contact us.</p>
                 <Link href={"/articles"} className={`font-mono btn-secondary`}> Go back to articles page </Link>
             </ErrorPopup>
             : ""
@@ -188,7 +167,7 @@ export default function Read() {
         {
             quizError &&
             <ErrorPopup error={new Error(quizError)}>
-                <p className="mb-4">An error occured while trying to submit your quiz.</p>
+                <p className="mb-4">An error occurred while trying to submit your quiz.</p>
                 <button onClick={() => setQuizError(undefined)} className="btn-secondary font-mono">Close</button>
             </ErrorPopup>
         }
