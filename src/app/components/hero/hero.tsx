@@ -78,9 +78,6 @@ export default function Hero() {
     }
 
     return <main className={`h-[60vh] md:h-[75vh] min-h-[30rem] bg-sky-950 relative border-b-2 border-b-sky-900 overflow-hidden`}>
-        <span className='block text-center text-xl bg-slate-900 p-2 w-full'>
-            <strong>Congrats to Bonnie Branch Middle School for winning the 2024 Howard County Hour of Code!</strong>
-        </span>
         <canvas onResize={handleResize} ref={canvasRef} className="relative top-0 left-0"> </canvas>
         <div className="flex flex-row items-center justify-center z-20 absolute top-0 left-0 w-full h-full p-8 bg-opacity-80 bg-slate-900 md:bg-opacity-100 md:bg-transparent md:bg-gradient-to-bl md:via-90% md:via-slate-900 md:from-transparent md:to-slate-900">
             <div className="flex flex-row items-center w-full max-w-screen-xl">
