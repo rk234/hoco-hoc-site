@@ -4,24 +4,24 @@ import React from 'react';
 export default function TeamSection() {
     const teamMembers = [
         //directors
-        { name: "Alex Luo", position: "Director", image: "/headshots/alex_headshot.png" },
         { name: "Aryan Sharma", position: "Director", image: "/headshots/aryan_headshot.jpg" },
-        //web dev
-        { name: "Ramy Kaddouri", position: "Web Dev Lead and Neovim Enjoyer", github: "https://github.com/rk234", image: "/headshots/ramy_headshot.jpeg" },
-        { name: "Arif Vempalle", position: "Web Dev", image: "/headshots/arif_headshot.png" },
-        { name: "Nicole Luo", position: "Web Dev", image: "/headshots/nicole_headshot.jpg" },
-        //everyone else
-        { name: "Anjali Vallabhaneni", position: "Outreach", image: "/headshots/anjali_headshot.png" },
-        { name: "Jamie Lee", position: "Outreach", image: "/headshots/jamie_headshot.png" },
-        { name: "Thomas Li", position: "Sponsorships", image: "/headshots/thomas_headshot.png" },
-        { name: "Alex Zhu", position: "Articles", image: "/headshots/alex_headshot.jpg" },
-        { name: "Gavin Zhao", position: "Articles", image: "/headshots/gavin_headshot.png" },
-        { name: "Jonathan Cai", position: "Articles", image: "/headshots/jonathan_headshot.jpg" },
+        { name: "Daniel Gao", position: "Director", image: "/headshots/daniel_headshot.png" },
+        { name: "Jayson Liu", position: "Web Dev", image: "/headshots/jayson_headshot.jpg" },
+        { name: "Oluwadarasimi Adedeji", position: "Web Dev", image: "/headshots/dara_headshot.jpg" },
+        { name: "Jay Patel", position: "Article Lead", image: "/headshots/jay_headshot.jpg" },
         { name: "Tristan Carter", position: "Articles", image: "/headshots/tristan_headshot.png" },
         { name: "Sai Chandra", position: "Articles", image: "/headshots/sai_headshot.png" },
-        { name: "Seonyoung Lee", position: "Articles", image: "/headshots/seonyoung_headshot.png" },
         { name: "Suhas Anumolu", position: "Articles", image: "/headshots/suhas_headshot.png" },
+        { name: "Ankit Mohanty", position: "Articles", image: "/headshots/ankit_headshot.png" },
+        { name: "Annchi Liu", position: "Articles", image: "/headshots/annchi_headshot.png" },
+        { name: "Ayaan Kalra", position: "Articles", image: "/headshots/ayaan_headshot.jpg" },
+        // { name: "Austen Shaheen", position: "Articles", image: "/headshots/austen_headshot.jpg" },
+        { name: "Ayush Mishura", position: "Articles", image: "/headshots/ayush_headshot.png" },
+        { name: "Raj Bhagat", position: "Articles", image: "/headshots/raj_headshot.jpg" },
         { name: "Yoan Fodjong", position: "Articles", image: "/headshots/yoan_headshot.png" },
+        { name: "Anjali Vallabhaneni", position: "Outreach", image: "/headshots/anjali_headshot.jpg" },
+        { name: "Daniel Oh", position: "Outreach", image: "/headshots/daniel_oh_headshot.png" },
+        // { name: "Shalin Vakil", position: "Sponsorships", image: "/headshots/shalin_headshot.jpg" },
     ];
 
     return (
