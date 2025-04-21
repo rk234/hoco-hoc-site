@@ -146,7 +146,29 @@ export default function Read() {
 
 
     async function handleQuizSubmit(answers: number[]) {
-        setQuizError("contest-not-live")
+        setQuizCheckWorking(true)
+        const quizID = article.id + "-quiz";
+        const checkerResponse = await checkAnswers(quizID, article.id,
+            article.sectionID, profile.uid, answers);
+        console.log(checkerResponse)
+        setQuizCheckWorking(false)
+        switch (checkerResponse.verdict) {
+            case "correct":
+                markArticleComplete(false)
+                break;
+            case "incorrect":
+                const incorrect = checkerResponse.wrong_ans;
+                setWrongAns(incorrect)
+                break;
+            case "not-authenticated":
+            case "error":
+            case "already-completed":
+            case "contest-not-live":
+            default:
+                setQuizError(checkerResponse.verdict)
+                break;
+        }
+        // setQuizError("contest-not-live")
     }
 
     return <main className="flex flex-col items-center h-auto">
